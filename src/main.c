@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/01 21:28:50 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/02 01:03:39 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
-void	ft_manage_input(char **input, char ***envp)
+void	ft_manage_input(char **input, char *input_line, char ***envp)
 {
 	if (!input || !input[0])
 		return ;
@@ -30,7 +30,8 @@ void	ft_manage_input(char **input, char ***envp)
 	else if (ft_strcmp(input[0], "unset") == 0 && input[1])
 		ft_unset(input[1], envp);
 	else
-		printf("%s: command not found\n", input[0]);
+		execute_command(input_line, 0, 0, *envp);
+		//printf("%s: command not found\n", input[0]);
 	ft_matrix_free(input);
 }
 
@@ -53,7 +54,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (*input)
 			ft_manage_history(input, 0);
-		ft_manage_input(ft_split_quotes(input, ' '), &my_envp);
+		ft_manage_input(ft_split_quotes(input, ' '), input, &my_envp);
 		free(input);
 	}
 	ft_matrix_free(my_envp);
