@@ -74,3 +74,8 @@ y lo llamamos desde char	**ft_split_quotes(char const *s, char c)
 clean_nulls(&split, &squotes);
 return (split);
 }
+
+
+5. en ft_strcmp.c corregida funcion para no segfault
+	Añadido: if (!s1)
+				return (1);
