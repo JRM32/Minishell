@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:25:21 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/01 16:45:34 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:25:06 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	clean_nulls(char ***split, t_split *squotes)
 			free (aux[i]);
 		i++;
 	}
+	(*split)[j] = NULL;
 	squotes->words = j;
 }
 
