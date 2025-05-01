@@ -88,3 +88,5 @@ return (split);
 	(*split)[j] = NULL;
 	squotes->words = j;
 	}
+
+8. hiper cambio en ft_split_quotes_words.c para contar las palabras bien

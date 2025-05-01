@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/01 18:01:26 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/01 21:28:50 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,6 @@ void	ft_manage_input(char **input, char ***envp)
 {
 	if (!input || !input[0])
 		return ;
-
-	for (size_t i = 0; input[i]; i++)//
-	{//
-		printf("input:%s\n",input[i]);//
-	}//
-		
-		
 	if (ft_strcmp(input[0], "pwd") == 0)
 		ft_pwd(input);
 	else if (ft_strcmp(input[0], "cd") == 0)
@@ -46,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 	char				*input;
 	struct sigaction	sa;
 	char				**my_envp;
-	
+
 	(void)argc;
 	(void)argv;
 	my_envp = ft_matrix_dup(envp);
