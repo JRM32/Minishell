@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:21:17 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/04/29 18:11:08 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:19:12 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	run_spaces_or_one_quote(t_split *squotes, size_t *k)
 	}
 	else if (squotes->c == '"' || squotes->c == '\'')
 	{
-		if (squotes->quotes % 2 && squotes->s[(squotes->start) - 1] == ' ')
+		if (squotes->quotes % 2 && squotes->start != 0
+			&& squotes->s[(squotes->start) - 1] == ' ')
 			*k = 1;
 		(squotes->start)++;
 	}
