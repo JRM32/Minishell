@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:25:21 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/01 17:25:06 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:00:49 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	init_struct(t_split *squotes, char const *s, char c, size_t *i)
 	squotes->c = c;
 }
 
+#include <stdio.h>//
 char	**ft_split_quotes(char const *s, char c)
 {
 	size_t	i;
@@ -69,6 +70,8 @@ char	**ft_split_quotes(char const *s, char c)
 		}
 		i++;
 	}
+	for(size_t k = 0; k < squotes.words; k++)//
+		printf("antes:%s\n", split[k]);//
 	clean_nulls(&split, &squotes);
 	return (split);
 }

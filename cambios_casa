@@ -79,3 +79,12 @@ return (split);
 5. en ft_strcmp.c corregida funcion para no segfault
 	Añadido: if (!s1)
 				return (1);
+
+6. los strcmp del main pasados a ft_strcmp.
+
+7. fix double free en ft_split_quotes añadiendo al final:
+	i++;
+	}
+	(*split)[j] = NULL;
+	squotes->words = j;
+	}
