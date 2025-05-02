@@ -6,26 +6,31 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:25:21 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/02 17:13:22 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:34:25 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "../inc/minishell_j.h"
 
-void	clean_nulls(char ***split, t_split *squotes)
+void	clean_nulls(char ***split, t_split *squotes, int **spaced)
 {
 	size_t	i;
 	size_t	j;
 	char	**aux;
+	int		*numbers;
 
 	i = 0;
 	j = 0;
 	aux = *split;
+	numbers = *spaced;
 	while (i < squotes->words)
 	{
 		if (aux[i] && aux[i][0] != '\0')
+		{
+			(*spaced)[j] = numbers[i];
 			(*split)[j++] = aux[i];
+		}
 		else
 			free (aux[i]);
 		i++;
@@ -70,7 +75,7 @@ char	**ft_split_quotes(char const *s, char c, t_input *input)
 		}
 		i++;
 	}
-	clean_nulls(&split, &squotes);
+	clean_nulls(&split, &squotes, &(input->spaced));
 	return (split);
 }
 
