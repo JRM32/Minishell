@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_m.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:51:03 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/02 20:00:37 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/02 20:36:48 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include <sys/wait.h>
 
 void	ft_manage_history(char *input, bool clean);
-void	clean_all(void);
+void	clean_all(t_input *input);
 
 //BUILT INS
 void	ft_pwd(char **input);

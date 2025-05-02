@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:36:21 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/02 17:13:16 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/02 20:43:53 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ char	**ft_matrix_dup(char **matrix);
 
 //MINISHELL - Javi
 char	**ft_split_quotes(char const *s, char c, t_input *input);
+void	ft_input_free(t_input *input);
 int		ft_count_quotes_words(t_split *squotes, t_input *input);
 char	*sub_split_quotes(t_split *squotes, t_input *input);
 

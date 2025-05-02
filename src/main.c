@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/02 19:54:58 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/02 20:41:28 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	ft_manage_input(t_input *input, char ***envp)
 		&& input->input_split[1])
 		ft_unset(input->input_split[1], envp);
 	else if (execute_command(input->input, 0, 0, *envp) == 1)
-		return (ft_matrix_free(input->input_split));
+		return (ft_input_free(input));
 	else 
-	printf("%s: command not found\n", input->input_split[0]);
-	ft_matrix_free(input->input_split); ///LIBERAR EL INT *SPACED!!!!
+		printf("%s: command not found\n", input->input_split[0]);
+	ft_input_free(input);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -47,9 +47,9 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	my_envp = ft_matrix_dup(envp);
-	if (!my_envp)
-		return (clean_all(), 1);
+	input.envp = ft_matrix_dup(envp);
+	if (!input.envp)
+		return (clean_all(&input), 1);
 	init_sigaction(&sa);
 	while (1)
 	{
@@ -61,7 +61,6 @@ int	main(int argc, char **argv, char **envp)
 		ft_manage_input(&input, &my_envp);
 		free(input.input);
 	}
-	ft_matrix_free(my_envp);
-	clean_all();
+	clean_all(&input);
 	return (0);
 }

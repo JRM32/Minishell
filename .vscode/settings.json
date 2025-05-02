@@ -1,3 +1,6 @@
 {
-	"makefile.configureOnOpen": false
+	"makefile.configureOnOpen": false,
+	"files.associations": {
+		"minishell_j.h": "c"
+	}
 }

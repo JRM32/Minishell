@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/02 16:54:21 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/02 20:33:35 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct	s_input
 {
 	char	*input;
 	char	**input_split;
+	char	**envp;
 	int		is_spaced;
 	int		*spaced;	
 }			t_input;
