@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:40 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/28 11:58:45 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:38:04 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,9 @@ void	ft_manage_history(char *input, bool clean)
 			free (last_input);
 		last_input = ft_strdup(input);
 	}
+}
+
+void	ft_hello(void)
+{
+	return ;
 }
