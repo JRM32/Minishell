@@ -90,3 +90,5 @@ return (split);
 	}
 
 8. hiper cambio en ft_split_quotes_words.c para contar las palabras bien
+
+P
