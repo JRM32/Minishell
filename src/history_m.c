@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history_m.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:40 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/02 19:38:04 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:43:02 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ void	ft_manage_history(char *input, bool clean)
 
 void	ft_hello(void)
 {
+	write(1, "a", 1);
 	return ;
 }
