@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:49:50 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/02 19:21:29 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:59:34 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,34 +81,51 @@ char	**split_command(const char *command)
 	if (!args)
 	{
 		perror("malloc");
-		exit(1);
+		return (NULL);
 	}
 	return (args);
 }
 
 // Ejecuta un comando en un proceso hijo con redirección.
-void	execute_command(char *cmd, int input_fd, int output_fd, char **envp)
+bool	execute_command(char *cmd, int input_fd, int output_fd, char **envp)
 {
 	char	**args;
 	char	*executable;
+	pid_t	pid;
+	int		status;
 
-	if (input_fd != STDIN_FILENO)
-		dup2(input_fd, STDIN_FILENO);
-	if (output_fd != STDOUT_FILENO)
-		dup2(output_fd, STDOUT_FILENO);
 	args = split_command(cmd);
 	if (!args || !args[0])
-		exit(1);
+		return (ft_matrix_free(args), false);
 	executable = find_executable(args[0], envp);
 	if (!executable)
 	{
 		write(STDERR_FILENO, "command not found\n", 18);
 		ft_matrix_free(args);
-		exit(127);
+		return (false);
 	}
-	execve(executable, args, envp);
-	perror("execve");
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		free(executable);
+		ft_matrix_free(args);
+		return (false);
+	}
+	if (pid == 0)
+	{
+		if (input_fd != STDIN_FILENO)
+			dup2(input_fd, STDIN_FILENO);
+		if (output_fd != STDOUT_FILENO)
+			dup2(output_fd, STDOUT_FILENO);
+		execve(executable, args, envp);
+		perror("execve");
+		free(executable);
+		ft_matrix_free(args);
+		exit(1);
+	}
+	waitpid(pid, &status, 0);
 	free(executable);
 	ft_matrix_free(args);
-	exit(127);
+	return (WIFEXITED(status) && WEXITSTATUS(status) == 0);
 }

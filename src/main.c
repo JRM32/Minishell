@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/02 17:12:43 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:54:58 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ void	ft_manage_input(t_input *input, char ***envp)
 	else if (ft_strcmp(input->input_split[0], "unset") == 0
 		&& input->input_split[1])
 		ft_unset(input->input_split[1], envp);
-	else
-		execute_command(input->input, 0, 0, *envp);//javi
-		//printf("%s: command not found\n", input[0]);
+	else if (execute_command(input->input, 0, 0, *envp) == 1)
+		return (ft_matrix_free(input->input_split));
+	else 
+	printf("%s: command not found\n", input->input_split[0]);
 	ft_matrix_free(input->input_split); ///LIBERAR EL INT *SPACED!!!!
 }
 
