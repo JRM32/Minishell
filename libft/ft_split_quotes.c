@@ -6,11 +6,12 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:25:21 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/01 21:25:55 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:13:22 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "../inc/minishell_j.h"
 
 void	clean_nulls(char ***split, t_split *squotes)
 {
@@ -44,28 +45,28 @@ void	init_struct(t_split *squotes, char const *s, char c, size_t *i)
 	squotes->c = c;
 }
 
-char	**ft_split_quotes(char const *s, char c)
+char	**ft_split_quotes(char const *s, char c, t_input *input)
 {
 	size_t	i;
 	char	**split;
 	t_split	squotes;
 
 	init_struct(&squotes, s, c, &i);
-	squotes.words = ft_count_quotes_words(&squotes);
+	squotes.words = ft_count_quotes_words(&squotes, input);
 	if (squotes.error)
 		return (NULL);
 	split = (char **)ft_calloc(squotes.words + 1, sizeof(char *));
 	if (!split)
-		return (NULL);
+		return (free(input->spaced), NULL);//mirar que free bien el malloc de spaced
 	while (i < squotes.words)
 	{
-		split[i] = sub_split_quotes(&squotes);
+		split[i] = sub_split_quotes(&squotes, input);
+		input->spaced[i] = input->is_spaced;
 		if (!split[i])
 		{
 			while (i > 0)
 				free(split[--i]);
-			free(split);
-			return (NULL);
+			return (free(split), NULL);
 		}
 		i++;
 	}
