@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 16:46:49 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:05:24 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_input
 	char	**envp;
 	int		escaped;
 	int		spaced;
+	int		inputfd;
+	int		outputfd;
 	int		*status;	
 }			t_input;
 
