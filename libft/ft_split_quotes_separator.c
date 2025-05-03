@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:21:17 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 19:29:08 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:57:36 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ char	*sub_split_quotes(t_split *sq, t_input *input)
 	while (sq->s[i + sq->start] && sq->s[i + sq->start] != sq->c)
 	{
 		if (sq->c == ' ' && (sq->s[i + sq->start] == '"'
-				|| sq->s[i + sq->start] == '\'') && !is_escaped(sq, i))
+				|| sq->s[i + sq->start] == '\'')
+				&& !is_escaped(sq, i + sq->start))//
 			break ;
 		i++;
 	}
