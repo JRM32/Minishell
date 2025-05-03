@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:09:14 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/02 20:45:22 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 11:13:10 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_input_free(t_input *input)
 	}
 	free(input->input_split);
 	input->input_split = NULL;
-	if (input->spaced)
-		free(input->spaced);
-	input->spaced = NULL;
+	if (input->status)
+		free(input->status);
+	input->status = NULL;
 }

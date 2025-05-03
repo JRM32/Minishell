@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:50:16 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/02 19:36:28 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 11:16:40 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_echo(char **input, t_input *in)
 		i = 2;
 	while (input[i])
 	{
-		if (in->spaced[i])
+		if (in->status[i])
 			printf(" %s", input[i]);
 		else
 			printf("%s", input[i]);
