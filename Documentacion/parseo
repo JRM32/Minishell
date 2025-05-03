@@ -5,6 +5,3 @@ Errores:
 	hola ""mundo -> incorrecto. está espaciada en bash. Tengo que while hacia atras y ver si hay un espacio recorriendo las comillas
 	hola""mundo -> no estaria espaciado pero yo incorrecto por que lo considero con las comillas
 	hola"" mundo -> espaciado. Lo tengo correcto.
-
-2. num de words esta mal si le paso \\" deberia ser 1 ya que seria \. y me sale 2.
-	echo \\" -> me sale 3 cuando deberian ser 2. echo y \
