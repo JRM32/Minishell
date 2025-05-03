@@ -6,29 +6,49 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:45:25 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 11:21:08 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 12:59:25 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "../inc/minishell_j.h" //javi
 
-/*Important to set finale c to space for quote count words do it propertly*/
-void	assign_separator(t_split *squotes, size_t *i, char separator)
+int	is_escaped(t_split *squotes, size_t *i)
 {
-	squotes->c = separator;
-	if (squotes->quotes % 2 == 0)
-		(squotes->words)++;
-	(squotes->quotes)++;
-	(*i)++;
-	while (squotes->s[*i] && squotes->s[*i] != squotes->c)
-		(*i)++;
-	if (squotes->s[*i] == squotes->c)
+	size_t	j;
+
+	j = *i;
+	if (*i)
 	{
-		(squotes->quotes)++;
+		while (j > 0 && squotes->s[j - 1] == '\\')
+			j--;
+		if (((*i) - j) % 2 != 0)
+			return (1);	
+	}
+	return (0);
+}
+
+
+/* Important: set final c to space so word count works properly with quotes */
+void	assign_separator(t_split *sq, size_t *i, char separator)
+{
+	int	escaped;
+	
+	sq->c = separator;
+	escaped = is_escaped(sq, i);
+	if (sq->quotes % 2 == 0 && !escaped)
+		(sq->words)++;		
+	if (!escaped)
+		(sq->quotes)++;
+	(*i)++;
+	while (sq->s[*i] && (sq->s[*i] != sq->c || is_escaped(sq, i)))
+		(*i)++;
+	if (sq->s[*i] == sq->c)
+	{
+		(sq->quotes)++;
 		(*i)++;
 	}
-	squotes->c = ' ';
+	sq->c = ' ';
 }
 
 void	next_word_count(t_split *squotes, size_t *i)
