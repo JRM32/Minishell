@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:21:17 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 11:13:28 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 11:21:03 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,16 @@ void	init_separator(t_split *squotes, size_t *i, size_t *j)
 
 void	run_spaces_or_one_quote(t_split *squotes, t_input *input)
 {
-	input->is_spaced = 0;
+	input->spaced = 0;
 	if (squotes->start != 0 && squotes->s[(squotes->start) - 1] == ' ')
-		input->is_spaced = 1;
+		input->spaced = 1;
 	if (squotes->c != '"' && squotes->c != '\'')
 	{
 		while ((squotes->s[squotes->start] == squotes->c)
 			&& (squotes->s[squotes->start]))
 			(squotes->start)++;
 		if (squotes->start != 0 && squotes->s[(squotes->start) - 1] == ' ')
-			input->is_spaced = 1;
+			input->spaced = 1;
 	}
 	else if (squotes->c == '"' || squotes->c == '\'')
 		(squotes->start)++;

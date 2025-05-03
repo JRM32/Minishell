@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:45:25 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 11:15:01 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 11:21:08 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	ft_count_quotes_words(t_split *squotes, t_input *input)
 	if (squotes->quotes % 2)
 		squotes->error = 1;
 	squotes->quotes = 0;
-	input->is_spaced = 0; //quiza podria quitarlo ya que lo tengo en run_spaces_or_one_quote
+	input->spaced = 0; //quiza podria quitarlo ya que lo tengo en run_spaces_or_one_quote
 	input->status = (int *)ft_calloc(squotes->words, sizeof(int));
 	if (!input->status)
 		squotes->error = 1;

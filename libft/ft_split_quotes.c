@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:25:21 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 11:16:30 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 11:21:13 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**ft_split_quotes(char const *s, char c, t_input *input)
 	while (i < squotes.words)
 	{
 		split[i] = sub_split_quotes(&squotes, input);
-		input->status[i] = input->is_spaced;
+		input->status[i] = input->spaced;
 		if (!split[i])
 		{
 			while (i > 0)
