@@ -6,23 +6,23 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 17:06:36 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 18:01:30 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:02:25 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "../inc/minishell_j.h"
 
-int	is_escaped(t_split *squotes, size_t *i)
+int	is_escaped(t_split *squotes, size_t i)
 {
 	size_t	j;
 
-	j = *i;
-	if (*i)
+	j = i;
+	if (i > 0)
 	{
 		while (j > 0 && squotes->s[j - 1] == '\\')
 			j--;
-		if (((*i) - j) % 2 != 0)
+		if ((i - j) % 2 != 0)
 			return (1);	
 	}
 	return (0);
@@ -30,19 +30,26 @@ int	is_escaped(t_split *squotes, size_t *i)
 
 int	is_spaced(t_split *sq, size_t i)
 {
-	size_t	j;
-	char	prev;
-
-	j = i;
 	if (i > 0)
 	{
-		prev = sq->s[j - 1];
-		while ((j > 0 && sq->s[j - 1] != ' ')
-			|| (j > 1 && sq->s[j - 2] == prev))
-			j--;
-		if (sq->s[j] == ' ')
+		if (sq->s[i - 1] == ' ')
 			return (1);
-		else 
+		else if (sq->s[i - 1] == '"')
+		{
+			i--;
+			while (i > 0 && sq->s[i - 1] == '"')
+				i--;
+			
+		}
+		else if (sq->s[i - 1] == '\'')
+		{
+			i--;
+			while (i > 0 && sq->s[i - 1] == '\'')
+				i--;
+		}
+		if (i > 0 && sq->s[i - 1] == ' ')
+			return (1);
+		else
 			return (0);
 	}
 	return (0);

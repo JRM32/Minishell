@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:21:17 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 18:01:56 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:29:08 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init_separator(t_split *sq, size_t *i, size_t *j)
 	
 	*i = 0;
 	*j = 0;
-	escaped = is_escaped(sq, i);//
+	escaped = is_escaped(sq, *i);//
 	if (sq->s[sq->start] == '"' && !(sq->quotes % 2) && !escaped)//
 	{
 		sq->c = '"';
@@ -44,37 +44,38 @@ void	run_spaces_or_one_quote(t_split *sq, t_input *input)
 	input->escaped = 0;//
 	if (is_spaced(sq, sq->start))//
 		input->spaced = 1;
-	/* if (sq->start != 0 && sq->s[(sq->start) - 1] == ' ')
-		input->spaced = 1; */
 	if (sq->c != '"' && sq->c != '\'')
 	{
 		while ((sq->s[sq->start] == sq->c) && (sq->s[sq->start]))
 			(sq->start)++;
-		if (sq->start != 0 && sq->s[(sq->start) - 1] == ' ')
+		if (is_spaced(sq, sq->start))//
 			input->spaced = 1;
 	}
 	else if (sq->c == '"' || sq->c == '\'')
 		(sq->start)++;
 }
 
-void	open_close_quotes(t_split *squotes)
+void	open_close_quotes(t_split *sq)
 {
-	if (squotes->s[squotes->start] == '"' && !(squotes->quotes % 2))
+	int	escaped;
+	
+	escaped = is_escaped(sq, sq->start);
+	if (sq->s[sq->start] == '"' && !(sq->quotes % 2) && !escaped)
 	{
-		squotes->c = '"';
-		(squotes->quotes)++;
-		(squotes->start)++;
+		sq->c = '"';
+		(sq->quotes)++;
+		(sq->start)++;
 	}
-	else if (squotes->s[squotes->start] == '\'' && !(squotes->quotes % 2))
+	else if (sq->s[sq->start] == '\'' && !(sq->quotes % 2) && !escaped)
 	{
-		squotes->c = '\'';
-		(squotes->quotes)++;
-		(squotes->start)++;
+		sq->c = '\'';
+		(sq->quotes)++;
+		(sq->start)++;
 	}
-	else if (squotes->c == '"' && squotes->s[squotes->start] == '"')
-		(squotes->quotes)++;
-	else if (squotes->c == '\'' && squotes->s[squotes->start] == '\'')
-		(squotes->quotes)++;
+	else if (sq->c == '"' && sq->s[sq->start] == '"' && !escaped)
+		(sq->quotes)++;
+	else if (sq->c == '\'' && sq->s[sq->start] == '\'' && !escaped)
+		(sq->quotes)++;
 }
 
 void	compose_split_aux(t_split *squotes, size_t *i, size_t *j)
@@ -101,7 +102,7 @@ char	*sub_split_quotes(t_split *sq, t_input *input)
 	while (sq->s[i + sq->start] && sq->s[i + sq->start] != sq->c)
 	{
 		if (sq->c == ' ' && (sq->s[i + sq->start] == '"'
-				|| sq->s[i + sq->start] == '\''))
+				|| sq->s[i + sq->start] == '\'') && !is_escaped(sq, i))
 			break ;
 		i++;
 	}

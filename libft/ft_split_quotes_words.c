@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:45:25 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 17:08:16 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:03:14 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	assign_separator(t_split *sq, size_t *i, char separator)
 {
 	int	escaped;
 	
-	escaped = is_escaped(sq, i);
+	escaped = is_escaped(sq, *i);
 	if (escaped)
 	{
 		next_word_count(sq, i);
@@ -43,7 +43,7 @@ void	assign_separator(t_split *sq, size_t *i, char separator)
 	if (!escaped)
 		(sq->quotes)++;
 	(*i)++;
-	while (sq->s[*i] && (sq->s[*i] != sq->c || is_escaped(sq, i)))
+	while (sq->s[*i] && (sq->s[*i] != sq->c || is_escaped(sq, *i)))
 		(*i)++;
 	if (sq->s[*i] == sq->c)
 	{
