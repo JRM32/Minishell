@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:49:50 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/02 19:59:34 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/03 00:16:42 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,39 +72,8 @@ char	*find_executable(char *command, char **envp)
 	return (NULL);
 }
 
-// Divide un comando en sus argumentos.
-char	**split_command(const char *command)
+bool	exec_child(pid_t pid, char *executable, char **args, char **envp, int input_fd, int output_fd)
 {
-	char	**args;
-
-	args = ft_split(command, ' ');
-	if (!args)
-	{
-		perror("malloc");
-		return (NULL);
-	}
-	return (args);
-}
-
-// Ejecuta un comando en un proceso hijo con redirección.
-bool	execute_command(char *cmd, int input_fd, int output_fd, char **envp)
-{
-	char	**args;
-	char	*executable;
-	pid_t	pid;
-	int		status;
-
-	args = split_command(cmd);
-	if (!args || !args[0])
-		return (ft_matrix_free(args), false);
-	executable = find_executable(args[0], envp);
-	if (!executable)
-	{
-		write(STDERR_FILENO, "command not found\n", 18);
-		ft_matrix_free(args);
-		return (false);
-	}
-	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");
@@ -124,6 +93,28 @@ bool	execute_command(char *cmd, int input_fd, int output_fd, char **envp)
 		ft_matrix_free(args);
 		exit(1);
 	}
+	return (true);
+}
+
+// Ejecuta un comando en un proceso hijo con redirección.
+bool	execute_command(char **args, int input_fd, int output_fd, char **envp)
+{
+	char	*executable;
+	pid_t	pid;
+	int		status;
+
+	if (!args || !args[0])
+		return (ft_matrix_free(args), false);
+	executable = find_executable(args[0], envp);
+	if (!executable)
+	{
+		write(STDERR_FILENO, "command not found\n", 18);
+		ft_matrix_free(args);
+		return (false);
+	}
+	pid = fork();
+	if (exec_child(pid, executable, args, envp, input_fd, output_fd) == 0)
+		return (false);
 	waitpid(pid, &status, 0);
 	free(executable);
 	ft_matrix_free(args);
