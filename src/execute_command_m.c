@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:49:50 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/03 00:16:42 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:21:13 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,51 +72,50 @@ char	*find_executable(char *command, char **envp)
 	return (NULL);
 }
 
-bool	exec_child(pid_t pid, char *executable, char **args, char **envp, int input_fd, int output_fd)
+bool	exec_child(t_input *input, pid_t pid, char *executable)
 {
 	if (pid == -1)
 	{
 		perror("fork");
 		free(executable);
-		ft_matrix_free(args);
+		ft_matrix_free(input->input_split);
 		return (false);
 	}
 	if (pid == 0)
 	{
-		if (input_fd != STDIN_FILENO)
-			dup2(input_fd, STDIN_FILENO);
-		if (output_fd != STDOUT_FILENO)
-			dup2(output_fd, STDOUT_FILENO);
-		execve(executable, args, envp);
+		if (input->inputfd != STDIN_FILENO)
+			dup2(input->inputfd, STDIN_FILENO);
+		if (input->outputfd != STDOUT_FILENO)
+			dup2(input->outputfd, STDOUT_FILENO);
+		execve(executable, input->input_split, input->envp);
 		perror("execve");
 		free(executable);
-		ft_matrix_free(args);
+		ft_matrix_free(input->input_split);
 		exit(1);
 	}
 	return (true);
 }
 
 // Ejecuta un comando en un proceso hijo con redirección.
-bool	execute_command(char **args, int input_fd, int output_fd, char **envp)
+bool	execute_command(t_input *input)
 {
 	char	*executable;
 	pid_t	pid;
 	int		status;
 
-	if (!args || !args[0])
-		return (ft_matrix_free(args), false);
-	executable = find_executable(args[0], envp);
+	if (!input->input_split || !input->input_split[0])
+		return (ft_matrix_free(input->input_split), false);
+	executable = find_executable(input->input_split[0], input->envp);
 	if (!executable)
 	{
 		write(STDERR_FILENO, "command not found\n", 18);
-		ft_matrix_free(args);
+		ft_matrix_free(input->input_split);
 		return (false);
 	}
 	pid = fork();
-	if (exec_child(pid, executable, args, envp, input_fd, output_fd) == 0)
+	if (exec_child(input, pid, executable) == 0)
 		return (false);
 	waitpid(pid, &status, 0);
 	free(executable);
-	ft_matrix_free(args);
 	return (WIFEXITED(status) && WEXITSTATUS(status) == 0);
 }
