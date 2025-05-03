@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:45:25 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 12:59:25 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 14:46:51 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,15 @@ void	assign_separator(t_split *sq, size_t *i, char separator)
 {
 	int	escaped;
 	
-	sq->c = separator;
 	escaped = is_escaped(sq, i);
+	if (escaped)
+	{
+		(*i)++;
+		return ;	
+	}		
+	sq->c = separator;
 	if (sq->quotes % 2 == 0 && !escaped)
-		(sq->words)++;		
+		(sq->words)++;
 	if (!escaped)
 		(sq->quotes)++;
 	(*i)++;
@@ -88,5 +93,6 @@ int	ft_count_quotes_words(t_split *squotes, t_input *input)
 	input->status = (int *)ft_calloc(squotes->words, sizeof(int));
 	if (!input->status)
 		squotes->error = 1;
+	printf("numWords: %zu\n",squotes->words); //
 	return (squotes->words);
 }

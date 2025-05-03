@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 11:20:46 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 14:31:05 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_J_H
 
 # include <signal.h>
+# include <stdio.h>
 
 # define EPTY_NSP 0
 # define EPTY_SP 1
