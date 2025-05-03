@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:45:25 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 14:46:51 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 16:11:19 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,18 @@ int	is_escaped(t_split *squotes, size_t *i)
 	return (0);
 }
 
+void	next_word_count(t_split *squotes, size_t *i)
+{
+	if (squotes->s[*i] != '"' && squotes->s[*i] != '\'')//
+		(squotes->words)++;
+	while (squotes->s[*i] && squotes->s[*i] != squotes->c)
+	{
+		(*i)++;
+		if (squotes->c == ' ' && (squotes->s[*i] == '"'
+				|| squotes->s[*i] == '\''))
+			break ;
+	}
+}
 
 /* Important: set final c to space so word count works properly with quotes */
 void	assign_separator(t_split *sq, size_t *i, char separator)
@@ -37,7 +49,7 @@ void	assign_separator(t_split *sq, size_t *i, char separator)
 	escaped = is_escaped(sq, i);
 	if (escaped)
 	{
-		(*i)++;
+		next_word_count(sq, i);
 		return ;	
 	}		
 	sq->c = separator;
@@ -54,18 +66,6 @@ void	assign_separator(t_split *sq, size_t *i, char separator)
 		(*i)++;
 	}
 	sq->c = ' ';
-}
-
-void	next_word_count(t_split *squotes, size_t *i)
-{
-	(squotes->words)++;
-	while (squotes->s[*i] && squotes->s[*i] != squotes->c)
-	{
-		(*i)++;
-		if (squotes->c == ' ' && (squotes->s[*i] == '"'
-				|| squotes->s[*i] == '\''))
-			break ;
-	}
 }
 
 int	ft_count_quotes_words(t_split *squotes, t_input *input)
@@ -93,6 +93,6 @@ int	ft_count_quotes_words(t_split *squotes, t_input *input)
 	input->status = (int *)ft_calloc(squotes->words, sizeof(int));
 	if (!input->status)
 		squotes->error = 1;
-	printf("numWords: %zu\n",squotes->words); //
+	printf("numWords: %zu\n________\n",squotes->words); //
 	return (squotes->words);
 }
