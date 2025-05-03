@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/03 17:37:23 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:22:04 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
-void	ft_manage_input(t_input *input)
+void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 {
 	input->input_split = ft_split_quotes(input->input, ' ', input);
+	input->inputfd = in_fd;
+	input->outputfd = out_fd;
 	if (!input->input_split || !input->input_split[0])
 		return ;
 	if (ft_strcmp(input->input_split[0], "pwd") == 0)
@@ -32,7 +34,7 @@ void	ft_manage_input(t_input *input)
 	else if (ft_strcmp(input->input_split[0], "unset") == 0
 		&& input->input_split[1])
 		ft_unset(input->input_split[1], &input->envp);
-	else if (execute_command(input->input_split, 0, 0, input->envp) == 1)
+	else if (execute_command(input) == 1)
 		return (ft_input_free(input));
 	else
 		printf("%s: command not found\n", input->input_split[0]);
@@ -43,53 +45,67 @@ void	ft_manage_pipes(t_input *input)
 {
 	char	**cmds;
 	int		pipefd[2];
-	pid_t	pid1;
-	pid_t	pid2;
+	int		in_fd;
+	int		i;
+	pid_t	pid;
 	int		status;
+	t_input	sub_input;
 
+	i = 0;
+	in_fd = 0;
+	if (!ft_strchr(input->input, '|'))
+	{
+		ft_manage_input(input, STDIN_FILENO, STDOUT_FILENO);
+		return ;
+	}
 	cmds = ft_split(input->input, '|');
-	if (!cmds || !cmds[0] || !cmds[1])
+	if (!cmds)
 		return ;
-	if (pipe(pipefd) == -1)
+	while (cmds[i])
 	{
-		perror("pipe");
-		ft_matrix_free(cmds);
-		return ;
+		if (cmds[i + 1] != NULL && pipe(pipefd) == -1)
+		{
+			perror("pipe");
+			break ;
+		}
+		pid = fork();
+		if (pid == -1)
+		{
+			perror("fork");
+			break ;
+		}
+		if (pid == 0)
+		{
+			if (in_fd != 0)
+			{
+				dup2(in_fd, STDIN_FILENO);
+				close(in_fd);
+			}
+			if (cmds[i + 1] != NULL)
+			{
+				dup2(pipefd[1], STDOUT_FILENO);
+				close(pipefd[0]);
+				close(pipefd[1]);
+			}
+			sub_input.input = ft_strtrim(cmds[i], " ");
+			sub_input.envp = input->envp;
+			ft_manage_input(&sub_input, STDIN_FILENO, STDOUT_FILENO);
+			free(sub_input.input);
+			exit(0);
+		}
+		else
+		{
+			waitpid(pid, &status, 0);
+			if (in_fd != 0)
+				close(in_fd);
+			if (cmds[i + 1] != NULL)
+			{
+				close(pipefd[1]);
+				in_fd = pipefd[0];
+			}
+		}
+		i++;
 	}
-	pid1 = fork();
-	if (pid1 == -1)
-	{
-		perror("fork");
-		ft_matrix_free(cmds);
-		return ;
-	}
-	if (pid1 == 0)
-	{
-		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
-		execute_command(&cmds[0], 0, STDOUT_FILENO, input->envp);
-		exit(1);
-	}
-	pid2 = fork();
-	if (pid2 == -1)
-	{
-		perror("fork");
-		ft_matrix_free(cmds);
-		return ;
-	}
-	if (pid2 == 0)
-	{
-		close(pipefd[1]);
-		dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[0]);
-		execute_command(&cmds[1], STDIN_FILENO, 1, input->envp);
-		exit(1);
-	}
-	close(pipefd[0]);
-	close(pipefd[1]);
-	waitpid(pid1, &status, 0);
-	waitpid(pid2, &status, 0);
 	ft_matrix_free(cmds);
 }
 
@@ -111,7 +127,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (input.input && *(input.input))
 			ft_manage_history(input.input, 0);
-		ft_manage_input(&input);
+		ft_manage_pipes(&input);
 		free(input.input);
 	}
 	clean_all(&input);
