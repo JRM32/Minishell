@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:21:17 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/04 20:37:26 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/04 22:29:13 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,27 +93,30 @@ void	open_close_quotes(t_split *sq)
 	{
 		(sq->quotes)++;
 		sq->c = ' ';
-		(sq->start)++;///MIRARLO BIEN
+		//(sq->start)++;///MIRARLO BIEN
 	}
 	else if (sq->c == '\'' && sq->s[sq->start] == '\'' && !escaped)
 	{
 		(sq->quotes)++;
 		sq->c = ' ';
-		(sq->start)++;///MIRARLO BIEN
+		//(sq->start)++;///MIRARLO BIEN
 	}
 }
 
-void	compose_split_aux(t_split *squotes, size_t *i, size_t *j)
+void	compose_split_aux(t_split *sq, size_t *i, size_t *j)
 {
 	while (*j < *i)
-		squotes->split_aux[(*j)++] = squotes->s[(squotes->start)++];
-	if (squotes->c == ' ')
+		sq->split_aux[(*j)++] = sq->s[(sq->start)++];
+	if (sq->start > 0
+		&& ((sq->s[sq->start] == '"' && sq->s[sq->start - 1] == '"')
+		|| (sq->s[sq->start] == '\'' && sq->s[sq->start - 1] == '\'')))/////
+		(sq->start)++;////CUIDADO!!!
+	if (sq->c == ' ')
 	{
-		while (squotes->s[squotes->start]
-			&& squotes->s[squotes->start] == squotes->c)
-			(squotes->start)++;
+		while (sq->s[sq->start]	&& sq->s[sq->start] == sq->c)
+			(sq->start)++;
 	}
-	squotes->c = ' ';
+	sq->c = ' ';
 }
 
 char	*sub_split_quotes(t_split *sq, t_input *input)
