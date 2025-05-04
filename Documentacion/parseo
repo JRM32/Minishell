@@ -5,3 +5,6 @@ Errores:
 	hola ""mundo -> incorrecto. está espaciada en bash. Tengo que while hacia atras y ver si hay un espacio recorriendo las comillas
 	hola""mundo -> no estaria espaciado pero yo incorrecto por que lo considero con las comillas
 	hola"" mundo -> espaciado. Lo tengo correcto.
+
+2. echo p't' '''' l "chico \\" -> pt  l chico \
+	echo p't''''' l "chico \\" -> pt l chico \

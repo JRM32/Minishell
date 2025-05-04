@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 17:06:36 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 19:02:25 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/04 17:55:04 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,27 @@ int	is_escaped(t_split *squotes, size_t i)
 	return (0);
 }
 
+/*2 types inside quotes or not. As it starts on beggining of word...*/
+/*...I just go back up to 2 chars to see if there is an space.*/
 int	is_spaced(t_split *sq, size_t i)
+{
+	if (i > 0)
+	{
+		if (sq->s[i - 1] == ' ')
+			return (1);
+		if (sq->quotes % 2)
+		{
+			if (sq->s[i - 1] == '"' || sq->s[i - 1] == '\'')
+				i--;
+			if (i > 0 && sq->s[i - 1] == ' ')
+				return (1); 
+			return (0);
+		}
+	}
+	return (0);
+}
+
+/* int	is_spaced(t_split *sq, size_t i)
 {
 	if (i > 0)
 	{
@@ -54,3 +74,4 @@ int	is_spaced(t_split *sq, size_t i)
 	}
 	return (0);
 }
+ */
