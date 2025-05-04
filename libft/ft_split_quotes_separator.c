@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:21:17 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/04 17:49:14 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:08:04 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	run_spaces_or_one_quote(t_split *sq, t_input *input)
 {
 	char	letter;
 	
-	letter = sq->s[sq->start];
 	input->spaced = 0;
 	input->escaped = 0;
 	if (sq->c != '"' && sq->c != '\'')
@@ -52,20 +51,25 @@ void	run_spaces_or_one_quote(t_split *sq, t_input *input)
 	}
 	else if (sq->c == '"' || sq->c == '\'')
 		(sq->start)++;
+	letter = sq->s[sq->start];//
 	if (is_spaced(sq, sq->start))
-		input->spaced = 1;
-	/* {
-		if (sq->c == ' ' && (letter != '\'' || letter != '"'))
-			input->spaced = EPTY_SP;
-		else if ((sq->c == ' ' && letter == '"') || sq->c == '"'))
-			input->spaced = DQUO_SP;
-		else if ((sq->c == ' ' && letter == '\'') || sq->c == '\'')
-			input->spaced = SQUO_SP;
-	}
-	else if
 	{
-		
-	} */
+		if (sq->c == '"' || letter == '"')
+			input->spaced = DQUO_SP;
+		else if (sq->c == '\'' || letter == '\'')
+			input->spaced = SQUO_SP;
+		else if (sq->c == ' ' && (letter != '\'' || letter != '"'))
+			input->spaced = EPTY_SP;
+	}
+	else
+	{
+		if (sq->c == '"' || letter == '"')
+			input->spaced = DQUO_NSP;
+		else if (sq->c == '\'' || letter == '\'')
+			input->spaced = SQUO_NSP;
+		else if (sq->c == ' ' && (letter != '\'' || letter != '"'))
+			input->spaced = EPTY_NSP;
+	} 
 }
 
 void	open_close_quotes(t_split *sq)
