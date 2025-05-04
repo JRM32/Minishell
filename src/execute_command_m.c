@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command_m.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:49:50 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/03 19:21:13 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:23:20 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ bool	exec_child(t_input *input, pid_t pid, char *executable)
 	{
 		perror("fork");
 		free(executable);
-		ft_matrix_free(input->input_split);
 		return (false);
 	}
 	if (pid == 0)
@@ -90,7 +89,6 @@ bool	exec_child(t_input *input, pid_t pid, char *executable)
 		execve(executable, input->input_split, input->envp);
 		perror("execve");
 		free(executable);
-		ft_matrix_free(input->input_split);
 		exit(1);
 	}
 	return (true);
@@ -104,12 +102,11 @@ bool	execute_command(t_input *input)
 	int		status;
 
 	if (!input->input_split || !input->input_split[0])
-		return (ft_matrix_free(input->input_split), false);
+		return (false);
 	executable = find_executable(input->input_split[0], input->envp);
 	if (!executable)
 	{
 		write(STDERR_FILENO, "command not found\n", 18);
-		ft_matrix_free(input->input_split);
 		return (false);
 	}
 	pid = fork();

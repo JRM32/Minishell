@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:21:17 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/04 19:08:04 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:37:26 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	run_spaces_or_one_quote(t_split *sq, t_input *input)
 			(sq->start)++;
 	}
 	else if (sq->c == '"' || sq->c == '\'')
-		(sq->start)++;
+		(sq->start)++;///
 	letter = sq->s[sq->start];//
 	if (is_spaced(sq, sq->start))
 	{
@@ -93,13 +93,13 @@ void	open_close_quotes(t_split *sq)
 	{
 		(sq->quotes)++;
 		sq->c = ' ';
-		(sq->start)++;
+		(sq->start)++;///MIRARLO BIEN
 	}
 	else if (sq->c == '\'' && sq->s[sq->start] == '\'' && !escaped)
 	{
 		(sq->quotes)++;
 		sq->c = ' ';
-		(sq->start)++;
+		(sq->start)++;///MIRARLO BIEN
 	}
 }
 
