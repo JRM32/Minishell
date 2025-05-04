@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:21:17 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/03 19:57:36 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/04 12:50:29 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,15 @@ void	run_spaces_or_one_quote(t_split *sq, t_input *input)
 {
 	input->spaced = 0;
 	input->escaped = 0;//
-	if (is_spaced(sq, sq->start))//
-		input->spaced = 1;
 	if (sq->c != '"' && sq->c != '\'')
 	{
 		while ((sq->s[sq->start] == sq->c) && (sq->s[sq->start]))
 			(sq->start)++;
-		if (is_spaced(sq, sq->start))//
-			input->spaced = 1;
 	}
 	else if (sq->c == '"' || sq->c == '\'')
 		(sq->start)++;
+	if (is_spaced(sq, sq->start))//
+		input->spaced = 1;
 }
 
 void	open_close_quotes(t_split *sq)
