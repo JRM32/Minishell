@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:25:21 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/04 21:03:33 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/04 22:44:37 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	clean_nulls(char ***split, t_split *squotes, int **status)
 		}
 		else
 			free (aux[i]);
-		printf("%s: %d\n", aux[i], numbers[i]);//
+		//printf("%s: %d\n", aux[i], numbers[i]);//
 		i++;
 	}
-	printf("--------\n");
+	//printf("--------\n");
 	(*split)[j] = NULL;
 	squotes->words = j;
 }
