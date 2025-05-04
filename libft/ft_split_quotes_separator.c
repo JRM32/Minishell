@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:21:17 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/04 12:50:29 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/04 15:27:49 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init_separator(t_split *sq, size_t *i, size_t *j)
 	
 	*i = 0;
 	*j = 0;
-	escaped = is_escaped(sq, *i);//
+	escaped = is_escaped(sq, *i);
 	if (sq->s[sq->start] == '"' && !(sq->quotes % 2) && !escaped)//
 	{
 		sq->c = '"';
@@ -41,7 +41,7 @@ void	init_separator(t_split *sq, size_t *i, size_t *j)
 void	run_spaces_or_one_quote(t_split *sq, t_input *input)
 {
 	input->spaced = 0;
-	input->escaped = 0;//
+	input->escaped = 0;
 	if (sq->c != '"' && sq->c != '\'')
 	{
 		while ((sq->s[sq->start] == sq->c) && (sq->s[sq->start]))
@@ -49,6 +49,10 @@ void	run_spaces_or_one_quote(t_split *sq, t_input *input)
 	}
 	else if (sq->c == '"' || sq->c == '\'')
 		(sq->start)++;
+	
+	char sep = sq->s[sq->start];//
+	(void)sep;
+	
 	if (is_spaced(sq, sq->start))//
 		input->spaced = 1;
 }
@@ -71,9 +75,17 @@ void	open_close_quotes(t_split *sq)
 		(sq->start)++;
 	}
 	else if (sq->c == '"' && sq->s[sq->start] == '"' && !escaped)
+	{
 		(sq->quotes)++;
+		sq->c = ' ';
+		(sq->start)++;
+	}
 	else if (sq->c == '\'' && sq->s[sq->start] == '\'' && !escaped)
+	{
 		(sq->quotes)++;
+		sq->c = ' ';
+		(sq->start)++;
+	}
 }
 
 void	compose_split_aux(t_split *squotes, size_t *i, size_t *j)
@@ -110,7 +122,10 @@ char	*sub_split_quotes(t_split *sq, t_input *input)
 		return (NULL);
 	if ((sq->c == '"' && sq->s[sq->start] == '"')
 		|| (sq->c == '\'' && sq->s[sq->start] == '\''))
+	{
+		(sq->quotes)++;//
 		(sq->start)++;
+	}
 	compose_split_aux(sq, &i, &j);
 	return (sq->split_aux);
 }
