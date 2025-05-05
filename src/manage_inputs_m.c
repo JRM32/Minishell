@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/05 16:01:24 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:06:41 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	compose_args(t_input *in, size_t word)
 	int		exit_while;
 	int		status_done;
 
-	i = word;
 	k = 0;
+	i = word;
 	exit_while = 0;
 	status_done = 0;
 	ft_bzero(in->args, 100);
@@ -85,6 +85,7 @@ void	compose_command_args(t_input *in)
 			break ;
 		i++;
 	}
+	in->word_after_command = i;
 	compose_args(in, i);
 }
 
@@ -97,14 +98,14 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 	if (!input->input_split || !input->input_split[0])
 		return ;
 	compose_command_args(input);
-	printf("command :%s\n", input->command);//
-	printf("arg :%s\n", input->args);//
+	//printf("command :%s\n", input->command);//
+	//printf("arg :%s\n", input->args);//
 	if (ft_strcmp(input->input_split[0], "pwd") == 0)
 		ft_pwd(input->input_split);
 	else if (ft_strcmp(input->input_split[0], "cd") == 0)
 		ft_cd(input->input_split, input->envp);
-	else if (ft_strcmp(input->input_split[0], "echo") == 0)
-		ft_echo(input->input_split, input);
+	else if (ft_strcmp(input->command, "echo") == 0)
+		ft_echo(input);
 	else if (ft_strcmp(input->input_split[0], "export") == 0
 		&& input->input_split[1])
 		ft_export(input->input_split[1], &input->envp);
