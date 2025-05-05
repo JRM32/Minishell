@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_inputs_m.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/05 19:17:59 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/05 23:24:07 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ void	compose_args(t_input *in, size_t word)
 	{
 		j = 0;
 		status_done = 0;
-		if (i > word && in->input_split[i][0] == '\0' 
+		if (i > word && in->input_split[i][0] == '\0'
 			&& (in->status[i] == SQUO_SP || in->status[i] == DQUO_SP))
 			break ;
 		while ((in->input_split[i][j] != ' ' || is_quoted(in, i))
 			&& in->input_split[i][j] != '\0' && !exit_while)
 		{
 			if ((i > word && (in->status[i] == EPTY_SP
-				|| in->status[i] == SQUO_SP || in->status[i] == DQUO_SP)
-				&& !status_done))
-					exit_while = 1;
+					|| in->status[i] == SQUO_SP || in->status[i] == DQUO_SP)
+					&& !status_done))
+				exit_while = 1;
 			else
 				in->args[k++] = in->input_split[i][j++];
 			status_done = 1;
@@ -58,7 +58,7 @@ void	compose_command_args(t_input *in)
 	size_t	k;
 	int		exit_while;
 	int		status_done;
-	
+
 	i = 0;
 	k = 0;
 	exit_while = 0;
@@ -75,7 +75,7 @@ void	compose_command_args(t_input *in)
 			&& (in->input_split[i][j] != '\0') && !exit_while)
 		{
 			if (i > 0 && (in->status[i] == EPTY_SP
-				|| in->status[i] == SQUO_SP || in->status[i] == DQUO_SP)
+					|| in->status[i] == SQUO_SP || in->status[i] == DQUO_SP)
 				&& !status_done)
 				exit_while = 1;
 			else
@@ -89,7 +89,6 @@ void	compose_command_args(t_input *in)
 	in->word_after_command = i;
 	compose_args(in, i);
 }
-
 
 void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 {
@@ -115,7 +114,7 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 	else if (ft_strcmp(input->input_split[0], "unset") == 0
 		&& input->input_split[1])
 		ft_unset(input->input_split[1], &input->envp);
-	else 
+	else
 		execute_command(input);
 	ft_input_free(input);
 }
