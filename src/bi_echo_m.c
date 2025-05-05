@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:50:16 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/05 18:17:40 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:08:57 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ void	ft_echo(t_input *in)
 	size_t	i;
 	int		argument;
 	size_t	start;
+	
+	/* i = 0;
+	while (in->args) */
 	
 	argument = ft_strcmp(in->args, "-n");
 	if (argument == 0)
