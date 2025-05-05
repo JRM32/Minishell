@@ -6,12 +6,42 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/04 20:47:13 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/05 10:12:46 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
+
+void	compose_command_args(t_input *in)
+{
+	size_t	i;
+	size_t	j;
+	size_t	k;
+	int		status_done;
+	
+	i = 0;
+	k = 0;
+	status_done = 0;
+	ft_bzero(in->command, 1000);
+	while (i < in->input_words)
+	{
+		j = 0;
+		status_done = 0;
+		while (in->input_split[i][j] != ' ' && in->input_split[i][j] != '\0')
+		{
+			if ((in->status[i] == EPTY_SP || in->status[i] == SQUO_SP
+				|| in->status[i] == DQUO_SP) && !status_done)
+				in->command[k++] = ' ';
+			else
+				in->command[k++] = in->input_split[i][j++];
+			status_done = 1;
+		}
+		if (in->input_split[i++][j] == ' ')
+			break ;
+	}
+}
+
 
 void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 {
@@ -20,6 +50,8 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 	input->outputfd = out_fd;
 	if (!input->input_split || !input->input_split[0])
 		return ;
+	compose_command_args(input);
+	printf("+++++\ncommand: %s\n+++++\n", input->command);//
 	if (ft_strcmp(input->input_split[0], "pwd") == 0)
 		ft_pwd(input->input_split);
 	else if (ft_strcmp(input->input_split[0], "cd") == 0)
@@ -53,7 +85,7 @@ void	ft_manage_pipes(t_input *input)
 
 	i = 0;
 	in_fd = 0;
-	if (!ft_strchr(input->input, '|'))
+	if (!ft_strchr(input->input, '|')) //cuidado lo pueden pasar en un echo "|"
 	{
 		ft_manage_input(input, STDIN_FILENO, STDOUT_FILENO);
 		return ;
