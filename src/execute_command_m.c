@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:49:50 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/05 19:07:52 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:25:26 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ bool	execute_command(t_input *input)
 	}
 	pid = fork();
 	if (exec_child(input, pid, executable) == 0)
-		return (false);
+		return (free(executable), false);///chequear
 	waitpid(pid, &status, 0);
 	free(executable);
 	return (WIFEXITED(status) && WEXITSTATUS(status) == 0);
