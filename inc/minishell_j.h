@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/05 17:04:01 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:28:32 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_input
 	char	command[250];
 	char	args[100];
 	size_t	word_after_command;
+	size_t	word_after_arg;
 	size_t	input_words;
 	int		spaced;
 	int		inputfd;

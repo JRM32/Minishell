@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/05 17:06:41 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:02:15 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	compose_args(t_input *in, size_t word)
 			break ;
 		i++;
 	}
+	in->word_after_arg = i;
 }
 
 void	compose_command_args(t_input *in)
@@ -99,7 +100,7 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 		return ;
 	compose_command_args(input);
 	//printf("command :%s\n", input->command);//
-	//printf("arg :%s\n", input->args);//
+	//printf("arg :%s\n-------------\n", input->args);//
 	if (ft_strcmp(input->input_split[0], "pwd") == 0)
 		ft_pwd(input->input_split);
 	else if (ft_strcmp(input->input_split[0], "cd") == 0)
