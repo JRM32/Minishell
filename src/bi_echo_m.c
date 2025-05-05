@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:50:16 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/05 17:53:41 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:17:40 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_echo(t_input *in)
 			printf(" %s", in->input_split[i]);
 		else if ((in->status[i] == EPTY_SP || in->status[i] == SQUO_SP
 			|| in->status[i] == DQUO_SP) && in->input_split[i][0] == '\0'
-			&& i != in->word_after_command)
+			&& i != start)
 			printf(" ");
 		else if (in->input_split[i][0])
 			printf("%s", in->input_split[i]);
