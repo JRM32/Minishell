@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/05 14:40:36 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:01:24 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ void	compose_args(t_input *in, size_t word)
 	{
 		j = 0;
 		status_done = 0;
+		if (i > word && in->input_split[i][0] == '\0' 
+			&& (in->status[i] == SQUO_SP || in->status[i] == DQUO_SP))
+			break ;
 		while ((in->input_split[i][j] != ' ' || is_quoted(in, i))
 			&& in->input_split[i][j] != '\0' && !exit_while)
 		{
@@ -41,8 +44,9 @@ void	compose_args(t_input *in, size_t word)
 				in->args[k++] = in->input_split[i][j++];
 			status_done = 1;
 		}
-		if (in->input_split[i++][j] == ' ' || exit_while)
+		if (in->input_split[i][j] == ' ' || exit_while)
 			break ;
+		i++;
 	}
 }
 
@@ -63,8 +67,11 @@ void	compose_command_args(t_input *in)
 	{
 		j = 0;
 		status_done = 0;
+		if (i > 0 && in->input_split[i][0] == '\0' && (in->status[i] == SQUO_SP
+			|| in->status[i] == DQUO_SP))
+			break ;
 		while ((in->input_split[i][j] != ' ' || is_quoted(in, i))
-			&& in->input_split[i][j] != '\0' && !exit_while)
+			&& (in->input_split[i][j] != '\0') && !exit_while)
 		{
 			if (i > 0 && (in->status[i] == EPTY_SP
 				|| in->status[i] == SQUO_SP || in->status[i] == DQUO_SP)
@@ -74,10 +81,11 @@ void	compose_command_args(t_input *in)
 				in->command[k++] = in->input_split[i][j++];
 			status_done = 1;
 		}
-		if (in->input_split[i++][j] == ' ' || exit_while)
+		if (in->input_split[i][j] == ' ' || exit_while)
 			break ;
+		i++;
 	}
-	compose_args(in, i - 1);
+	compose_args(in, i);
 }
 
 
@@ -89,6 +97,8 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 	if (!input->input_split || !input->input_split[0])
 		return ;
 	compose_command_args(input);
+	printf("command :%s\n", input->command);//
+	printf("arg :%s\n", input->args);//
 	if (ft_strcmp(input->input_split[0], "pwd") == 0)
 		ft_pwd(input->input_split);
 	else if (ft_strcmp(input->input_split[0], "cd") == 0)
