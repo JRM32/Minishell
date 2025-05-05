@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:21:17 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/05 09:23:01 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:43:23 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,11 @@ void	open_close_quotes(t_split *sq)
 	{
 		(sq->quotes)++;
 		sq->c = ' ';
-		//(sq->start)++;///MIRARLO BIEN
 	}
 	else if (sq->c == '\'' && sq->s[sq->start] == '\'' && !escaped)
 	{
 		(sq->quotes)++;
 		sq->c = ' ';
-		//(sq->start)++;///MIRARLO BIEN
 	}
 }
 
