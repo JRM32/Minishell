@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/05 10:12:46 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:28:03 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ void	compose_command_args(t_input *in)
 	{
 		j = 0;
 		status_done = 0;
-		while (in->input_split[i][j] != ' ' && in->input_split[i][j] != '\0')
+		while ((in->input_split[i][j] != ' ' || is_quoted(in, i))
+			&& in->input_split[i][j] != '\0')
 		{
-			if ((in->status[i] == EPTY_SP || in->status[i] == SQUO_SP
-				|| in->status[i] == DQUO_SP) && !status_done)
-				in->command[k++] = ' ';
+			if (((i > 0 && in->status[i] == EPTY_SP)
+				|| in->status[i] == SQUO_SP || in->status[i] == DQUO_SP)
+				&& !status_done)
+				in->input_split[i][j] = ' ';
 			else
 				in->command[k++] = in->input_split[i][j++];
 			status_done = 1;
