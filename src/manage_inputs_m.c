@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/05 18:02:15 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:17:59 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,8 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 	else if (ft_strcmp(input->input_split[0], "unset") == 0
 		&& input->input_split[1])
 		ft_unset(input->input_split[1], &input->envp);
-	else if (execute_command(input) == 1)
-		return (ft_input_free(input));
-	else
-		printf("%s: command not found\n", input->input_split[0]);
+	else 
+		execute_command(input);
 	ft_input_free(input);
 }
 
