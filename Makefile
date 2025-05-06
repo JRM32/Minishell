@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer # -O1
-# --track-fds==yes
+# valgrind --track-fds==yes
 NAME = minishell
 LIBFT = ./libft/libft.a
 SRC = 	src/main.c \
