@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/06 09:33:58 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/06 09:59:14 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ typedef struct s_input
 	int		spaced;
 	int		inputfd;
 	int		outputfd;
-	int		*status;	
+	int		*status;
+	int		status_checked;
 }			t_input;
 
 //CHECK INPUT
