@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_inputs_m.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/06 10:07:09 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:12:59 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 		ft_cd(input->input_split, input->envp);
 	else if (ft_strcmp(input->command, "echo") == 0)
 		ft_echo(input);
-	else if (ft_strcmp(input->input_split[0], "export") == 0
+	else if (ft_strcmp(input->command, "export") == 0
 		&& input->input_split[1])
-		ft_export(input->input_split[1], &input->envp);
+		ft_export(input->args, &input->envp);
 	else if (ft_strcmp(input->input_split[0], "env") == 0)
 		ft_env(input->input_split, input->envp);
 	else if (ft_strcmp(input->input_split[0], "unset") == 0
