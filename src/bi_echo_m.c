@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:50:16 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/06 09:35:23 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:38:04 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,34 +56,40 @@
 void	ft_echo(t_input *in)
 {
 	size_t	i;
-	//size_t	j;
+	size_t	j;
 	size_t	n_repeated;
-	int		argument;
+	int		error_argument;
 	size_t	start;
 	
 	i = 1;
 	n_repeated = 1;
+	error_argument = 0;
 	while (in->args[i])
 	{
-		if (in->args[i++] != 'n')
+		if (in->args[0] != '-' || in->args[i++] != 'n')
+		{
 			n_repeated = 0;
+			error_argument = 1;
+		}	
 	}
-	argument = ft_strncmp(in->args, "-n", 2);
-	if (argument == 0 && n_repeated)
+	//argument = ft_strncmp(in->args, "-n", 2);
+	if (error_argument == 0 && n_repeated)
 	{
-		i = in->word_after_arg;
-		/* j = i + 1;
-		n_repeated = 1;
+		j = in->word_after_arg;
 		while (j < in->input_words)
 		{
-			while (in->input_split[j])
+			i = 1;
+			compose_arg(in, j);	
+			while (in->args[i] && n_repeated)
 			{
-				
-				if (in->input_split[j] != 'n')
-					
+				if (in->args[0] != '-' || in->args[i++] != 'n')
+					n_repeated = 0;
 			}
+			if (n_repeated == 0)
+				break ;
 			j++;
-		} */
+		}
+		i = j;
 	}
 	else
 		i = in->word_after_command;
@@ -102,6 +108,6 @@ void	ft_echo(t_input *in)
 			printf("%s", in->input_split[i]);
 		i++;
 	}
-	if (argument != 0)
+	if (error_argument == 1)
 		printf("\n");
 }

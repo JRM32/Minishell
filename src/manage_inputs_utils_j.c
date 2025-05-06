@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:31:56 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/06 11:46:51 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:37:33 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	copy_to_command(t_input *in, size_t *i, size_t *j, size_t *k)
 	}
 }
 
-void	compose_args(t_input *in, size_t word)
+void	compose_arg(t_input *in, size_t word)
 {
 	size_t	i;
 	size_t	j;
@@ -107,5 +107,5 @@ void	compose_command_args(t_input *in)
 	ft_bzero(in->command, 250);
 	copy_to_command(in, &i, &j, &k);
 	in->word_after_command = i;
-	compose_args(in, i);
+	compose_arg(in, i);
 }
