@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/05 17:28:32 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/06 09:33:58 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,13 @@ typedef struct s_input
 	int		*status;	
 }			t_input;
 
+//CHECK INPUT
+void	compose_command_args(t_input *in);
+
 //BUILT INS
 void	ft_echo(t_input *in);
 
+//SIGNALS
 void	init_sigaction(struct sigaction *sa);
 
 #endif
