@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:50:16 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/06 17:05:33 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:39:37 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,57 @@ size_t	give_me_the_fist_word(t_input *in, int *error_argument)
 	return (i);
 }
 
+void	manage_dollar(t_input *in, size_t w, int spaced)
+{
+	size_t	i;
+	int		env_n;
+
+	i = 0;
+	if (spaced)
+		write (1, " ", 1);
+	while (in->input_split[w][i])
+	{
+		if (in->input_split[w][i] != '$')
+			write(1, &in->input_split[w][i], 1);
+		else
+		{
+			env_n = valid_env((in->input_split[w] + i + 1), in->envp);
+			if (env_n > -1)
+			{
+				i = 0;
+				while (in->envp[env_n][i] != '=')
+					i++;
+				printf("%s", (in->envp[env_n] + i + 1));
+				break ;
+			}	
+		}
+		i++;
+	}		
+} 
+
+void	print_arguments(t_input *in, size_t	w, int spaced)
+{
+	size_t	i;
+	int		print_as_env;
+
+	i = 0;	
+	print_as_env = (is_quoted(in, w) == 2 || !is_quoted(in, w));
+	if (spaced)
+	{
+		if (ft_strrchr(in->input_split[w], '$') && print_as_env)
+			manage_dollar(in, w, 1);
+		else
+			printf(" %s", in->input_split[w]);
+	}
+	else
+	{
+		if (ft_strrchr(in->input_split[w], '$') && print_as_env)
+			manage_dollar(in, w, 0);
+		else		
+			printf("%s", in->input_split[w]);
+	}
+}
+
 /*start is because the first argument from the command or the -n even it is...*/
 /*...spaced it dont have to space it when printed.*/
 void	ft_echo(t_input *in)
@@ -79,13 +130,13 @@ void	ft_echo(t_input *in)
 		if ((in->status[i] == EPTY_SP || in->status[i] == SQUO_SP
 				|| in->status[i] == DQUO_SP) && in->input_split[i][0]
 				&& i != start)
-			printf(" %s", in->input_split[i]);
+			print_arguments(in, i, 1);
 		else if ((in->status[i] == EPTY_SP || in->status[i] == SQUO_SP
 				|| in->status[i] == DQUO_SP) && in->input_split[i][0] == '\0'
 				&& i != start)
 			printf(" ");
 		else if (in->input_split[i][0])
-			printf("%s", in->input_split[i]);
+			print_arguments(in, i, 0);
 		i++;
 	}
 	if (error_argument == 1)

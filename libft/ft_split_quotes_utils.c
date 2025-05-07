@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 17:06:36 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/07 12:15:04 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:32:51 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 int	is_quoted(t_input *input, int word)
 {
-	if (input->status[word] == SQUO_NSP || input->status[word] == SQUO_SP
-		|| input->status[word] == DQUO_NSP || input->status[word] == DQUO_SP)
+	if (input->status[word] == SQUO_NSP || input->status[word] == SQUO_SP)
 		return (1);
+	if (input->status[word] == DQUO_NSP || input->status[word] == DQUO_SP)
+		return (2);
 	return (0);
 }
 
