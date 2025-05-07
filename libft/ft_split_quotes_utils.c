@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 17:06:36 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/06 17:51:22 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:15:04 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,6 @@ int	is_quoted(t_input *input, int word)
 	if (input->status[word] == SQUO_NSP || input->status[word] == SQUO_SP
 		|| input->status[word] == DQUO_NSP || input->status[word] == DQUO_SP)
 		return (1);
-	return (0);
-}
-
-int	is_escaped(t_split *squotes, size_t i)
-{
-	size_t	j;
-
-	j = i;
-	if (i > 0)
-	{
-		while (j > 0 && squotes->s[j - 1] == '\\')
-			j--;
-		if ((i - j) % 2 != 0)
-			return (1);
-	}
 	return (0);
 }
 
