@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:50:16 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/07 16:39:37 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/07 20:20:58 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,28 +66,31 @@ size_t	give_me_the_fist_word(t_input *in, int *error_argument)
 void	manage_dollar(t_input *in, size_t w, int spaced)
 {
 	size_t	i;
+	size_t	j;
 	int		env_n;
 
 	i = 0;
 	if (spaced)
-		write (1, " ", 1);
+		printf(" ");
 	while (in->input_split[w][i])
 	{
 		if (in->input_split[w][i] != '$')
-			write(1, &in->input_split[w][i], 1);
+			printf("%c", in->input_split[w][i]);
 		else
 		{
-			env_n = valid_env((in->input_split[w] + i + 1), in->envp);
+			env_n = valid_env((in->input_split[w] + i + 1), in, w);
 			if (env_n > -1)
 			{
-				i = 0;
-				while (in->envp[env_n][i] != '=')
-					i++;
-				printf("%s", (in->envp[env_n] + i + 1));
-				break ;
-			}	
+				j = 0;
+				while (in->envp[env_n][j] != '=')
+					j++;
+				printf("%s", (in->envp[env_n] + j + 1));
+			}
+			while (in->input_split[w][i] && in->input_split[w][i + 1] != ' ')
+				i++;
 		}
-		i++;
+		if (in->input_split[w][i])
+			i++;
 	}		
 } 
 
