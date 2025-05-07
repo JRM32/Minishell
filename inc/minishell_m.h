@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:51:03 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/06 18:25:40 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/07 08:48:21 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	clean_all(t_input *input);
 
 //BUILT INS
 void	ft_pwd(char *input);
-void	ft_env(char **input, char **envp);
+void	ft_env(t_input *in, char **envp);
 void	ft_export(char *input, char ***envp);
 void	ft_unset(char *input, char ***envp);
 bool	ft_cd(char **args, char **envp);
