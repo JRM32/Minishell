@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:50:16 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/07 20:20:58 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/07 22:06:37 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,11 @@ void	manage_dollar(t_input *in, size_t w, int spaced)
 {
 	size_t	i;
 	size_t	j;
+	size_t	dollars;
 	int		env_n;
 
 	i = 0;
+	dollars = 0;
 	if (spaced)
 		printf(" ");
 	while (in->input_split[w][i])
@@ -78,16 +80,34 @@ void	manage_dollar(t_input *in, size_t w, int spaced)
 			printf("%c", in->input_split[w][i]);
 		else
 		{
+			while (in->input_split[w][i + 1] == '$')
+			{
+				i++;
+				dollars++;
+			}
 			env_n = valid_env((in->input_split[w] + i + 1), in, w);
 			if (env_n > -1)
 			{
-				j = 0;
-				while (in->envp[env_n][j] != '=')
-					j++;
-				printf("%s", (in->envp[env_n] + j + 1));
+				if (!(dollars % 2))
+				{
+					j = 0;
+					while (in->envp[env_n][j] != '=')
+						j++;
+					printf("%s", (in->envp[env_n] + j + 1));
+				}
+				else
+				{
+					while (in->input_split[w][i] && in->input_split[w][i + 1] != ' ')
+					{
+						i++;
+						printf("%c", in->input_split[w][i]);
+					}
+				}
 			}
 			while (in->input_split[w][i] && in->input_split[w][i + 1] != ' ')
 				i++;
+			if (!(dollars % 2))
+				printf("$");
 		}
 		if (in->input_split[w][i])
 			i++;
