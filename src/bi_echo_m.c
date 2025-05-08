@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:50:16 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/08 11:01:45 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/08 12:30:04 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,18 @@ void	manage_dollar(t_input *in, size_t w, int spaced)
 					}
 				}
 			}
-			while (in->input_split[w][i] && in->input_split[w][i + 1] != ' ')
+			if (in->input_split[w][i])
 				i++;
-			if (!(dollars % 2))
+			while (in->input_split[w][i] && in->input_split[w][i + 1] != ' ' && in->input_split[w][i] != '$')
+			{
+				char c = in->input_split[w][i];
+				(void)c;
+				i++;
+			}
+			if ((!(dollars % 2) && env_n < 0))
 				printf("$");
 		}
-		if (in->input_split[w][i])
+		if (in->input_split[w][i] && in->input_split[w][i] != '$')
 			i++;
 	}		
 } 

@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:14:52 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/07 18:55:21 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:48:50 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,11 @@ int	valid_env(const char *str, t_input *in, size_t w)
 	while (in->envp[n])
 	{
 		envlen = ft_envlen(in->envp[n]);
-		if (ft_strnstr(in->envp[n], str, envlen))
+		//printf("-----\n%s\n-----\n", in->envp[n]);//
+		//if (ft_strnstr(in->envp[n], str, envlen))
+		if (!ft_strncmp(in->envp[n], str, envlen))
 		{
-			if (ft_strlen(str) == envlen)
+			if (ft_strlen(str) == envlen || str[envlen] == '$')
 				return (n);	
 		}
 		n++;
