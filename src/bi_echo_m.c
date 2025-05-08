@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:50:16 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/07 22:06:37 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:01:45 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,8 @@ void	manage_dollar(t_input *in, size_t w, int spaced)
 
 void	print_arguments(t_input *in, size_t	w, int spaced)
 {
-	size_t	i;
 	int		print_as_env;
 
-	i = 0;	
 	print_as_env = (is_quoted(in, w) == 2 || !is_quoted(in, w));
 	if (spaced)
 	{
