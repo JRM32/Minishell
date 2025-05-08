@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:14:52 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/08 12:57:59 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:10:01 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,41 +61,3 @@ int	valid_env(const char *str, t_input *in, size_t w)
 	}
 	return (-1);
 }
-
-/*if not found will return 0, if found will return the number of env variable*/
-/*can be the same up to size of env (from 0 to =), but str can be more so...*/
-/*...not valid unless end $. Ex: $USERpotato. USER is 4 but USERpotato more...*/
-/*...$USER$ is valid and $USER$USER$ also*/
-/* int	valid_env(const char *str, t_input *in, size_t w)
-{
-	size_t	n;
-	size_t	envlen;
-	
-	n = 0;
-	if (!str)
-		return (-1);
-	if (in->status[w] == DQUO_SP || in->status[w] == DQUO_NSP)
-	{
-		while (in->envp[n])
-		{
-			envlen = ft_envlen(in->envp[n]);
-			if (!ft_strncmp(in->envp[n], str, envlen))
-			{
-				if (ft_strlen_quoted(str) == envlen || str[envlen] == '$')
-					return (n);	
-			}
-			n++;
-		}
-	}
-	while (in->envp[n])
-	{
-		envlen = ft_envlen(in->envp[n]);
-		if (!ft_strncmp(in->envp[n], str, envlen))
-		{
-			if (ft_strlen(str) == envlen || str[envlen] == '$')
-				return (n);	
-		}
-		n++;
-	}
-	return (-1);
-} */
