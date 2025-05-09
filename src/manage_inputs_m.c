@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/09 22:19:31 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/10 00:46:45 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 
 	ft_input_free(input);
 }
-
 
 
 void	ft_manage_pipes(t_input *input)
@@ -100,6 +99,16 @@ void	ft_manage_pipes(t_input *input)
 		else
 		{
 			waitpid(pid, &status, 0);
+			// Actualizar el código de salida solo para el último comando
+			if (cmds[i + 1] == NULL) 
+			{
+				if (WIFEXITED(status))       // Si el proceso terminó normalmente
+					input->last_exit_code = WEXITSTATUS(status);
+				else if (WIFSIGNALED(status)) // Si terminó por una señal
+					input->last_exit_code = 128 + WTERMSIG(status);
+				else
+					input->last_exit_code = 1; // Código genérico de error
+			}
 			if (in_fd != 0)
 				close(in_fd);
 			if (cmds[i + 1] != NULL)

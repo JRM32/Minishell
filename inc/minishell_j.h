@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_j.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/09 13:36:38 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/09 23:31:27 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_input
 	int		outputfd;
 	int		*status;
 	int		status_checked;
+	pid_t	last_exit_code;
 }			t_input;
 
 //CHECK INPUT

@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:36:21 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/09 22:14:10 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/10 01:03:01 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	ft_matrix_free(char **matrix);
 char	**ft_matrix_dup(char **matrix);
 char	*ft_strchr_quotes(const char *s, int c);
+char	*ft_strcat(char *dest, const char *src);
 
 //MINISHELL - Javi
 char	**ft_split_quotes(char const *s, char c, t_input *input);
