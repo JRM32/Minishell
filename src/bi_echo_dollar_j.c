@@ -6,12 +6,22 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 00:12:44 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/09 12:10:36 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:00:16 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
+
+/*This is when there is an echo $a msg that has to be without space at beggin*/
+/*...or echo -n $a msg that also has to be without space 'msg' even is spaced*/
+void	space_after_first_invalid_env(t_input *in, size_t w)
+{
+	if (!in->echo_error_n_arg && w == in->word_after_arg)
+		in->spaced = 0;
+	else if (w == in->word_after_command)
+		in->spaced = 0;
+}
 
 /*Check if after the dollar there is a valid env variable with valid_env func*/
 /*only spaces will be printed (if tocken was spaced) if echo msg1 $ msg2...*/
@@ -40,13 +50,7 @@ void	print_if_spaced_and_valid_env(t_input *in, size_t w, int spaced)
 		&& (ft_isalpha(in->input_split[w][i]) || in->input_split[w][i] == '_')
 		&& !idollar
 		&& is_quoted(in, w) != 2 && in->dollars == 1)
-	{
-		if (ft_strncmp(in->args, "-n", 2) == 0)
-		
-		
-		if (w == in->word_after_command)
-			in->spaced = 0;
-	}
+		space_after_first_invalid_env(in, w);
 	else if (spaced)
 		printf(" ");
 }
@@ -102,7 +106,7 @@ void	print_invalid_envs(t_input *in, size_t w, size_t *i, int env_n)
 	}
 	if (env_n < 0
 		&& (ft_isalpha(in->input_split[w][in->idollar])
-			|| in->input_split[w][in->idollar] == '_'))
+		|| in->input_split[w][in->idollar] == '_'))
 		;
 	else if (env_n < 0 && !(in->dollars % 2))
 		printf("$");
@@ -128,10 +132,10 @@ void	manage_dollar(t_input *in, size_t w, int spaced)
 				(in->dollars)++;
 			}
 			in->idollar = i + 1;
-			env_n = print_valid_env_variable(in, w, &i);			
-			print_invalid_envs(in, w, &i, env_n);			
+			env_n = print_valid_env_variable(in, w, &i);
+			print_invalid_envs(in, w, &i, env_n);
 		}
 		if (in->input_split[w][i] && in->input_split[w][i] != '$')
 			i++;
-	}		
-} 
+	}
+}

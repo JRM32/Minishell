@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:50:16 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/09 13:14:41 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:56:27 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ size_t	check_rest_of_n(t_input *in)
 	{
 		i = 1;
 		compose_arg(in, j);
-		in->word_after_arg--;//////////////////////////////
 		while (in->args[i] && n_repeated)
 		{
 			if (in->args[0] != '-' || in->args[i++] != 'n')
+			{
+				in->word_after_arg--;
 				n_repeated = 0;
+			}
 		}
 		if (ft_strncmp(in->args, "-n", 2) != 0)
 			n_repeated = 0;
@@ -90,7 +92,7 @@ void	print_arguments(t_input *in, size_t	w, int spaced)
 	{
 		if (ft_strrchr(in->input_split[w], '$') && print_as_env)
 			manage_dollar(in, w, 0);
-		else		
+		else
 			printf("%s", in->input_split[w]);
 	}
 }
@@ -101,16 +103,15 @@ void	ft_echo(t_input *in)
 {
 	size_t	i;
 	size_t	start;
-	int		error_argument;
 
-	error_argument = 0;
-	start = give_me_the_fist_word(in, &error_argument);
+	in->echo_error_n_arg = 0;
+	start = give_me_the_fist_word(in, &(in->echo_error_n_arg));
 	i = start;
 	while (i < in->input_words && in->input_split && in->input_split[i])
 	{
 		if ((in->status[i] == EPTY_SP || in->status[i] == SQUO_SP
 				|| in->status[i] == DQUO_SP) && in->input_split[i][0]
-				&& i != start && in->spaced) //
+				&& i != start && in->spaced)
 			print_arguments(in, i, 1);
 		else if ((in->status[i] == EPTY_SP || in->status[i] == SQUO_SP
 				|| in->status[i] == DQUO_SP) && in->input_split[i][0] == '\0'
@@ -120,6 +121,6 @@ void	ft_echo(t_input *in)
 			print_arguments(in, i, 0);
 		i++;
 	}
-	if (error_argument == 1)
+	if (in->echo_error_n_arg == 1)
 		printf("\n");
 }
