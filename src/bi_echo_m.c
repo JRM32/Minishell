@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:50:16 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/09 00:13:18 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:14:41 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ size_t	check_rest_of_n(t_input *in)
 	{
 		i = 1;
 		compose_arg(in, j);
+		in->word_after_arg--;//////////////////////////////
 		while (in->args[i] && n_repeated)
 		{
 			if (in->args[0] != '-' || in->args[i++] != 'n')
@@ -39,6 +40,10 @@ size_t	check_rest_of_n(t_input *in)
 	return (j);
 }
 
+/*We check if there is a valid -n or -nnnnnnnn (all n) in the first...*/
+/*...word after the command. If it is, then we check rest of possible...*/
+/*... -nnnn -n that would produce the same result. ONLY the first one...*/
+/*... will be the one that rules if there is an -n non \n print in ft_echo*/
 size_t	give_me_the_fist_word(t_input *in, int *error_argument)
 {
 	size_t	i;
@@ -67,6 +72,12 @@ void	print_arguments(t_input *in, size_t	w, int spaced)
 {
 	int		print_as_env;
 
+	in->spaced = 1;
+	if (spaced == -1)
+	{
+		printf(" ");
+		return ;
+	}
 	print_as_env = (is_quoted(in, w) == 2 || !is_quoted(in, w));
 	if (spaced)
 	{
@@ -99,12 +110,12 @@ void	ft_echo(t_input *in)
 	{
 		if ((in->status[i] == EPTY_SP || in->status[i] == SQUO_SP
 				|| in->status[i] == DQUO_SP) && in->input_split[i][0]
-				&& i != start)
+				&& i != start && in->spaced) //
 			print_arguments(in, i, 1);
 		else if ((in->status[i] == EPTY_SP || in->status[i] == SQUO_SP
 				|| in->status[i] == DQUO_SP) && in->input_split[i][0] == '\0'
 				&& i != start)
-			printf(" ");
+			print_arguments(in, i, -1);
 		else if (in->input_split[i][0])
 			print_arguments(in, i, 0);
 		i++;
