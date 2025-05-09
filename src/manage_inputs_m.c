@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/09 01:27:03 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/09 22:19:31 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,13 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 {
 	input->inputfd = in_fd;
 	input->outputfd = out_fd;
-
-	// 🔥 Mover esta línea arriba
 	handle_redirection(input);
-
 	input->input_split = ft_split_quotes(input->input, ' ', input);
 	if (!input->input_split || !input->input_split[0])
 		return ; //CHEQUEAR NO LEAKS
-
 	compose_command_args(input);
-
 	//printf("command :%s\n", input->command);//
 	//printf("arg :%s\n-------------\n", input->args);//
-
 	if (ft_strcmp(input->command, "pwd") == 0)
 		ft_pwd(input->args);
 	else if (ft_strcmp(input->command, "cd") == 0)
@@ -50,6 +44,7 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 }
 
 
+
 void	ft_manage_pipes(t_input *input)
 {
 	char	**cmds;
@@ -62,15 +57,12 @@ void	ft_manage_pipes(t_input *input)
 
 	i = 0;
 	in_fd = 0;
-
-
-	
-	if (!ft_strchr(input->input, '|')) //cuidado lo pueden pasar en un echo "|"
+	if (!ft_strchr_quotes(input->input, '|')) //cuidado lo pueden pasar en un echo "|"
 	{
 		ft_manage_input(input, STDIN_FILENO, STDOUT_FILENO);
 		return ;
 	}
-	cmds = ft_split(input->input, '|');
+	cmds = ft_split_quotes(input->input, '|', input);
 	if (!cmds)
 		return ;
 	while (cmds[i])
