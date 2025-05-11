@@ -6,13 +6,15 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/10 00:46:45 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/11 20:49:48 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
+//printf("command :%s\n", input->command);//
+//printf("arg :%s\n-------------\n", input->args);//
 
 void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 {
@@ -21,10 +23,8 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 	handle_redirection(input);
 	input->input_split = ft_split_quotes(input->input, ' ', input);
 	if (!input->input_split || !input->input_split[0])
-		return ; //CHEQUEAR NO LEAKS
+		return ;
 	compose_command_args(input);
-	//printf("command :%s\n", input->command);//
-	//printf("arg :%s\n-------------\n", input->args);//
 	if (ft_strcmp(input->command, "pwd") == 0)
 		ft_pwd(input->args);
 	else if (ft_strcmp(input->command, "cd") == 0)
@@ -39,10 +39,8 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 		ft_unset(input->input_split[1], &input->envp);
 	else
 		execute_command(input);
-
 	ft_input_free(input);
 }
-
 
 void	ft_manage_pipes(t_input *input)
 {
@@ -56,7 +54,7 @@ void	ft_manage_pipes(t_input *input)
 
 	i = 0;
 	in_fd = 0;
-	if (!ft_strchr_quotes(input->input, '|')) //cuidado lo pueden pasar en un echo "|"
+	if (!ft_strchr_quotes(input->input, '|'))
 	{
 		ft_manage_input(input, STDIN_FILENO, STDOUT_FILENO);
 		return ;
@@ -99,15 +97,14 @@ void	ft_manage_pipes(t_input *input)
 		else
 		{
 			waitpid(pid, &status, 0);
-			// Actualizar el código de salida solo para el último comando
-			if (cmds[i + 1] == NULL) 
+			if (cmds[i + 1] == NULL)
 			{
-				if (WIFEXITED(status))       // Si el proceso terminó normalmente
+				if (WIFEXITED(status))
 					input->last_exit_code = WEXITSTATUS(status);
-				else if (WIFSIGNALED(status)) // Si terminó por una señal
+				else if (WIFSIGNALED(status))
 					input->last_exit_code = 128 + WTERMSIG(status);
 				else
-					input->last_exit_code = 1; // Código genérico de error
+					input->last_exit_code = 1;
 			}
 			if (in_fd != 0)
 				close(in_fd);

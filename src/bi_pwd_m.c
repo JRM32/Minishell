@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_pwd_m.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:24:39 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/06 18:38:30 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/11 20:52:05 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	ft_pwd(char *args)
 	int		len;
 
 	len = ft_strlen(args);
-	if  ((args[0] == '-' && args[1] != '-' && args[1])
+	if ((args[0] == '-' && args[1] != '-' && args[1])
 		|| (args[0] == '-' && args[1] == '-' && len > 2))
-		{
-			printf("pwd: usage: pwd\n");
-			return ;
-		}
+	{
+		printf("pwd: usage: pwd\n");
+		return ;
+	}
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		printf("%s\n", cwd);
 	else
