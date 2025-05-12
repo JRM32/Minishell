@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 00:12:44 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/12 21:35:44 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/12 21:58:35 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,15 @@
 void	space_after_first_invalid_env(t_input *in, size_t w)
 {
 	if (!in->echo_error_n_arg && w == in->word_after_arg)
+	{
+		in->word_after_arg++;
 		in->spaced = 0;
+	}
 	else if (w == in->word_after_command)
+	{
+		in->word_after_command++;
 		in->spaced = 0;
+	}
 }
 
 /*Check if after the dollar there is a valid env variable with valid_env func*/
