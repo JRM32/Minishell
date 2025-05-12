@@ -6,6 +6,8 @@ echo "$a'msg'" -> deberia ser msg pero no sale nada.
 
 echo "$a664464562ssertetr)'p'" imprimira a partir del primer char que no sea alphanumerico
 
+echo $a $a patata me pone un espacio antes de patata cuando no deberia. el $echo $a patata lo hace bien.
+
 expr $SHLVL + $SHLVL deberia soltar la suma y suelta $SHLVL
 
 

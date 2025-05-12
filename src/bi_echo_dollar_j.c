@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 00:12:44 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/12 20:53:18 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/12 21:35:44 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,15 @@ void	print_invalid_envs(t_input *in, size_t w, size_t *i, int env_n)
 		env_len = validlen_env(in->envp[env_n], '=');
 	while (in->input_split[w][*i]
 		&& in->input_split[w][(*i) + 1] != ' '
-		&& in->input_split[w][*i] != '$' 
+		&& in->input_split[w][*i] != '$'
 		&& env_n != -2)//cuidado ese -2 nuevo que es $?
 	{
+		if (is_quoted(in, w) == 2 && in->input_split[w][*i] == '\'')
+		{
+			if (*i > 0)
+				(*i)--;
+			break ;
+		}
 		if (in->dollars > 0 && (in->dollars % 2) && (j < env_len)) //env_len nuevo
 			printf("%c", in->input_split[w][*i]);
 		else if (j >= env_len)
