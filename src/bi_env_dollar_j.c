@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:14:52 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/12 13:46:22 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/12 19:30:14 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,19 @@ size_t	ft_envlen(const char *str)
 	return (i);
 }
 
-size_t	ft_strlen_quoted(const char *str)
+/*will determine de length of the str depending of the ending c char*/
+/*will receive or \0 or ' '. Space when is double quoted*/
+size_t	validlen_env(const char *str, char c)
 {
 	size_t	i;
 
 	i = 0;
-	while (str[i] && str[i] != ' ')
+	while (str && str[i] && str[i] != c)
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			break ;
 		i++;
+	}
 	return (i);
 }
 
@@ -55,9 +61,9 @@ int	valid_env(const char *str, t_input *in, size_t w)
 		envlen = ft_envlen(in->envp[n]);
 		if (!ft_strncmp(in->envp[n], str, envlen))
 		{
-			if (dqu && (ft_strlen_quoted(str) == envlen || str[envlen] == '$'))
+			if (dqu && (validlen_env(str, ' ') == envlen || str[envlen] == '$'))
 				return (n);
-			else if (!dqu && (ft_strlen(str) == envlen || str[envlen] == '$'))
+			else if (!dqu && (validlen_env(str, '\0') == envlen || str[envlen] == '$'))
 				return (n);
 		}
 		n++;
