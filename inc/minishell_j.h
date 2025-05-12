@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_j.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/09 23:31:27 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:15:01 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	compose_arg(t_input *in, size_t word);
 void	ft_echo(t_input *in);
 void	manage_dollar(t_input *in, size_t w, int spaced);
 int		valid_env(const char *str, t_input *in, size_t w);
+void	ft_exit(t_input *in);
 
 //SIGNALS
 void	init_sigaction(struct sigaction *sa);
