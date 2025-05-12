@@ -3,3 +3,12 @@ Errores:
 echo -n"%p" > deberia salir nada.. y sale -n.
 
 
+
+
+NO ES ERROR
+
+EN BASH:
+echo $"mgs" -> deberia salir msg, pero sale $msg. echo $ "msg" sale bien -> $ msg 
+PERO EN ZSH 
+si sale como sale en miniyo.
+

@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 00:12:44 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/09 14:00:16 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:20:20 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	print_if_spaced_and_valid_env(t_input *in, size_t w, int spaced)
 		i++;
 	}
 	env_n = valid_env((in->input_split[w] + i), in, w);
-	if (env_n < 0
+	if (env_n == -1
 		&& (ft_isalpha(in->input_split[w][i]) || in->input_split[w][i] == '_')
 		&& !idollar
 		&& is_quoted(in, w) != 2 && in->dollars == 1)
@@ -94,11 +94,18 @@ int	print_valid_env_variable(t_input *n, size_t w, size_t *i)
 	return (env_n);
 }
 
+/*$ will be printed only if $ are ODD (1,3,5...). Here first $ is not...*/
+/*...counted so to be ODD it has to be a EVEN number. That is the reason...*/
+/*...of !(in->dollars % 2). BUT also can only be printed if after the $...*/
+/*...(so idollar index) is not a possible valid ENV (starting with alpha...*/
+/*...or a '_'. That is the reason I do nothing with it.*/
+/*env_n = -2 is when there is an $? so print the exit code. It behaves as...*/
+/*...BASH where echo $???msg will be number???msg*/
 void	print_invalid_envs(t_input *in, size_t w, size_t *i, int env_n)
 {
 	while (in->input_split[w][*i]
 		&& in->input_split[w][(*i) + 1] != ' '
-		&& in->input_split[w][*i] != '$')
+		&& in->input_split[w][*i] != '$' && env_n != -2)//cuidado ese -2 nuevo
 	{
 		if (in->dollars > 0 && (in->dollars % 2))
 			printf("%c", in->input_split[w][*i]);
@@ -108,10 +115,23 @@ void	print_invalid_envs(t_input *in, size_t w, size_t *i, int env_n)
 		&& (ft_isalpha(in->input_split[w][in->idollar])
 		|| in->input_split[w][in->idollar] == '_'))
 		;
-	else if (env_n < 0 && !(in->dollars % 2))
+	else if (env_n == -1 && !(in->dollars % 2))
 		printf("$");
+	else if (env_n == -2)
+	{
+		(*i)++;
+		if (!(in->dollars % 2))
+			printf("%d", in->last_exit_code);
+		else 
+			printf("?");
+		while (in->input_split[w][*i]
+		&& in->input_split[w][(*i) + 1] != ' '
+		&& in->input_split[w][*i] != '$')
+			printf("%c", in->input_split[w][(*i)++]);
+	}
 }
 
+/*idollar is the index of the next char after the last $ found*/
 void	manage_dollar(t_input *in, size_t w, int spaced)
 {
 	size_t	i;
