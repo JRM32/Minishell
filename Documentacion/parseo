@@ -10,6 +10,9 @@ echo $. deberia poner $.
 
 expr $SHLVL + $SHLVL deberia soltar la suma y suelta $SHLVL
 
+./ls no deberia hacer nada.
+
+historial que conserve...
 
 NO ES ERROR
 
