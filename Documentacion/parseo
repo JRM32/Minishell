@@ -4,6 +4,10 @@ echo "$a664464562ssertetr)'p'" imprimira a partir del primer char que no sea alp
 
 echo $* patata deberia salir patata(pegado a la izda) y me sale $ patata
 
+echo '"$USER"' me pone el usuario cuando no deberia.
+
+echo $. deberia poner $.
+
 expr $SHLVL + $SHLVL deberia soltar la suma y suelta $SHLVL
 
 
