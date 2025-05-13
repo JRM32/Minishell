@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:14:52 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/13 14:01:15 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:13:26 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,34 @@ size_t	validlen_env(const char *str, char c)
 		i++;
 	}
 	return (i);
+}
+
+void	print_rest_no_env(t_input *in, size_t w, size_t *i)
+{
+	size_t	j;
+	int		is_digit;
+	char	*str;
+
+	j = (*i);
+	str = in->input_split[w];
+	is_digit = ft_isdigit(str[in->idollar]);
+		
+	/* 	if (in->input_split[w][(*i) + 1] == ' ' 
+		&& (ft_strrchr(N_ODDCHAR, in->input_split[w][*i])
+		|| ft_strrchr(D_Y_ODDCHAR, in->input_split[w][*i])))
+		printf("%c", in->input_split[w][*i]); */
+	if (str[(*i) + 1] == ' ')
+	{
+		while (str[j] != '$')
+		{
+			if (is_digit || ft_strrchr(N_ODDCHAR, str[j])
+					|| ft_strrchr(D_Y_ODDCHAR, str[j]))
+				break ;
+			j--;
+		}
+		if (str[j] != '$')
+			printf("%c", in->input_split[w][*i]);
+	}
 }
 
 /*print cases as $@p msg -> p msg or $%p msg -> $%p msg*/

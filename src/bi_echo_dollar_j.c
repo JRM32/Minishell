@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 00:12:44 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/13 13:53:28 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:52:26 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void	print_invalid_envs(t_input *in, size_t w, size_t *i, int env_n)
 	if (env_n < 0
 		&& (ft_isalpha(in->input_split[w][in->idollar])
 		|| in->input_split[w][in->idollar] == '_'))
-		;
+		print_rest_no_env(in, w, i);
 	else if (env_n == -1)
 		print_rare_cases(in, w, i);
 	else if (env_n == -2)

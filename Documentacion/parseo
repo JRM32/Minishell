@@ -2,6 +2,10 @@ Errores:
 
 ARREGLADO -> echo "$a664464562ssertetr)'p'" imprimira a partir del primer char que no sea alphanumerico
 
+echo "$a5e#tomate 'p'" deberia ser #tomate 'p' pero sale #tomat 'p'
+
+error echo "$ a" deberia ser $ a pero no sale nada.
+
 ARREGLADO ->	echo $2patata deberia salir patata y me sale 2patata.
 				echo $2 patata deberia salir patata y me sale 2$ patata 
 				echo $$2patata sale bien (2patata)
