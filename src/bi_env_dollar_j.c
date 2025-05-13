@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:14:52 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/13 13:13:12 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:01:15 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ size_t	validlen_env(const char *str, char c)
 }
 
 /*print cases as $@p msg -> p msg or $%p msg -> $%p msg*/
+/*when echo $$2p will print 2p. That is the (in->dollars % 2) case...*/
+/*...it is ODD as we dont count the first $. So $$$$ are 3*/
 void	print_rare_cases(t_input *in, size_t w, size_t *i)
 {
 	char	*str;
@@ -59,6 +61,12 @@ void	print_rare_cases(t_input *in, size_t w, size_t *i)
 	
 	index = in->idollar;
 	str = in->input_split[w];
+	if (in->dollars % 2)
+	{
+		printf("%c", str[index]);
+		(*i) = index;
+		return ;
+	}
 	if (!str[index])
 		printf("$");
 	else if (ft_isdigit(str[index]) || ft_strrchr(N_ODDCHAR, str[index])

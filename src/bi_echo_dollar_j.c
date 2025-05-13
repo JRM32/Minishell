@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 00:12:44 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/13 13:13:28 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:53:28 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	space_after_first_invalid_env(t_input *in, size_t w)
 	}
 	else if (w == in->word_after_command)
 	{
-		in->word_after_command++; //puede fallar con $a# patata
+		in->word_after_command++;
 		in->spaced = 0;
 	}
 }
@@ -129,13 +129,13 @@ void	print_invalid_envs(t_input *in, size_t w, size_t *i, int env_n)
 				(*i)--;
 			break ;
 		}
-		if (in->dollars > 0 && (in->dollars % 2) && (j < env_len)) //env_len nuevo
+		if (in->dollars > 0 && (in->dollars % 2) && (j < env_len))
 			printf("%c", in->input_split[w][*i]);
 		else if (j >= env_len && !ft_isdigit(in->input_split[w][in->idollar])
 			&& !ft_strrchr(D_Y_ODDCHAR, in->input_split[w][in->idollar])
-			&& !ft_strrchr(N_ODDCHAR, in->input_split[w][in->idollar]))////////
+			&& !ft_strrchr(N_ODDCHAR, in->input_split[w][in->idollar]))
 		{
-			in->spaced = 1;//CUIDADO NO ALTERE $a $a $a msg
+			in->spaced = 1;
 			printf("%c", in->input_split[w][*i]);	
 		}	
 		(*i)++;
@@ -146,7 +146,7 @@ void	print_invalid_envs(t_input *in, size_t w, size_t *i, int env_n)
 		&& (ft_isalpha(in->input_split[w][in->idollar])
 		|| in->input_split[w][in->idollar] == '_'))
 		;
-	else if (env_n == -1 && !(in->dollars % 2))
+	else if (env_n == -1)
 		print_rare_cases(in, w, i);
 	else if (env_n == -2)
 	{

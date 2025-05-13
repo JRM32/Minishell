@@ -4,7 +4,7 @@ ARREGLADO -> echo "$a664464562ssertetr)'p'" imprimira a partir del primer char q
 
 echo $2patata deberia salir patata y me sale 2patata.
 echo $2 patata deberia salir patata y me sale 2$ patata 
-echo $$2 patata sale bien (2patata)
+echo $$2patata sale bien (2patata)
 echo $$2 patata me sale bien (2 patata)
 
 echo $* patata deberia salir patata(pegado a la izda) y me sale $ patata
