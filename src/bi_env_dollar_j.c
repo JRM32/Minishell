@@ -6,12 +6,29 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:14:52 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/12 20:02:11 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/13 09:09:02 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
+
+
+size_t	invalidlen_env(const char *str)
+{
+	size_t	i;
+
+	i = 1;
+	if (ft_isdigit(str[0]))
+		return (0);
+	while (str && str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			break ;
+		i++;
+	}
+	return (i);
+}
 
 /*will determine de length of the str depending of the ending c char*/
 /*will receive or \0 or ' '. Space when is double quoted*/
