@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/13 17:59:21 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/13 21:00:51 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_input
 //CHECK INPUT
 void	compose_command_args(t_input *in);
 void	compose_arg(t_input *in, size_t word);
+void	parsing(t_input *in);
 
 //BUILT INS
 void	ft_echo(t_input *in);

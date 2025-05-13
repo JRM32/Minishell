@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:24 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/13 19:31:41 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/13 21:58:05 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,18 +113,34 @@
 
 void	create_node_parse(t_input *in)
 {
-	in->parsed = (t_pars *)ft_calloc(1, sizeof(t_pars));
+	t_pars	*aux;
+	t_pars	*new;
+	
+	new = (t_pars *)ft_calloc(1, sizeof(t_pars));
+	if (!new)
+	{
+		clean_all(in);
+		exit (1);//mirar si salgo con exit o no.
+	}
 	if (!in->parsed)
 	{
-		ft_input_free(in);
-
-	}	
-	
+		in->parsed = new;
+		return ;
+	}
+	aux = in->parsed;
+	while (aux->next)
+		aux = aux->next;
+	aux->next = new;
 }
 
 
 void	create_parse(t_input *in, size_t *i, size_t *j, size_t *k)
 {
+	size_t	start;
+	size_t	n_chars;
+
+	n_chars = 0;
+	start = (*i);
 	create_node_parse(in);
 	while (*i < in->input_words)
 	{
@@ -143,19 +159,29 @@ void	create_parse(t_input *in, size_t *i, size_t *j, size_t *k)
 				in->spaced = 1;
 			else
 			{
-				if (*k < 250)
-					in->command[(*k)++] = in->input_split[*i][(*j)++];
-				//else
-					
-			}
+				(*j)++;
+				n_chars++;
+			}	
 			in->status_checked = 1;
 		}
 		if (in->input_split[*i][*j] == ' ' || in->spaced)
 			break ;
 		(*i)++;
 	}
-
-	
+	in->parsed->str = (char *)ft_calloc(n_chars + 1, sizeof(char));
+	if (!in->parsed->str)
+	{
+		clean_all(in);
+		exit(1);
+	}
+	*j = 0;
+	while ((*k) < n_chars)
+	{
+		*j = 0;
+		while (in->input_split[start][*j])
+			in->parsed->str[(*k)++] = in->input_split[start][(*j)++];
+		start++;
+	}
 }
 
 
@@ -169,10 +195,24 @@ void	parsing(t_input *in)
 	i = 0;
 	in->spaced = 0;
 	in->status_checked = 0;
+	in->parsed = NULL;
 	while (i < in->input_words)
 	{
-		ft_bzero(in->command, 250);
 		create_parse(in, &i, &j, &k);
-		i++;
+		k = 0;
+		in->word = i;
+		in->spaced = 0;
+	}
+	
+	
+	
+	
+	t_pars *aux = in->parsed;
+	size_t	contador = 0;
+	while (aux)
+	{
+		printf("%zu: %s\n", contador, aux->str);
+		contador++;
+		aux = aux->next;
 	}
 }
