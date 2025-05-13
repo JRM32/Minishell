@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/13 16:18:00 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:59:21 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,19 @@
 # define D_Y_ODDCHAR "~%^=+}]:;/.,"
 # define N_ODDCHAR "!@*-#`(){["
 
+typedef struct s_pars
+{
+	char			*str;
+	struct s_pars	*next;
+}					t_pars;
+
+
 typedef struct s_input
 {
 	char	*input;
 	char	**input_split;
 	char	**envp;
+	t_pars	*parsed;
 	int		*status;
 	char	command[250];
 	char	args[4096];
