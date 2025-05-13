@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/13 11:02:53 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:49:56 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define SQUO_SP 11
 # define DQUO_NSP 20
 # define DQUO_SP 21
+# define D_Y_ODDCHAR "~%^=+}]:;/.,"
+# define N_ODDCHAR "!@*-#`(){["
 
 typedef struct s_input
 {

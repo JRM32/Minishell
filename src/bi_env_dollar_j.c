@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:14:52 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/13 11:14:44 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:13:12 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 
 /*The function will return length of chars formed in and invalid env...*/
 /* $a3cd_# = 5, $3ese_ = 0 */
+/*if the first char is inside the ODDCHAR strings (rare chars) it will return*/
+/*...cero*/
 size_t	invalidlen_env(const char *str)
 {
 	size_t	i;
 
 	i = 1;
-	if (ft_isdigit(str[0]) || !str[0])
+	if (ft_isdigit(str[0]) || !str[0] || ft_strrchr(D_Y_ODDCHAR, str[0])
+			|| ft_strrchr(N_ODDCHAR, str[0]))
 		return (0);
 	while (str && str[i])
 	{
@@ -48,6 +51,7 @@ size_t	validlen_env(const char *str, char c)
 	return (i);
 }
 
+/*print cases as $@p msg -> p msg or $%p msg -> $%p msg*/
 void	print_rare_cases(t_input *in, size_t w, size_t *i)
 {
 	char	*str;
@@ -57,19 +61,16 @@ void	print_rare_cases(t_input *in, size_t w, size_t *i)
 	str = in->input_split[w];
 	if (!str[index])
 		printf("$");
-	else if (ft_isdigit(in->input_split[w][index]))
+	else if (ft_isdigit(str[index]) || ft_strrchr(N_ODDCHAR, str[index])
+		|| ft_strrchr(D_Y_ODDCHAR, str[index]))
 	{
-		if (*i == index)
+		if (!str[index + 1] && !ft_strrchr(D_Y_ODDCHAR, str[index]))
 			in->spaced = 0;
+		if (ft_strrchr(D_Y_ODDCHAR, str[index]))
+			printf("$%c",str[index]);
 		(*i) = index;
 	}
-
-
-	
 }
-
-
-
 
 /*if not found will return -1, if found will return the number of env variable*/
 /*can be the same up to size of env (from 0 to =), but str can be more so...*/
