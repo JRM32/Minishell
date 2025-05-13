@@ -6,20 +6,21 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:14:52 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/13 09:09:02 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:14:44 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
-
+/*The function will return length of chars formed in and invalid env...*/
+/* $a3cd_# = 5, $3ese_ = 0 */
 size_t	invalidlen_env(const char *str)
 {
 	size_t	i;
 
 	i = 1;
-	if (ft_isdigit(str[0]))
+	if (ft_isdigit(str[0]) || !str[0])
 		return (0);
 	while (str && str[i])
 	{
@@ -46,6 +47,29 @@ size_t	validlen_env(const char *str, char c)
 	}
 	return (i);
 }
+
+void	print_rare_cases(t_input *in, size_t w, size_t *i)
+{
+	char	*str;
+	size_t	index;
+	
+	index = in->idollar;
+	str = in->input_split[w];
+	if (!str[index])
+		printf("$");
+	else if (ft_isdigit(in->input_split[w][index]))
+	{
+		if (*i == index)
+			in->spaced = 0;
+		(*i) = index;
+	}
+
+
+	
+}
+
+
+
 
 /*if not found will return -1, if found will return the number of env variable*/
 /*can be the same up to size of env (from 0 to =), but str can be more so...*/

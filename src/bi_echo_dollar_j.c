@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 00:12:44 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/13 09:15:52 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:02:38 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	print_invalid_envs(t_input *in, size_t w, size_t *i, int env_n)
 		}
 		if (in->dollars > 0 && (in->dollars % 2) && (j < env_len)) //env_len nuevo
 			printf("%c", in->input_split[w][*i]);
-		else if (j >= env_len)
+		else if (j >= env_len && !ft_isdigit(in->input_split[w][in->idollar]))
 		{
 			in->spaced = 1;//CUIDADO NO ALTERE $a $a $a msg
 			printf("%c", in->input_split[w][*i]);	
@@ -145,7 +145,8 @@ void	print_invalid_envs(t_input *in, size_t w, size_t *i, int env_n)
 		|| in->input_split[w][in->idollar] == '_'))
 		;
 	else if (env_n == -1 && !(in->dollars % 2))
-		printf("$");
+		print_rare_cases(in, w, i);
+		//printf("$");
 	else if (env_n == -2)
 	{
 		(*i)++;
