@@ -21,6 +21,8 @@ SRC = 	src/main.c \
 		src/redirections_m.c \
 		src/bi_exit_j.c \
 		src/parsing_j.c \
+		src/parsing_dollar_j.c \
+		src/parsing_env_dollar_j.c \
 		src/redirections_heredoc_m.c
 OBJDIR = obj
 OBJS = $(SRC:src/%.c=$(OBJDIR)/%.o)
