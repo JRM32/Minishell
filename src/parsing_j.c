@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:24 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/14 14:05:10 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:11:33 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,26 @@ char *choose_name(void)
 
 
 
+void	write_file(t_input *in, int fd, int stdout_save)
+{
+	if(dup2(fd, STDOUT_FILENO) == -1)
+	{
+        close(fd);
+        close(stdout_save);
+        clean_all(in);
+        exit(1);
+	}
+	ft_echo(in, 0);
+	if (dup2(stdout_save, STDOUT_FILENO) == -1)
+	{
+		close(fd);
+		close(stdout_save);
+		clean_all(in);
+		exit(1);
+	} 
+	close(fd);
+	close(stdout_save);
+}
 
 void	parsing(t_input *in)
 {
@@ -177,24 +197,6 @@ void	parsing(t_input *in)
 		clean_all(in);
 		exit (1);
 	}
-	if(dup2(fd, STDOUT_FILENO) == -1)
-	{
-        close(fd);
-        close(stdout_save);
-        clean_all(in);
-        exit(1);
-	}
-
-	ft_echo(in, 0);
-
-
-	if (dup2(stdout_save, STDOUT_FILENO) == -1)
-	{
-		close(fd);
-		close(stdout_save);
-		clean_all(in);
-		exit(1);
-	}  
-	close(fd);
-	close(stdout_save);
+	write_file(in, fd, stdout_save);
+	
 }

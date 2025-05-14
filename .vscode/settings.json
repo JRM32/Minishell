@@ -2,6 +2,7 @@
 	"makefile.configureOnOpen": false,
 	"files.associations": {
 		"minishell_j.h": "c",
-		"minishell_m.h": "c"
+		"minishell_m.h": "c",
+		"ft_printf.h": "c"
 	}
 }

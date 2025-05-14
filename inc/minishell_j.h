@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/14 13:15:31 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:13:12 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <signal.h>
 # include <stdio.h>
 # include "../ft_printf/ft_printf.h"
+# include "../inc/get_next_line.h"
 
 # define EPTY_NSP 0
 # define EPTY_SP 1
@@ -62,6 +63,7 @@ typedef struct s_input
 void	compose_command_args(t_input *in);
 void	compose_arg(t_input *in, size_t word);
 void	parsing(t_input *in);
+char	*get_next_line(int fd);
 
 //BUILT INS
 void	ft_echo(t_input *in, int active);

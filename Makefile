@@ -22,7 +22,10 @@ SRC = 	src/main.c \
 		src/redirections_m.c \
 		src/bi_exit_j.c \
 		src/parsing_j.c \
-		src/redirections_heredoc_m.c
+		src/redirections_heredoc_m.c \
+		src/get_next_line.c \
+		src/get_next_line_utils.c
+
 OBJDIR = obj
 OBJS = $(SRC:src/%.c=$(OBJDIR)/%.o)
 RM	= rm -rf
