@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/14 17:33:29 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:56:20 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,15 @@ int	main(int argc, char **argv, char **envp)
 		input.input_split = ft_split_quotes(input.input, ' ', &input);
 		if (!input.input_split || !input.input_split[0])
 			return (1);
-		compose_command_args(&input);
+		compose_command_args(&input);\
+		
 		parsing(&input); //EN CONSTRUCCION
+		//printf("PARSEADO: %s\n", input.parsed);
 		
-		printf("PARSEADO: %s\n", input.parsed);
+		//printf("%s\n", input.input);
 		
 		
+
 		
 		ft_manage_pipes(&input);
 		

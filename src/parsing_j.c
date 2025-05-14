@@ -6,13 +6,12 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:24 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/14 17:41:39 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:59:43 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
-
 
 void	write_parsed_output_from_file(t_input *in)
 {
@@ -84,7 +83,7 @@ void	write_file(t_input *in, int fd, int stdout_save)
 		clean_all(in);
 		exit(1);
 	}
-	ft_echo(in, 0);
+	p_ft_echo(in, 0);
 	if (dup2(stdout_save, STDOUT_FILENO) == -1)
 	{
 		close(fd);

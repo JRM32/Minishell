@@ -21,11 +21,13 @@ SRC = 	src/main.c \
 		src/manage_inputs_utils_j.c \
 		src/redirections_m.c \
 		src/bi_exit_j.c \
-		src/parsing_j.c \
 		src/redirections_heredoc_m.c \
 		src/get_next_line.c \
-		src/get_next_line_utils.c
-
+		src/get_next_line_utils.c \
+		src/parsing_j.c \
+		src/parsing_print_j.c \
+		src/parsing_dollar_j.c \
+		src/parsing_env_dollar_j.c
 OBJDIR = obj
 OBJS = $(SRC:src/%.c=$(OBJDIR)/%.o)
 RM	= rm -rf
