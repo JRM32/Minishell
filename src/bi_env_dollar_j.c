@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:14:52 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/14 08:51:55 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 11:40:58 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	print_rest_no_env(t_input *in, size_t w, size_t *i)
 			j--;
 		}
 		if (str[j] != '$')
-			printf("%c", in->input_split[w][*i]);
+			ft_printf("%c", in->input_split[w][*i]);
 	}
 }
 
@@ -86,19 +86,19 @@ void	print_rare_cases(t_input *in, size_t w, size_t *i)
 	str = in->input_split[w];
 	if (in->dollars % 2)
 	{
-		printf("%c", str[index]);
+		ft_printf("%c", str[index]);
 		(*i) = index;
 		return ;
 	}
 	if (!str[index])
-		printf("$");
+		ft_printf("$");
 	else if (ft_isdigit(str[index]) || ft_strrchr(N_ODDCHAR, str[index])
 		|| ft_strrchr(D_Y_ODDCHAR, str[index]))
 	{
 		if (!str[index + 1] && !ft_strrchr(D_Y_ODDCHAR, str[index]))
 			in->spaced = 0;
 		if (ft_strrchr(D_Y_ODDCHAR, str[index]))
-			printf("$%c",str[index]);
+			ft_printf("$%c",str[index]);
 		(*i) = index;
 	}
 }

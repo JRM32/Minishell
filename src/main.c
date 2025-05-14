@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/14 10:04:02 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 13:27:46 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ int	main(int argc, char **argv, char **envp)
 	if (!input.envp)
 		return (clean_all(&input), 1);
 	init_sigaction(&sa);
+	input.input_split = NULL;
+	input.status = NULL;
+	input.filename = NULL;
 	while (1)
 	{
 		input.input = readline("\001\033[1;32m\002miniyo$\001\033[0m\002 ");
@@ -35,17 +38,19 @@ int	main(int argc, char **argv, char **envp)
 		
 		
 		
-		/* input.input_split = ft_split_quotes(input.input, ' ', &input);
+		input.input_split = ft_split_quotes(input.input, ' ', &input);
 		if (!input.input_split || !input.input_split[0])
 			return (1);
 		compose_command_args(&input);
-		parsing(&input); //EN CONSTRUCCION */
+		parsing(&input); //EN CONSTRUCCION
 		
 		
 		
 		
 		
 		ft_manage_pipes(&input);
+		if (input.filename)
+			free(input.filename);
 		free(input.input);
 	}
 	clean_all(&input);

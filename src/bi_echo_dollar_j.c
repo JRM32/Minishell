@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 00:12:44 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/13 16:52:26 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 11:40:30 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	print_if_spaced_and_valid_env(t_input *in, size_t w, int spaced)
 		&& is_quoted(in, w) != 2 && in->dollars == 1)
 		space_after_first_invalid_env(in, w);
 	else if (spaced)
-		printf(" ");
+		ft_printf(" ");
 }
 
 /*if we find a valid ENV variable it will print it if the number of $...*/
@@ -84,14 +84,14 @@ int	print_valid_env_variable(t_input *n, size_t w, size_t *i)
 			j = 0;
 			while (n->envp[env_n][j] != '=')
 				j++;
-			printf("%s", (n->envp[env_n] + j + 1));
+			ft_printf("%s", (n->envp[env_n] + j + 1));
 		}
 		else
 		{
 			while (n->input_split[w][*i] && n->input_split[w][(*i) + 1] != ' ')
 			{
 				(*i)++;
-				printf("%c", n->input_split[w][*i]);
+				ft_printf("%c", n->input_split[w][*i]);
 			}
 		}
 	}
@@ -130,13 +130,13 @@ void	print_invalid_envs(t_input *in, size_t w, size_t *i, int env_n)
 			break ;
 		}
 		if (in->dollars > 0 && (in->dollars % 2) && (j < env_len))
-			printf("%c", in->input_split[w][*i]);
+			ft_printf("%c", in->input_split[w][*i]);
 		else if (j >= env_len && !ft_isdigit(in->input_split[w][in->idollar])
 			&& !ft_strrchr(D_Y_ODDCHAR, in->input_split[w][in->idollar])
 			&& !ft_strrchr(N_ODDCHAR, in->input_split[w][in->idollar]))
 		{
 			in->spaced = 1;
-			printf("%c", in->input_split[w][*i]);	
+			ft_printf("%c", in->input_split[w][*i]);	
 		}	
 		(*i)++;
 		j++;
@@ -152,13 +152,13 @@ void	print_invalid_envs(t_input *in, size_t w, size_t *i, int env_n)
 	{
 		(*i)++;
 		if (!(in->dollars % 2))
-			printf("%d", in->last_exit_code);
+			ft_printf("%d", in->last_exit_code);
 		else 
-			printf("?");
+			ft_printf("?");
 		while (in->input_split[w][*i]
 		&& in->input_split[w][(*i) + 1] != ' '
 		&& in->input_split[w][*i] != '$')
-			printf("%c", in->input_split[w][(*i)++]);
+			ft_printf("%c", in->input_split[w][(*i)++]);
 	}
 }
 
@@ -174,7 +174,7 @@ void	manage_dollar(t_input *in, size_t w, int spaced)
 	while (in->input_split[w][i])
 	{
 		if (in->input_split[w][i] != '$')
-			printf("%c", in->input_split[w][i]);
+			ft_printf("%c", in->input_split[w][i]);
 		else
 		{
 			while (in->input_split[w][i + 1] == '$')

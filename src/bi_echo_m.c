@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:50:16 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/12 15:56:22 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 12:14:31 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ size_t	give_me_the_fist_word(t_input *in, int *error_argument)
 	size_t	i;
 	size_t	n_repeated;
 
+	
 	i = 1;
 	n_repeated = 1;
 	while (in->args[i])
@@ -79,7 +80,7 @@ void	print_arguments(t_input *in, size_t	w, int spaced)
 	in->spaced = 1;
 	if (spaced == -1)
 	{
-		printf(" ");
+		ft_printf(" ");
 		return ;
 	}
 	print_as_env = (is_quoted(in, w) == 2 || !is_quoted(in, w));
@@ -88,20 +89,20 @@ void	print_arguments(t_input *in, size_t	w, int spaced)
 		if (ft_strrchr(in->input_split[w], '$') && print_as_env)
 			manage_dollar(in, w, 1);
 		else
-			printf(" %s", in->input_split[w]);
+			ft_printf(" %s", in->input_split[w]);
 	}
 	else
 	{
 		if (ft_strrchr(in->input_split[w], '$') && print_as_env)
 			manage_dollar(in, w, 0);
 		else
-			printf("%s", in->input_split[w]);
+			ft_printf("%s", in->input_split[w]);
 	}
 }
 
 /*start is because the first argument from the command or the -n even it is...*/
 /*...spaced it dont have to space it when printed.*/
-void	ft_echo(t_input *in)
+void	ft_echo(t_input *in, int active)
 {
 	size_t	i;
 	size_t	start;
@@ -123,6 +124,6 @@ void	ft_echo(t_input *in)
 			print_arguments(in, i, 0);
 		i++;
 	}
-	if (in->echo_error_n_arg == 1)
-		printf("\n");
+	if (in->echo_error_n_arg == 1 && active)
+		ft_printf("\n");
 }
