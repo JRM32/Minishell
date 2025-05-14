@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:05:48 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/14 15:48:59 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 16:42:45 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ void	clean_all(t_input *input)
 		free(input->status);
 		input->status = NULL;
 	}
-	/* if (input->parsed)
-		clean_list(&input->parsed); */
+	if (input->parsed)
+	{
+		free(input->parsed);
+		input->parsed = NULL;
+	}
 	rl_clear_history();
 }

@@ -3,6 +3,7 @@
 	"files.associations": {
 		"minishell_j.h": "c",
 		"minishell_m.h": "c",
-		"ft_printf.h": "c"
+		"ft_printf.h": "c",
+		"doc_minishell": "c"
 	}
 }

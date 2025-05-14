@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/14 13:27:46 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:33:29 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv, char **envp)
 	input.input_split = NULL;
 	input.status = NULL;
 	input.filename = NULL;
+	input.parsed = NULL;
 	while (1)
 	{
 		input.input = readline("\001\033[1;32m\002miniyo$\001\033[0m\002 ");
@@ -44,13 +45,12 @@ int	main(int argc, char **argv, char **envp)
 		compose_command_args(&input);
 		parsing(&input); //EN CONSTRUCCION
 		
-		
+		printf("PARSEADO: %s\n", input.parsed);
 		
 		
 		
 		ft_manage_pipes(&input);
-		if (input.filename)
-			free(input.filename);
+		
 		free(input.input);
 	}
 	clean_all(&input);

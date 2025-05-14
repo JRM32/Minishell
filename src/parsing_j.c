@@ -6,12 +6,30 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:24 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/14 15:44:46 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:41:39 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
+
+
+void	write_parsed_output_from_file(t_input *in)
+{
+	char	*file;
+	int		fd;
+
+	file = in->filename;
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		clean_all(in);
+		exit (1);
+	}
+	in->parsed = get_next_line(fd);
+	close(fd);
+	unlink(file);
+}
 
 char	*next_file(char *file, char **num, int *i, int *fd)
 {
@@ -26,7 +44,7 @@ char	*next_file(char *file, char **num, int *i, int *fd)
 	if (!file)
 		return (close(*fd), free(*num), NULL);
 	close(*fd);
-	(*fd) = open(file, O_RDONLY, 0644);
+	(*fd) = open(file, O_RDONLY);
 	return (file);
 }
 
@@ -46,7 +64,7 @@ char	*choose_name(void)
 	filename = ft_strjoin("temp", number);
 	if (!filename)
 		return (NULL);
-	fd = open(filename, O_RDONLY, 0644);
+	fd = open(filename, O_RDONLY);
 	while (fd != -1)
 	{
 		filename = next_file(filename, &number, &i, &fd);
@@ -100,4 +118,5 @@ void	parsing(t_input *in)
 		exit (1);
 	}
 	write_file(in, fd, stdout_save);
+	write_parsed_output_from_file(in);
 }
