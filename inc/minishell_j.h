@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/14 19:55:54 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:45:06 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ typedef struct s_input
 	char	**envp;
 	int		*status;
 	char	command[250];
-	char	*command_p;
 	char	args[4096];
-	char	*args_p;
 	size_t	word_after_command;
 	size_t	word_after_arg;
 	size_t	input_words;

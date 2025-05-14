@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 18:42:35 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/14 19:15:50 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 21:38:36 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ size_t	p_give_me_the_fist_word(t_input *in, int *error_argument)
 /*...just what is inside the ''*/
 void	p_print_arguments(t_input *in, size_t	w, int spaced)
 {
-	int		print_as_env;
+	int	print_as_env;
 
 	in->spaced = 1;
 	if (spaced == -1)
@@ -89,14 +89,48 @@ void	p_print_arguments(t_input *in, size_t	w, int spaced)
 		if (ft_strrchr(in->input_split[w], '$') && print_as_env)
 			p_manage_dollar(in, w, 1);
 		else
-			ft_printf(" %s", in->input_split[w]);
+		{
+			if (ft_strrchr(in->input_split[w], '>')
+					|| ft_strrchr(in->input_split[w], '<')
+					|| ft_strrchr(in->input_split[w], '|'))
+			{
+				if (is_quoted(in, w) == 2)
+					ft_printf(" \"");
+				else if (is_quoted(in, w) == 1)
+					ft_printf(" \'");
+				ft_printf("%s", in->input_split[w]);
+				if (is_quoted(in, w) == 2)
+					ft_printf("\"");
+				else if (is_quoted(in, w) == 1)
+					ft_printf("\'");
+			}
+			else
+				ft_printf(" %s", in->input_split[w]);
+		}
 	}
 	else
 	{
 		if (ft_strrchr(in->input_split[w], '$') && print_as_env)
 			p_manage_dollar(in, w, 0);
 		else
-			ft_printf("%s", in->input_split[w]);
+		{
+			if (ft_strrchr(in->input_split[w], '>')
+					|| ft_strrchr(in->input_split[w], '<')
+					|| ft_strrchr(in->input_split[w], '|'))
+			{
+				if (is_quoted(in, w) == 2)
+					ft_printf("\"");
+				else if (is_quoted(in, w) == 1)
+					ft_printf("\'");
+				ft_printf("%s", in->input_split[w]);
+				if (is_quoted(in, w) == 2)
+					ft_printf("\"");
+				else if (is_quoted(in, w) == 1)
+					ft_printf("\'");
+			}
+			else
+				ft_printf("%s", in->input_split[w]);
+		}
 	}
 }
 

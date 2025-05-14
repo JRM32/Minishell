@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:24 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/14 19:59:43 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 21:00:55 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ char	*next_file(char *file, char **num, int *i, int *fd)
 {
 	(*i)++;
 	free(file);
-	free(
-		*num);
+	free(*num);
 	*num = ft_itoa(*i);
 	if (!(*num))
 		return (close(*fd), NULL);
