@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:24 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/14 13:35:25 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:05:10 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ void	parsing(t_input *in)
         clean_all(in);
         exit(1);
 	}
-	ft_printf("%s ", in->command);
+
 	ft_echo(in, 0);
 
 
