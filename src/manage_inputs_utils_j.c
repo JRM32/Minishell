@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:31:56 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/15 21:19:52 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:33:07 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void	save_invalid_envs(t_input *in, size_t w, size_t *i, size_t *k)
 				(*i)--;
 			break ;
 		}
-		if (in->dollars > 0 && (in->dollars % 2) && (j < env_len))
+		if (in->dollars > 0 && (in->dollars % 2) && (j < env_len)) //quiza poner && ((j < env_len) || ft_isdigit(in->input_split[in->idollar]) para el caso $$2 que tiene que ser 2
 			in->command[(*k)++] = in->input_split[w][(*i)];
 		else if (j >= env_len && !ft_isdigit(in->input_split[w][in->idollar])
 			&& !ft_strrchr(D_Y_ODDCHAR, in->input_split[w][in->idollar])

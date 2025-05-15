@@ -1,5 +1,6 @@
 Errores:
 
+export kk="echo tomate" el comando deberia ser echo. Ahora mismo es (echo tomate)
 
 $kk habiendo creado unset kk=a da segfault
 
@@ -18,7 +19,8 @@ CORREGIDO - echo "$$$USER" sale jrollon-$ cuando deberia salir jrollon-
 
 CORREGIDO - echo "$$$patata" deberia salir vacio ya que imprime el pid, pero sale $
 
-CORREGIDO - echo "$$%patata" deberia salir $%patata y me sale $$%patata
+echo "$$%patata" deberia salir %patata y me sale $%patata
+
 CORREGIDO - echo "$@patata" deberia salir patata y sale $patata
 
 CORREGIDO - crear una variable de entorno -> export kk="hola         que     tal"
@@ -144,11 +146,8 @@ echo '"hola"'                     	"hola"                     	Comillas dobles d
 echo "$USER$HOME"                 	user/home/user             	Concatenación de variables
 echo "$USER literal $HOME"        	user literal /home/user    	Texto y variables
 echo "$UNSETVAR"                  	(nada)                     	Variable no definida
-echo "texto"escapado"            	texto"escapado             	Escape de comilla doble
-echo 'texto'escapado'            	texto\'escapado            	\ no tiene efecto en comillas simples
 echo ""                           	(nada)                     	Comillas dobles vacías
 echo ''                           	(nada)                     	Comillas simples vacías
-*(no escape)echo hola\ mundo                  	hola mundo                 	Escape de espacio (sin comillas)
 echo "hola     mundo"             	hola     mundo             	Mantiene espacios en comillas dobles
 echo hola     mundo               	hola mundo                 	Reduce múltiples espacios si no hay comillas
 
@@ -160,7 +159,7 @@ echo -n                                 	(nada)                           	Sin t
 echo -n -n -n hola                      	hola                             	Todos los `-n` se interpretan como opción
 echo -n "hola\nmundo"               	hola\nmundo                      	`\n` NO se interpreta si no implementas `-e`
 echo $HOME                             	/home/usuario                    	Variable expandida
-echo $HOME                            	$HOME                            	Escape de `$`
+echo '$HOME'                            	$HOME                            	Escape de `$`
 echo "a'$USER'"                        	a'usuario'                      	Combinación de comillas
 echo "'$USER'"                         	'usuario'                       	Comillas simples literales fuera
 echo "$USER's folder"                 	usuario's folder                	Comillas dobles + apóstrofe
