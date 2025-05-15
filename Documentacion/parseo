@@ -3,9 +3,14 @@ Errores:
 
 $kk habiendo creado unset kk=a da segfault
 
+echo $"mgs" -> deberia salir msg, pero sale $msg. echo $ "msg" sale bien -> $ msg
+
+echo $$2 que deberia ser 2 pero no sale nada
+
 CORREGIDO - echo "$ a" deberia ser $ a pero no sale nada.
 
-"$a5e#tomate 'p'" DEBERIA dar como comando #tomate 'p' pero da #tomate p. el echo esta bien...  o sea que error del command.
+CORREGIDO - "$a5e#tomate 'p'" DEBERIA dar como comando #tomate 'p' pero da #tomate p. el echo esta bien...  o sea que error del command.
+ 			"$a 'p'" deberia ser ( 'p') pero sale ( p)
 
 CORREGIDO - echo $$ (pares) no deberia salir nada y sale $
 
@@ -26,12 +31,12 @@ CORREGIDO - echo "$a5e#tomate 'p'" deberia ser #tomate 'p' pero sale #tomat 'p'
 
 ARREGLADO ->	echo $2patata deberia salir patata y me sale 2patata.
 				echo $2 patata deberia salir patata y me sale 2$ patata 
-				echo $$2patata sale bien (2patata)
-				echo $$2 patata me sale bien (2 patata)
+echo $$2patata deberia salir (2patata) y me sale patata
+echo $$2 patata deberia salir (2 patata) y me sale patata. resumen fallo en $$2 que deberia ser 2.
 
 ARREGLADO -> echo $* patata deberia salir patata(pegado a la izda) y me sale $ patata
 
-CORREGIDO -> me pone el usuario cuando no deberia.
+CORREGIDO -> 'patata"$USER"' me pone el usuario cuando no deberia.
 
 ARREGLADO -> echo $. deberia poner $.
 

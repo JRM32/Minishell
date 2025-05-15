@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:31:56 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/15 19:34:32 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:47:46 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ void	expand_dollar(t_input *in, size_t *i, size_t *j, size_t *k)
 	while (in->input_split[*i][*j])
 	{
 		if (in->input_split[*i][*j] != '$')
-			in->command[(*k)++] = in->input_split[*i][(*j)++];
+			in->command[(*k)++] = in->input_split[*i][(*j)];
 		else
 		{
 			while (in->input_split[*i][(*j) + 1] == '$')
