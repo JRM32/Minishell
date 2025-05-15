@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:31:56 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/15 15:25:07 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:26:00 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	save_valid_env_variable(t_input *n, size_t w, size_t *i, size_t *k)
 {
 	int		env_n;
 	size_t	j;
+	size_t 	start;
 
 	env_n = valid_env((n->input_split[w] + (*i) + 1), n, w);
 	if (env_n > -1)
@@ -27,11 +28,24 @@ int	save_valid_env_variable(t_input *n, size_t w, size_t *i, size_t *k)
 			while (n->envp[env_n][j] != '=')
 				j++;
 			j++;
+			while (n->envp[env_n][j] == ' ')
+				j++;
 			while (n->envp[env_n][j])
 			{
 				n->command[(*k)++] = n->envp[env_n][j++];
 				if (n->envp[env_n][j] == ' ')
-					n->command[(*k)++] = ' ';
+				{
+					start = j;
+					while (n->envp[env_n][j] == ' ')
+					{
+						if (n->envp[env_n][j] == '\0')
+							break ;
+						j++;
+					}
+					if (n->envp[env_n][j] != '\0')
+						n->command[(*k)++] = ' ';
+					j = start;
+				}
 				while (n->envp[env_n][j] == ' ')
 					j++;
 			}
