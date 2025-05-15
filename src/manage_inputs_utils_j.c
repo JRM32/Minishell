@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:31:56 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/15 16:26:00 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:34:32 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	save_valid_env_variable(t_input *n, size_t w, size_t *i, size_t *k)
 	if (n->input_split[w][*i])
 	{
 		if(n->dollars % 2 == 0 && is_quoted(n, w) != 1 && env_n == -1
-			&& !n->input_split[w][n->idollar])
+			&& (!n->input_split[w][n->idollar] || n->input_split[w][n->idollar] == ' ')) //"$ a", $, 
 			n->command[(*k)++] = '$';
 		(*i)++;
 	}

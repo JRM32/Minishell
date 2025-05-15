@@ -1,8 +1,9 @@
 Errores:
 
-ls $HOME $kk habiendo creado unset kk="      hola      patata    " da segfault
 
-error echo "$ a" deberia ser $ a pero no sale nada.
+$kk habiendo creado unset kk=a da segfault
+
+CORREGIDO - echo "$ a" deberia ser $ a pero no sale nada.
 
 "$a5e#tomate 'p'" DEBERIA dar como comando #tomate 'p' pero da #tomate p. el echo esta bien...  o sea que error del command.
 

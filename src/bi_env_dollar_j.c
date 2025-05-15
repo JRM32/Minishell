@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:14:52 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/15 14:33:43 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:03:55 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	valid_env(const char *str, t_input *in, size_t w)
 	dqu = (in->status[w] == DQUO_SP || in->status[w] == DQUO_NSP);
 	if (str[0] == '?')
 		return (-2);
-	while (in->envp[n])
+	while (in->envp && in->envp[n])
 	{
 		envlen = validlen_env(in->envp[n], '=');
 		if (!ft_strncmp(in->envp[n], str, envlen))
