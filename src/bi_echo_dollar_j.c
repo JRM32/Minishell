@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 00:12:44 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/14 11:40:30 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:23:43 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,11 @@ int	print_valid_env_variable(t_input *n, size_t w, size_t *i)
 		}
 	}
 	if (n->input_split[w][*i])
+	{
+		if(n->dollars % 2 == 0 && is_quoted(n, w) == 2)
+			ft_printf("$");
 		(*i)++;
+	}
 	return (env_n);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:31:56 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/15 12:25:04 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:21:09 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,12 @@ int	save_valid_env_variable(t_input *n, size_t w, size_t *i, size_t *k)
 			}
 		}
 	}
-	if (n->input_split[w][*i])///////////////////////
+	if (n->input_split[w][*i])
+	{
+		if(n->dollars % 2 == 0 && is_quoted(n, w) == 2)
+			n->command[(*k)++] = '$';
 		(*i)++;
+	}
 	return (env_n);
 }
 
@@ -307,7 +311,6 @@ void	copy_to_command(t_input *in, size_t *i, size_t *j, size_t *k)
 				in->spaced = 1;
 			else
 				search_dollar(in, i, j, k);		
-				//in->command[(*k)++] = in->input_split[*i][(*j)++];
 			in->status_checked = 1;
 		}
 		if (in->input_split[*i][*j] == ' ' || in->spaced)

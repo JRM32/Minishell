@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:14:52 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/14 11:40:58 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:04:10 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 /*The function will return length of chars formed in and invalid env...*/
 /* $a3cd_# = 5, $3ese_ = 0 */
 /*if the first char is inside the ODDCHAR strings (rare chars) it will return*/
-/*...cero*/
+/*...cero. Also in case of ' ' ex. "$ p"*/
 size_t	invalidlen_env(const char *str)
 {
 	size_t	i;
 
 	i = 1;
 	if (ft_isdigit(str[0]) || !str[0] || ft_strrchr(D_Y_ODDCHAR, str[0])
-			|| ft_strrchr(N_ODDCHAR, str[0]))
+			|| ft_strrchr(N_ODDCHAR, str[0]) || str[0] == ' ') ///cuidado con ' ' que a lo mejor esta bien si es considerado luego con comillas dobles
 		return (0);
 	while (str && str[i])
 	{
