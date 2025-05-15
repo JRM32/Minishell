@@ -1,5 +1,9 @@
 Errores:
 
+echo "$$$patata" deberia salir vacio ya que imprime el pid, pero sale $
+
+echo "$$%patata" deberia salir $%patata y me sale $$%patata
+echo "$@patata" deberia salir patata y sale $patata
 
 crear una variable de entorno -> export kk="hola         que     tal"
 	la variable se crea con los espacios, pero echo $kk deberia salir "hola que tal" sin comillas.

@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:31:56 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/15 13:21:09 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:44:56 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ void	save_rare_cases(t_input *in, size_t w, size_t *i, size_t *k)
 	
 	index = in->idollar;
 	str = in->input_split[w];
-	if (in->dollars % 2)
+	if (in->dollars % 2 && in->input_split[w][*i])///anadido que sea distinto de cero
 	{
 		in->command[(*k)++] = str[index];
 		(*i) = index;/////////////
 		return ;
 	}
-	if (!str[index])
+	if (!str[index] && in->input_split[w][*i]) ///anadido que sea distinto de cero
 		in->command[(*k)++] = '$';
 	else if (ft_isdigit(str[index]) || ft_strrchr(N_ODDCHAR, str[index])
 		|| ft_strrchr(D_Y_ODDCHAR, str[index]))
