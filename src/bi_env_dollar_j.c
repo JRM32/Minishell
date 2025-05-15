@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:14:52 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/15 13:48:57 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:10:37 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	print_rare_cases(t_input *in, size_t w, size_t *i)
 	else if (ft_isdigit(str[index]) || ft_strrchr(N_ODDCHAR, str[index])
 		|| ft_strrchr(D_Y_ODDCHAR, str[index]))
 	{
-		if (!str[index + 1] && !ft_strrchr(D_Y_ODDCHAR, str[index]))
+		if (str[index] && !str[index + 1] && !ft_strrchr(D_Y_ODDCHAR, str[index]))
 			in->spaced = 0;
 		if (ft_strrchr(D_Y_ODDCHAR, str[index]))
 			ft_printf("$%c",str[index]);
