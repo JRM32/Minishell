@@ -1,12 +1,13 @@
 Errores:
 
+CORREGIDO - echo $$ (pares) no deberia salir nada y sale $
 
-echo $
+CORREGIDO - echo "$$$USER" sale jrollon-$ cuando deberia salir jrollon-
 
-echo "$$$patata" deberia salir vacio ya que imprime el pid, pero sale $
+CORREGIDO - echo "$$$patata" deberia salir vacio ya que imprime el pid, pero sale $
 
-echo "$$%patata" deberia salir $%patata y me sale $$%patata
-echo "$@patata" deberia salir patata y sale $patata
+CORREGIDO - echo "$$%patata" deberia salir $%patata y me sale $$%patata
+CORREGIDO - echo "$@patata" deberia salir patata y sale $patata
 
 crear una variable de entorno -> export kk="hola         que     tal"
 	la variable se crea con los espacios, pero echo $kk deberia salir "hola que tal" sin comillas.

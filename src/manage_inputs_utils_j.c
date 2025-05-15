@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:31:56 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/15 14:06:13 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:25:07 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	save_valid_env_variable(t_input *n, size_t w, size_t *i, size_t *k)
 			while (n->envp[env_n][j])
 			{
 				n->command[(*k)++] = n->envp[env_n][j++];
+				if (n->envp[env_n][j] == ' ')
+					n->command[(*k)++] = ' ';
 				while (n->envp[env_n][j] == ' ')
 					j++;
 			}
@@ -45,7 +47,8 @@ int	save_valid_env_variable(t_input *n, size_t w, size_t *i, size_t *k)
 	}
 	if (n->input_split[w][*i])
 	{
-		if(n->dollars % 2 == 0 && is_quoted(n, w) == 2)
+		if(n->dollars % 2 == 0 && is_quoted(n, w) != 1 && env_n == -1
+			&& !n->input_split[w][n->idollar])
 			n->command[(*k)++] = '$';
 		(*i)++;
 	}
@@ -94,8 +97,8 @@ void	save_rare_cases(t_input *in, size_t w, size_t *i, size_t *k)
 	}
 	if (!str[index] && in->input_split[w][*i]) ///anadido que sea distinto de cero
 		in->command[(*k)++] = '$';
-	else if (ft_isdigit(str[index]) || ft_strrchr(N_ODDCHAR, str[index])
-		|| ft_strrchr(D_Y_ODDCHAR, str[index]))
+	else if ((ft_isdigit(str[index]) || ft_strrchr(N_ODDCHAR, str[index])
+		|| ft_strrchr(D_Y_ODDCHAR, str[index])) && str[index])
 	{
 		if (str[index] && !str[index + 1] && !ft_strrchr(D_Y_ODDCHAR, str[index]))
 			in->spaced = 0;
