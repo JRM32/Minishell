@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/14 20:45:06 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:47:19 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_input
 	int		inputfd;
 	int		outputfd;
 	int		status_checked;
+	int		env_n;
 	pid_t	last_exit_code;
 }			t_input;
 
@@ -74,6 +75,7 @@ size_t	validlen_env(const char *str, char c);
 size_t	invalidlen_env(const char *str);
 void	print_rare_cases(t_input *in, size_t w, size_t *i);
 void	print_rest_no_env(t_input *in, size_t w, size_t *i);
+void	space_after_first_invalid_env(t_input *in, size_t w);
 
 //SIGNALS
 void	init_sigaction(struct sigaction *sa);
