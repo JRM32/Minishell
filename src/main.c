@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/15 19:52:25 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:04:28 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	main(int argc, char **argv, char **envp)
 			return (clean_all(&input), 1);
 		compose_command_args(&input);\
 		parsing(&input); //EN CONSTRUCCION
-		printf("============\nPARSEADO:%s\n==========\n", input.parsed);
+		/* printf("============\nPARSEADO:%s\n==========\n", input.parsed);
 		printf("command:%s\n", input.command);//
-		printf("arg:%s\n-------------\n", input.args);//
+		printf("arg:%s\n-------------\n", input.args);// */
 		ft_manage_pipes(&input);
 		free(input.input);
 	}
