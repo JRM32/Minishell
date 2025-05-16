@@ -1,10 +1,25 @@
-Errores:
+Errores. Te pongo arriba los errores Mario, para que no los tengas que buscar y te sea más fácil. Más abajo 
+hay pruebas para hacer...
+
+=============================================================================================================
+
+
+(MARIO)
+
+hacer un export =patata no está permitido en bash. Hay que poner -miniyo: export: `=patata': not a valid identifier
 
 $kk habiendo creado unset kk=a da segfault
 
 ls | wc da memory leak
 	creo que es del input->status al tomar otro camino no se libera.
 
+./ls no deberia hacer nada.
+
+
+===============================================================================================================
+
+
+(JAVI)
 
 export kk="echo tomate" el comando deberia ser echo. Ahora mismo es (echo tomate)
 
@@ -49,7 +64,7 @@ ARREGLADO -> echo $. deberia poner $.
 
 expr $SHLVL + $SHLVL deberia soltar la suma y suelta $SHLVL
 
-./ls no deberia hacer nada.
+
 
 historial que conserve...
 

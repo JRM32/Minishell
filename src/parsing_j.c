@@ -6,18 +6,23 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:24 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/16 10:17:17 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/16 11:21:46 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
+/*parsed returns with the command included. I need this to make expand env...*/
+/*...with echo, So I need to clean the command from parsed and take the rest.*/
 void	write_parsed_output_from_file(t_input *in)
 {
 	char	*file;
 	int		fd;
+	char	*aux;
+	size_t	i;
 
+	i = 0;
 	file = in->filename;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
@@ -26,6 +31,13 @@ void	write_parsed_output_from_file(t_input *in)
 		exit (1);
 	}
 	in->parsed = get_next_line(fd);
+	aux = in->parsed;
+	while (in->parsed && in->parsed[i] && in->parsed[i] != ' ')
+		i++;
+	while (in->parsed[i] == ' ')
+		i++;
+	in->parsed = ft_strdup((in->parsed) + i);
+	free(aux);
 	close(fd);
 	unlink(file);
 }
