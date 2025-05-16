@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:09:14 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/16 12:09:49 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:49:41 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ void	ft_matrix_free(char **matrix)
 	int	i;
 
 	i = 0;
-	while (matrix[i])
+	while (matrix && matrix[i])
 	{
 		free(matrix[i]);
 		matrix[i] = NULL;
 		i++;
 	}
-	free(matrix);
+	if (matrix)
+		free(matrix);
 	matrix = NULL;
 }
 
