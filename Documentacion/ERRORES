@@ -21,8 +21,7 @@ ls | wc da memory leak
 
 (JAVI)
 
-export kk="echo tomate" el comando deberia ser echo. Ahora mismo es (echo tomate)
-
+CORREGIDO - export kk="echo tomate" el comando deberia ser echo. Ahora mismo es (echo tomate)
 
 echo $"mgs" -> deberia salir msg, pero sale $msg. echo $ "msg" sale bien -> $ msg
 
