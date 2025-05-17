@@ -6,19 +6,17 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:31:56 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/17 13:01:07 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/17 17:07:07 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
-
-
 void	search_dollar(t_input *in, size_t *i, size_t *j, size_t *k)
 {
 	int	print_as_env;
-	
+
 	print_as_env = (is_quoted(in, *i) == 2 || !is_quoted(in, *i));
 	if (ft_strrchr(in->input_split[*i], '$') && print_as_env)
 		expand_dollar(in, i, j, k);
@@ -26,12 +24,8 @@ void	search_dollar(t_input *in, size_t *i, size_t *j, size_t *k)
 		in->command[(*k)++] = in->input_split[*i][(*j)++];
 }
 
-
 /*Do the same as copy_to_command BUT it starts from the token that was left...*/
-/*...after the command. Becauexport hh=patata
-export jj=tomate
-export kk="$hh + $jj"
-echo $kk DEBE DAR patata + tomate. Me da $hh + $jj. Es decir, debe expandirlos.se the token after the argument is behaved the...*/
+/*...after the command. The token after the argument is behaved the...*/
 /*...same as the first token in echo (no spaced unless quoted with space)...*/
 /*...then we have to do the same with i < in this case word (after command)*/
 void	copy_to_arg(t_input *in, size_t *i, size_t *j, size_t *k)
@@ -86,7 +80,7 @@ void	copy_to_command(t_input *in, size_t *i, size_t *j, size_t *k)
 				&& !in->status_checked)
 				in->spaced = 1;
 			else
-				search_dollar(in, i, j, k);		
+				search_dollar(in, i, j, k);
 			in->status_checked = 1;
 		}
 		if (in->input_split[*i][*j] == ' ' || in->spaced)
