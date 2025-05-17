@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/16 10:18:59 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/17 13:02:59 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ size_t	invalidlen_env(const char *str);
 void	print_rare_cases(t_input *in, size_t w, size_t *i);
 void	print_rest_no_env(t_input *in, size_t w, size_t *i);
 void	space_after_first_invalid_env(t_input *in, size_t w);
+void	expand_dollar(t_input *in, size_t *i, size_t *j, size_t *k);
 
 //SIGNALS
 void	init_sigaction(struct sigaction *sa);

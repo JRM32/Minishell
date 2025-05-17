@@ -19,6 +19,7 @@ SRC = 	src/main.c \
 		src/execute_command_m.c \
 		src/manage_inputs_m.c \
 		src/manage_inputs_utils_j.c \
+		src/manage_input_dollars_j.c \
 		src/redirections_m.c \
 		src/bi_exit_j.c \
 		src/redirections_heredoc_m.c \

@@ -8,6 +8,14 @@ hay pruebas para hacer...
 
 hacer un export =patata no está permitido en bash. Hay que poner -miniyo: export: `=patata': not a valid identifier
 
+por esto le tiraron a Amelie:
+export hh=patata
+export jj=tomate
+export kk="$hh + $jj"
+echo $kk DEBE DAR patata + tomate. Me da $hh + $jj. Es decir, debe expandirlos.
+Por que es de Mario? por que en mi parseado si aparece bien kk=patata + tomate. Solo 
+hay que tenerlo en cuenta en la propia funcion export, el valor de input->parsed
+
 $kk habiendo creado unset kk=a da segfault
 
 ls | wc da memory leak
@@ -26,6 +34,7 @@ NO error  pero posibilidad de hacer: historial que conserve cuando se cierre la 
 
 
 (JAVI)
+
 
 CORREGIDO - echo " se sale la minishell.. es decir, impares comillas
 
@@ -72,6 +81,9 @@ CORREGIDO -> 'patata"$USER"' me pone el usuario cuando no deberia.
 ARREGLADO -> echo $. deberia poner $.
 
 expr $SHLVL + $SHLVL deberia soltar la suma y suelta $SHLVL
+
+control + C debe devolver un numero de exit $? no se cual es.
+
 
 NO ES ERROR
 
