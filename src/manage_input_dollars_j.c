@@ -6,56 +6,62 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 12:59:27 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/17 14:10:49 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/17 14:52:00 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
-int	save_valid_env_variable(t_input *n, size_t w, size_t *i, size_t *k)
+/*will print the env if $USER or $$$USER. with $$USER will print USER that...*/
+/*...is inside the else condition. that will stop up to the \0 or ' ' (if...*/
+/*...inside of double quotes)*/
+void	save_env_if_even_dollars(t_input *in, size_t w, size_t *i, size_t *k)
 {
-	int		env_n;
 	size_t	j;
-
-	env_n = valid_env((n->input_split[w] + (*i) + 1), n, w);
-	if (env_n > -1)
+	
+	if (!(in->dollars % 2))
 	{
-		if (!(n->dollars % 2))
-		{
-			j = 0;
-			while (n->envp[env_n][j] != '=')
-				j++;
+		j = 0;
+		while (in->envp[in->env_n][j] != '=')
 			j++;
-			while (n->envp[env_n][j] == ' ')
-				j++;
-			while (n->envp[env_n][j])
-			{
-				n->command[(*k)++] = n->envp[env_n][j++];
-				if (n->envp[env_n][j] == ' ')
-					break ;
-			}
-		}
-		else
+		j++;
+		while (in->envp[in->env_n][j] == ' ')
+			j++;
+		while (in->envp[in->env_n][j])
 		{
-			while (n->input_split[w][*i] && n->input_split[w][(*i) + 1] != ' ')
-			{
-				(*i)++;
-				n->command[(*k)++] = n->input_split[w][(*i)];
-			}
+			in->command[(*k)++] = in->envp[in->env_n][j++];
+			if (in->envp[in->env_n][j] == ' ')
+				break ;
 		}
 	}
+	else
+	{
+		while (in->input_split[w][*i] && in->input_split[w][(*i) + 1] != ' ')
+		{
+			(*i)++;
+			in->command[(*k)++] = in->input_split[w][(*i)];
+		}
+	}
+}
+
+/*the second if is for cases like "$ a", $, where we are after the $ but...*/
+/*...inside of double quotes or just nothing more, or course with EVEN $...*/
+/*...again n->dollars % 2 == 0 is because we dont count the first $ found*/
+void	save_valid_env_variable(t_input *n, size_t w, size_t *i, size_t *k)
+{
+	n->env_n = valid_env((n->input_split[w] + (*i) + 1), n, w);
+	if (n->env_n > -1)
+		save_env_if_even_dollars(n, w, i, k);
 	if (n->input_split[w][*i])
 	{
-		if(n->dollars % 2 == 0 && is_quoted(n, w) != 1 && env_n == -1
-			&& (!n->input_split[w][n->idollar] || n->input_split[w][n->idollar] == ' ')) //"$ a", $, 
+		if(n->dollars % 2 == 0 && is_quoted(n, w) != 1 && n->env_n == -1
+			&& (!n->input_split[w][n->idollar] 
+				|| n->input_split[w][n->idollar] == ' ')) 
 			n->command[(*k)++] = '$';
 		(*i)++;
 	}
-	return (env_n);
 }
-
-
 
 
 void	save_rest_no_env(t_input *in, size_t w, size_t *i, size_t *k)
@@ -82,43 +88,46 @@ void	save_rest_no_env(t_input *in, size_t w, size_t *i, size_t *k)
 }
 
 
+/*save cases as $@p msg -> p msg or $%p msg -> $%p msg*/
+/*when echo $$2p will save 2p. That is the (in->dollars % 2) case...*/
+/*...it is ODD as we dont count the first $. So $$$$ are 3*/
 void	save_rare_cases(t_input *in, size_t w, size_t *i, size_t *k)
 {
 	char	*str;
-	size_t	index;
+	size_t	id;
 	
-	index = in->idollar;
+	id = in->idollar;
 	str = in->input_split[w];
-	if (in->dollars % 2)// && in->input_split[w][*i])///anadido que sea distinto de cero
+	if (in->dollars % 2)
 	{
-		in->command[(*k)++] = str[index];
-		(*i) = index;/////////////
+		in->command[(*k)++] = str[id];
+		(*i) = id;
 		return ;
 	}
-	if (!str[index] && in->input_split[w][*i]) ///anadido que sea distinto de cero
+	if (!str[id] && in->input_split[w][*i])
 		in->command[(*k)++] = '$';
-	else if ((ft_isdigit(str[index]) || ft_strrchr(N_ODDCHAR, str[index])
-		|| ft_strrchr(D_Y_ODDCHAR, str[index])) && str[index])
+	else if ((ft_isdigit(str[id]) || ft_strrchr(N_ODDCHAR, str[id])
+			|| ft_strrchr(D_Y_ODDCHAR, str[id])) && str[id])
 	{
-		if (str[index] && !str[index + 1] && !ft_strrchr(D_Y_ODDCHAR, str[index]))
+		if (str[id] && !str[id + 1] && !ft_strrchr(D_Y_ODDCHAR, str[id]))
 			in->spaced = 0;
-		if (ft_strrchr(D_Y_ODDCHAR, str[index]))
+		if (ft_strrchr(D_Y_ODDCHAR, str[id]))
 		{
 			in->command[(*k)++] = '$';
-			in->command[(*k)++] = str[index];
+			in->command[(*k)++] = str[id];
 		}	
-		(*i) = index;
+		(*i) = id;
 	}
 }
 
-/*echo $$USER will print USER. $$USERp will be USERp. That is the first while*/
-/*$ will be printed only if $ are ODD (1,3,5...). Here first $ is not...*/
-/*...counted so to be ODD it has to be a EVEN number. That is the reason...*/
-/*...of !(in->dollars % 2). BUT also can only be printed if after the $...*/
-/*...(so idollar index) is not a possible valid ENV (starting with alpha...*/
-/*...or a '_'.*/
-/*env_n = -2 is when there is an $? so print the exit code. It behaves as...*/
-/*...BASH where echo $???msg will be (exit number)??msg*/
+/* echo $$USER will print USER. $$USERp will be USERp.*/
+/* $ will be printed only if $ are ODD (1,3,5...). Here the first $ is not...*/
+/* ...counted, so to be ODD it has to be an EVEN number of dollars. That is...*/
+/* ...the reason of !(in->dollars % 2). BUT it can only be printed if the char*/
+/* ...after the $ (at idollar index) is not a possible valid ENV (not alpha...*/
+/* ...or '_', nor special treated chars).*/
+/* env_n = -2 is when there is a $? so it will print the exit code. It behaves*/
+/* ...as in BASH where echo $???msg will be (exit number)??msg*/
 /*in->spaced is necesary to beginning with tokens that not has to be spaced...*/
 /*...even if they are, because the are preceeded from invalid tokens not...*/
 /*...not printed. The read of that variable is at begging of parsing*/
@@ -234,7 +243,7 @@ void	expand_dollar(t_input *in, size_t *i, size_t *j, size_t *k)
 				(in->dollars)++;
 			}
 			in->idollar = (*j) + 1;
-			in->env_n = save_valid_env_variable(in, *i, j, k);
+			save_valid_env_variable(in, *i, j, k);
 			save_invalid_envs(in, *i, j, k);
 		}
 		if (in->input_split[*i][*j] && in->input_split[*i][*j] != '$')
