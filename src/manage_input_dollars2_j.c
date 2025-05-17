@@ -6,12 +6,35 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 16:58:23 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/17 17:10:36 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/17 18:57:42 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
+
+void	save_env_even_dollars_quo(t_input *in, size_t w, size_t *i,	size_t *k)
+{
+	size_t	j;
+
+	if (!(in->dollars % 2))
+	{
+		j = 0;
+		while (in->envp[in->env_n][j] != '=')
+			j++;
+		j++;
+		while (in->envp[in->env_n][j])
+			in->command[(*k)++] = in->envp[in->env_n][j++];
+	}
+	else
+	{
+		while (in->input_split[w][*i] && in->input_split[w][(*i) + 1] != ' ')
+		{
+			(*i)++;
+			in->command[(*k)++] = in->input_split[w][(*i)];
+		}
+	}
+}
 
 /*will print the env if $USER or $$$USER. with $$USER will print USER that...*/
 /*...is inside the else condition. that will stop up to the \0 or ' ' (if...*/
@@ -51,8 +74,11 @@ void	save_env_if_even_dollars(t_input *in, size_t w, size_t *i, size_t *k)
 void	save_valid_env_variable(t_input *n, size_t w, size_t *i, size_t *k)
 {
 	n->env_n = valid_env((n->input_split[w] + (*i) + 1), n, w);
-	if (n->env_n > -1)
+	if (n->env_n > -1 && is_quoted(n, w) == 0)
 		save_env_if_even_dollars(n, w, i, k);
+	else if (n->env_n > -1 && is_quoted(n, w) == 2)
+		save_env_even_dollars_quo(n, w, i, k);
+	
 	if (n->input_split[w][*i])
 	{
 		if (n->dollars % 2 == 0 && is_quoted(n, w) != 1 && n->env_n == -1
