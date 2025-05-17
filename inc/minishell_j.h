@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/17 17:11:41 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/17 17:30:22 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_input
 }			t_input;
 
 //CHECK INPUT
+void	ft_echo(t_input *in, int active);
 void	compose_command_args(t_input *in);
 void	compose_arg(t_input *in, size_t word);
 void	parsing(t_input *in);
@@ -64,7 +65,7 @@ void	save_rare_cases(t_input *in, size_t w, size_t *i, size_t *k);
 void	save_valid_env_variable(t_input *n, size_t w, size_t *i, size_t *k);
 
 //BUILT INS
-void	ft_echo(t_input *in, int active);
+void	echo_short(t_input *in);
 void	manage_dollar(t_input *in, size_t w, int spaced);
 int		valid_env(const char *str, t_input *in, size_t w);
 void	ft_exit(t_input *in);

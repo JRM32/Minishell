@@ -35,6 +35,10 @@ NO error  pero posibilidad de hacer: historial que conserve cuando se cierre la 
 
 (JAVI)
 
+crear una variable de entorno -> export kk="hola         que     tal      "
+	la variable se crea con los espacios, pero echo $kk deberia salir "hola que tal" sin comillas.
+	PERO echo "$kk" tendria que salir como (hola         que     tal      )
+
 
 CORREGIDO - echo " se sale la minishell.. es decir, impares comillas
 
@@ -60,9 +64,6 @@ CORREGIDO - echo "$$$patata" deberia salir vacio ya que imprime el pid, pero sal
 CORREGIDO - echo "$$%patata" deberia salir %patata y me sale $%patata
 
 CORREGIDO - echo "$@patata" deberia salir patata y sale $patata
-
-CORREGIDO - crear una variable de entorno -> export kk="hola         que     tal      "
-	la variable se crea con los espacios, pero echo $kk deberia salir "hola que tal" sin comillas.
 
 CORREGIDO - echo "$a664464562ssertetr)'p'" imprimira a partir del primer char que no sea alphanumerico
 
