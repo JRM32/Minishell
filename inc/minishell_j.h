@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/17 13:02:59 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/17 13:31:35 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_input
 	size_t	word;
 	size_t	dollars;
 	size_t	idollar;
+	size_t	env_len;
 	int		echo_error_n_arg;
 	int		spaced;
 	int		inputfd;
