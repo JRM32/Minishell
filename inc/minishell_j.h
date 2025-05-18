@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/18 20:49:29 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:02:10 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct s_input
 	int		outputfd;
 	int		status_checked;
 	int		env_n;
-	int		exit_code;
 	pid_t	last_exit_code;
 }			t_input;
 

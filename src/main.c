@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/18 21:00:19 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:02:24 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_input_struct(t_input *input)
 	input->dollars = 0;
 	input->idollar = 0;
 	input->env_len = 0;
-	input->exit_code = 0;
+	input->last_exit_code = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
