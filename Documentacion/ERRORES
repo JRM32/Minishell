@@ -35,6 +35,10 @@ una ejecucion de un comando que no existe aparte del error debe dar $? = 127, es
 hay que hacer un export de la variable ? a 127 y poner la variable (input->last_exit_code) a 127 por que la debo leer en el exit
 y no puedo hacer un $? dentro del codigo C.
 
+la funcion exit debe devolver un codigo diferente cuando se ejecuta un script. La manera
+de hacerlo es if (!isatty(STDIN_FILENO)) si es correcto, estamos en un script si no, estamos en un terminal.
+según parece hay que ponerlo en el main al principio.... ni idea.
+
 NO error  pero posibilidad de hacer: historial que conserve cuando se cierre la minishell.
 
 
