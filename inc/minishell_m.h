@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:51:03 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/19 16:47:28 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/20 00:00:10 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_pwd(char *input);
 void	ft_env(t_input *in, char **envp);
 void	ft_export(char *input, char ***envp);
 void	ft_unset(t_input *input);
-bool	ft_cd(char **args, char **envp);
+bool	ft_cd(t_input *input);
 
 bool	execute_command(t_input *input);
 void	ft_manage_pipes(t_input *input);

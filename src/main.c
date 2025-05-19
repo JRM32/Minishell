@@ -39,11 +39,14 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	
 	input.envp = ft_matrix_dup(envp);
 	if (!input.envp)
 		clean_all(&input, 1);
+	input.is_script = !isatty(STDIN_FILENO);
 	init_sigaction(&sa);
 	init_input_struct(&input);
+	
 	while (1)
 	{
 		input.input = readline("\001\033[1;32m\002miniyo$\001\033[0m\002 ");
@@ -62,15 +65,20 @@ int	main(int argc, char **argv, char **envp)
 			free(input.input);
 			continue ;
 		}
-		compose_command_args(&input);\
-		parsing(&input); //EN CONSTRUCCION
-		compose_command_args(&input);//tiene que estar doble.
+		compose_command_args(&input);
+		parsing(&input); // EN CONSTRUCCIÓN
+		compose_command_args(&input);
 		printf("============\nPARSEADO:%s\n==========\n", input.parsed);
-		printf("command:%s\n", input.command);//
-		printf("arg:%s\n-----SALIDA-----\n", input.args);//
+		printf("command:%s\n", input.command);
+		printf("arg:%s\n-----SALIDA-----\n", input.args);
+		
 		ft_manage_pipes(&input);
 		free(input.input);
 	}
+	
 	clean_all(&input, 0);
-	return (0);
+	if (input.is_script)
+		exit(input.last_exit_code != 0 ? input.last_exit_code : 1);
+	else
+		exit(input.last_exit_code);
 }

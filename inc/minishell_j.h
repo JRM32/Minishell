@@ -54,6 +54,7 @@ typedef struct s_input
 	int		status_checked;
 	int		env_n;
 	pid_t	last_exit_code;
+	bool	is_script;
 }			t_input;
 
 //CHECK INPUT

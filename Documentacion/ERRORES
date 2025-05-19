@@ -14,20 +14,6 @@ export kk=patata cebolla deberia ser kk = patata solo. pero es patata cebolla...
 ls | wc da memory leak
 	creo que es del input->status al tomar otro camino no se libera.
 
-./ls no deberia hacer nada.
-
-cd $HOME dice que no existe $HOME. eso es por que estarás pillando del split. ahora se puede pillar de input->parsed que es un
-	char*. si lo ves, input->parsed será /home/usuario  e input->command será cd. De echo si el comando fuera $USER (que no tiene sentido)
-	input->command ahora sería el nombre del usuario expandido y así pondría "perico: command not found".
-
-una ejecucion de un comando que no existe aparte del error debe dar $? = 127, es decir,
-hay que hacer un export de la variable ? a 127 y poner la variable (input->last_exit_code) a 127 por que la debo leer en el exit
-y no puedo hacer un $? dentro del codigo C.
-
-la funcion exit debe devolver un codigo diferente cuando se ejecuta un script. La manera
-de hacerlo es if (!isatty(STDIN_FILENO)) si es correcto, estamos en un script si no, estamos en un terminal.
-según parece hay que ponerlo en el main al principio.... ni idea.
-
 NO error  pero posibilidad de hacer: historial que conserve cuando se cierre la minishell.
 
 
@@ -43,6 +29,25 @@ CORREGIDO	Si le hago unset VAR exista o no.. y luego hago unset VAR o unset otra
 CORREGIDO	$kk habiendo creado unset kk=a da segfault
 
 CORREGIDO 	hacer un export =patata no está permitido en bash. Hay que poner -miniyo: export: `=patata': not a valid identifier
+
+CORREGIDO	
+			cd $HOME dice que no existe $HOME. eso es por que estarás pillando del split. ahora se puede pillar de input->parsed que es un
+			char*. si lo ves, input->parsed será /home/usuario  e input->command será cd. De echo si el comando fuera $USER (que no tiene sentido)
+			input->command ahora sería el nombre del usuario expandido y así pondría "perico: command not found".
+
+CORREGIDO	./ls no deberia hacer nada.
+
+CORREGIDO	
+una ejecucion de un comando que no existe aparte del error debe dar $? = 127, es decir,
+hay que hacer un export de la variable ? a 127 y poner la variable (input->last_exit_code) a 127 por que la debo leer en el exit
+y no puedo hacer un $? dentro del codigo C.
+
+CORREGIDO
+
+
+la funcion exit debe devolver un codigo diferente cuando se ejecuta un script. La manera
+de hacerlo es if (!isatty(STDIN_FILENO)) si es correcto, estamos en un script si no, estamos en un terminal.
+según parece hay que ponerlo en el main al principio.... ni idea.
 
 ===============================================================================================================
 
