@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/19 14:52:36 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:11:56 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ void	init_input_struct(t_input *input)
 	input->parsed = NULL;
 	input->filename = NULL;
 	input->input_split = NULL;
+	input->input_exp = NULL;
+	input->redir_in = NULL;
+	input->redir_out = NULL;
 	input->status = NULL;
 	input->word_after_command = 0;
 	input->word_after_arg = 0;

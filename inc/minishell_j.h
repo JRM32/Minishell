@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/18 21:02:10 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:09:40 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ typedef struct s_input
 	char	*parsed;
 	char	*filename;
 	char	**input_split;
+	char	**input_exp;////
 	char	**envp;
+	char	*redir_in;
+	char	*redir_out;
 	int		*status;
 	char	command[100000];
 	char	args[100000];
