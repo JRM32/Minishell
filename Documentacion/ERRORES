@@ -19,7 +19,7 @@ CORREGIDO (JAVI) -por esto le tiraron a Amelie:
 
 $kk habiendo creado unset kk=a da segfault
 
-si le pongo unset solo, me dice que comando no encontrado.
+CORREGIDO	si le pongo unset solo, me dice que comando no encontrado.
 
 Si le hago unset VAR exista o no.. y luego hago unset VAR o unset otra variable peta por SEGFAULT
 

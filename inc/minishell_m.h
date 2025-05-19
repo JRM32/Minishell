@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_m.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:51:03 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/16 12:55:54 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:47:28 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void	clean_all(t_input *input, int error);
 void	ft_pwd(char *input);
 void	ft_env(t_input *in, char **envp);
 void	ft_export(char *input, char ***envp);
-void	ft_unset(char *input, char ***envp);
+void	ft_unset(t_input *input);
 bool	ft_cd(char **args, char **envp);
 
 bool	execute_command(t_input *input);
 void	ft_manage_pipes(t_input *input);
-bool	handle_redirection(t_input *input);
+void	handle_redirection(t_input *input);
 void	handle_heredoc_redirection(t_input *input, char *redir);
 
 #endif

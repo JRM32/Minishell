@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_inputs_m.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/19 11:44:25 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:48:07 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 		return ;
 	compose_command_args(input); */
 	//parsing(input); //EN CONSTRUCCION
-	if (handle_redirection(input) == 1)
-		return (ft_input_free(input));
-	else if (ft_strcmp(input->command, "pwd") == 0)
+	if (ft_strcmp(input->command, "pwd") == 0)
 		ft_pwd(input->args);
 	else if (ft_strcmp(input->command, "cd") == 0)
 		ft_cd(input->input_split, input->envp);
@@ -37,8 +35,8 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 		ft_export(input->parsed, &input->envp);
 	else if (ft_strcmp(input->command, "env") == 0)
 		ft_env(input, input->envp);
-	else if (ft_strcmp(input->command, "unset") == 0 && input->input_split[1])//mirar cambiar a && input->args[0] (es decir que no sea \0). Pero!! unset sin mas lo que hace es poner una nueva linea de prompt
-		ft_unset(input->input_split[1], &input->envp);
+	else if (ft_strcmp(input->command, "unset") == 0)//mirar cambiar a && input->args[0] (es decir que no sea \0). Pero!! unset sin mas lo que hace es poner una nueva linea de prompt
+		ft_unset(input);
 	else if (ft_strcmp(input->command, "exit") == 0)
 		ft_exit(input);
 	else
@@ -94,6 +92,7 @@ void	ft_manage_pipes(t_input *input)
 			}
 			sub_input.input = ft_strtrim(cmds[i], " ");
 			sub_input.envp = input->envp;
+
 			ft_manage_input(&sub_input, STDIN_FILENO, STDOUT_FILENO);
 			free(sub_input.input);
 			exit(0);
