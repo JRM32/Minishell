@@ -236,5 +236,3 @@ echo $?                                 	0 (o código de salida anterior)  	Expa
 echo "'$?'"                            	'0'                              	Combinación comillas simples y dobles
 echo '"hola"'                        	\"hola\"                        	Backslash no escapa nada en comillas simples
 echo " " $USER " "                 	" $USER "                       	Backslash escapa `$` y `"`, pero innecesario en dobles
-
-prueba
