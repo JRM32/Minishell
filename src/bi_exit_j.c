@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:16:14 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/18 20:33:26 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/19 09:55:13 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_exit(t_input *in)
 	if (in->args[0])
 		arg = ft_atol(in->args, &error);
 	else
-		arg = 0;
+		arg = in->last_exit_code;
 	if (error)
 		exit_miniyo(in, 2);
 	else
