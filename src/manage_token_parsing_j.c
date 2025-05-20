@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:34 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/20 14:31:07 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:17:51 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ void	copy_to_token(t_input *in, size_t *i, size_t *j, size_t *k)
 				search_token_dollar(in, i, j, k);
 			in->status_checked = 1;
 		}
-		if (in->input_split[*i][*j] == ' ' || in->spaced)
+		if (in->input_split[*i][*j]
+			&& (in->input_split[*i][*j] == ' ' || in->spaced))
 			break ;
 		(*i)++;
 	}
