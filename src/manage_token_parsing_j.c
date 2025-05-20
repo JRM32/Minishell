@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:34 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/20 14:20:17 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:31:07 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	compose_token(t_input *in)
 
 	i = 0;
 	counter = 0;
+	ft_bzero(in->status_exp, 100);
 	while (i < in->input_words)
 	{
 		k = 0;
@@ -123,7 +124,6 @@ void	compose_token(t_input *in)
 		in->spaced = 0;
 		in->status_checked = 0;
 		ft_bzero(in->token, 100000);
-		ft_bzero(in->status_exp, 100);
 		quoted = (is_quoted(in, i) == 2 || is_quoted(in, i) == 1);
 		copy_to_token(in, &i, &j, &k);
 		in->status_exp[counter] = quoted;
