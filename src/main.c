@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/20 12:50:33 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:03:15 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ int	main(int argc, char **argv, char **envp)
 		compose_command_args(&input);
 		//compose_token(&input);
 		parsing(&input); // EN CONSTRUCCIÓN
-		compose_command_args(&input);
-		printf("============\nPARSEADO:%s\n==========\n", input.parsed);
+		//compose_command_args(&input);
+	/* 	printf("============\nPARSEADO:%s\n==========\n", input.parsed);
 		printf("command:%s\n", input.command);
 		printf("arg:%s\n-----SALIDA-----\n", input.args);
-		/* for (size_t i = 0; input.split_exp[i]; i++)
-				ft_printf("%d.%s\n", i, input.split_exp[i]);*/
+		for (size_t i = 0; input.split_exp[i]; i++)
+				ft_printf("%d.%s\n", i, input.split_exp[i]); */
 		ft_manage_pipes(&input);
 		free(input.input);
 	}

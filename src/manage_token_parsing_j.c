@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:34 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/20 11:15:02 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:04:34 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ void	search_token_dollar(t_input *in, size_t *i, size_t *j, size_t *k)
 	if (ft_strrchr(in->input_split[*i], '$') && print_as_env)
 		expand_token_dollar(in, i, j, k);
 	else
+	{
 		in->token[(*k)++] = in->input_split[*i][(*j)++];
+	}
 }
 
 
@@ -62,6 +64,9 @@ void	search_token_dollar(t_input *in, size_t *i, size_t *j, size_t *k)
 /*...the botton if. Again i must be not the first word as it is spaced*/
 void	copy_to_token(t_input *in, size_t *i, size_t *j, size_t *k)
 {
+	/* int	quoted;
+
+	quoted = (is_quoted(in, *i) == 2 || is_quoted(in, *i) == 1); */
 	while (*i < in->input_words)
 	{
 		*j = 0;
