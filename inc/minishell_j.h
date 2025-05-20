@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/20 10:34:42 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:15:46 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ typedef struct s_input
 	char	**input_split;
 	char	**split_exp;////
 	char	**envp;
-	char	*redir_in;
-	char	*redir_out;
+	char	*redir_in;///
+	char	*redir_out;///
 	int		*status;
+	int		status_exp[100];///
 	char	command[100000];
-	char	token[100000];
+	char	token[100000];///
 	char	args[100000];
 	size_t	word_after_command;
 	size_t	word_after_arg;

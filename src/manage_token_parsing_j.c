@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:34 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/20 14:04:34 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:20:17 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,6 @@ void	search_token_dollar(t_input *in, size_t *i, size_t *j, size_t *k)
 /*...the botton if. Again i must be not the first word as it is spaced*/
 void	copy_to_token(t_input *in, size_t *i, size_t *j, size_t *k)
 {
-	/* int	quoted;
-
-	quoted = (is_quoted(in, *i) == 2 || is_quoted(in, *i) == 1); */
 	while (*i < in->input_words)
 	{
 		*j = 0;
@@ -113,8 +110,12 @@ void	compose_token(t_input *in)
 	size_t	i;
 	size_t	j;
 	size_t	k;
+	size_t	counter;
+	int		quoted;
+
 
 	i = 0;
+	counter = 0;
 	while (i < in->input_words)
 	{
 		k = 0;
@@ -122,7 +123,11 @@ void	compose_token(t_input *in)
 		in->spaced = 0;
 		in->status_checked = 0;
 		ft_bzero(in->token, 100000);
+		ft_bzero(in->status_exp, 100);
+		quoted = (is_quoted(in, i) == 2 || is_quoted(in, i) == 1);
 		copy_to_token(in, &i, &j, &k);
+		in->status_exp[counter] = quoted;
+		counter++;
 		copy_to_split_expanded(in, in->token, &in->split_exp);
 	}
 }
