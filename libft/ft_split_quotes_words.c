@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:45:25 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/20 00:36:43 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:37:27 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	ft_count_quotes_words(t_split *squotes, t_input *input)
 	if (squotes->quotes % 2)
 		return (squotes->error = 1, 0);
 	squotes->quotes = 0;
+	if (input->status)////////////
+		free(input->status);////////////
 	input->status = (int *)ft_calloc(squotes->words, sizeof(int));
 	if (!input->status)
 		squotes->error = 1;
