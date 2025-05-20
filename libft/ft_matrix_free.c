@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_matrix_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:09:14 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/20 00:25:48 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:24:10 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,10 @@ void	ft_input_free(t_input *input)
 	int	i;
 
 	i = 0;
-	while (input->input_split && input->input_split[i])
-	{
-		free(input->input_split[i]);
-		input->input_split[i] = NULL;
-		i++;
-	}
-	if (input->input_split)
-		free(input->input_split);
+	ft_matrix_free(input->input_split);
 	input->input_split = NULL;
+	ft_matrix_free(input->split_exp);
+	input->split_exp = NULL;
 	if (input->status)
 		free(input->status);
 	input->status = NULL;

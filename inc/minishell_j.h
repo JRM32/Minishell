@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/20 09:27:52 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/20 10:34:42 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	expand_token_dollar(t_input *in, size_t *i, size_t *j, size_t *k);////
 void	token_valid_env_variable(t_input *n, size_t w, size_t *i, size_t *k);///
 void	token_rest_no_env(t_input *in, size_t w, size_t *i, size_t *k);///
 void	token_rare_cases(t_input *in, size_t w, size_t *i, size_t *k);///
+void	compose_token(t_input *in);
 
 //BUILT INS
 void	echo_short(t_input *in);

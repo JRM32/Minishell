@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:34 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/20 09:52:38 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:15:02 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	copy_to_split_expanded(t_input *in, char *token, char ***split_exp)
 
 	i = 0;
 	token_position = 0;
-	while ((*split_exp)[token_position])
+	while (*(split_exp) && (*split_exp)[token_position])
 		token_position++;
 	new_token = ft_calloc(token_position + 2, sizeof(char *));
 	if (!new_token)
@@ -34,7 +34,7 @@ void	copy_to_split_expanded(t_input *in, char *token, char ***split_exp)
 			return (ft_matrix_free(new_token));
 	}
 	new_token[i] = ft_strdup(token);
-	if (new_token[i])
+	if (!new_token[i])
 		return (ft_matrix_free(new_token));
 	ft_matrix_free(*split_exp);
 	*split_exp = new_token;
@@ -66,13 +66,13 @@ void	copy_to_token(t_input *in, size_t *i, size_t *j, size_t *k)
 	{
 		*j = 0;
 		in->status_checked = 0;
-		if (*i > 0 && in->input_split[*i][0] == '\0'
+		if (*i > in->word && in->input_split[*i][0] == '\0'
 			&& (in->status[*i] == SQUO_SP || in->status[*i] == DQUO_SP))
 			break ;
 		while ((in->input_split[*i][*j] != ' ' || is_quoted(in, *i))
 			&& (in->input_split[*i][*j] != '\0') && !in->spaced)
 		{
-			if (*i > 0 && (in->status[*i] == EPTY_SP
+			if (*i > in->word && (in->status[*i] == EPTY_SP
 					|| in->status[*i] == SQUO_SP
 					|| in->status[*i] == DQUO_SP)
 				&& !in->status_checked)
