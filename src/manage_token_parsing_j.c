@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:34 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/20 16:17:51 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:27:41 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,22 +90,6 @@ void	copy_to_token(t_input *in, size_t *i, size_t *j, size_t *k)
 	}
 }
 
-/* void	compose_arg(t_input *in, size_t word)
-{
-	size_t	i;
-	size_t	j;
-	size_t	k;
-
-	k = 0;
-	i = word;
-	in->word = word;
-	in->spaced = 0;
-	in->status_checked = 0;
-	ft_bzero(in->args, 100000);
-	copy_to_arg(in, &i, &j, &k);
-	in->word_after_arg = i;
-} */
-
 void	compose_token(t_input *in)
 {
 	size_t	i;
@@ -113,7 +97,6 @@ void	compose_token(t_input *in)
 	size_t	k;
 	size_t	counter;
 	int		quoted;
-
 
 	i = 0;
 	counter = 0;
