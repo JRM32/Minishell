@@ -6,6 +6,20 @@ hay pruebas para hacer...
 
 (MARIO)
 
+VAR=patata deberia hacer que echo $VAR soltara patata. (o sin echo). No declara dicha variable
+cuando se hace sin export esa variable existirá PERO SOLO en el proceso que este. 
+echo patata | echo $VAR NO SOLTARA EL ECHO DE VAR ya que no existe en otro proceso hijo. Solo 
+existirá si se hace export VAR (eso tambien lo tienes que mirar)
+
+1. haz un script llamado "script":
+#!/bin/bash
+echo "patata			tomate"
+2. hazlo chmod +x script 
+3. ejecutalo como script. No como ./script -> no funcionara
+4. haz: export PATH=:$PATH, o export PATH=$PATH: o metes el : por medio del PATH...
+5. ahora haz script. En bash funciona.. en el nuestro no.
+
+
 export kk=patata cebolla deberia ser kk = patata solo. pero es patata cebolla... DEBE SER TODO cuando esta entrecomillado. ¿Como saberlo?
 	1. Se hace una busqueda de "patata cebolla" dentro de cada word (hay input->input_words) de input->input_split
 	2. Si se encuentra, se coge qué palabra es la que corresponde del split. Imaginemos la 3.
