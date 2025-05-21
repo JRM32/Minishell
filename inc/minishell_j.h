@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_j.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/20 14:15:46 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/21 03:44:15 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_input
 	char	**input_split;
 	char	**split_exp;////
 	char	**envp;
+	char	**local_envp;
 	char	*redir_in;///
 	char	*redir_out;///
 	int		*status;
