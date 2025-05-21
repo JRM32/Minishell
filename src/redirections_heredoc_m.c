@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 23:32:52 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/21 11:05:14 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/21 11:25:16 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../inc/minishell_j.h"
 
 // ====== SEÑALES DE JAVI ======
-volatile	sig_atomic_t heredoc_interrupted = 0;
+volatile	sig_atomic_t heredoc_interrupted;
 
 void heredoc_sigint_handler(int sig)
 {
