@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_export_m.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:06:31 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/21 04:05:15 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/21 08:48:25 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ bool	ft_check_variables(char *input, char **envp)
 
 void	ft_export(t_input *input_data, char ***envp)
 {
-	int		i
+	int		i;
 	int		env_position;
 	char	*prepared_input;
 	char	**new_env;
