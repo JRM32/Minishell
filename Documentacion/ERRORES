@@ -13,9 +13,6 @@ identificador valido, cuando deberia pararse cuando ha llegado al =. de todas fo
 <Makefile<obj>file>file2>>append echo hola deberia hacer un file file 2... 
 no se si es mio. ya que hay que separar los < y >
 
-export solo deberia soltar y todas las variables de entorno aparecen en orden
-alfabetico con un declear -x
-
 IMPORTANTE: el heardoc si haces
 << $USER cat el terminador ya no se expandira.. es decir no sera jrollon-, sino que sera el literal
 $USER.
@@ -91,6 +88,9 @@ export kk=patata cebolla deberia ser kk = patata solo. pero es patata cebolla...
 	2. Si se encuentra, se coge qué palabra es la que corresponde del split. Imaginemos la 3.
 	3. is_quoted(input, 3) devolvera un numero. 0 no entrecomillado. 1 comillas simples. 2 comillas dobles.
 
+CORREGIDO 	
+export solo deberia soltar y todas las variables de entorno aparecen en orden
+alfabetico con un declear -x
 ===============================================================================================================
 
 

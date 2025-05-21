@@ -3,15 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   bi_export_m.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:06:31 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/21 17:15:53 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/22 01:24:46 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
+
+static void	sort_env(char **env, int size)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = 0;
+	while (i < size - 1)
+	{
+		j = i + 1;
+		while (j < size)
+		{
+			if (ft_strcmp(env[i], env[j]) > 0)
+			{
+				tmp = env[i];
+				env[i] = env[j];
+				env[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void	print_sorted_env(char **envp)
+{
+	char	**sorted;
+	int		count;
+	int		i;
+	char	*equal;
+
+	count = 0;
+	while (envp[count])
+		count++;
+	sorted = ft_calloc(sizeof(char *), count + 1);
+	if (!sorted)
+		return ;
+	i = 0;
+	while (i < count)
+	{
+		sorted[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	sort_env(sorted, count);
+	i = 0;
+	while (i < count)
+	{
+		equal = ft_strchr(sorted[i], '=');
+		ft_printf("declare -x ");
+		if (equal)
+		{
+			write(1, sorted[i], equal - sorted[i]);
+			ft_printf("=\"%s\"\n", equal + 1);
+		}
+		else
+			ft_printf("%s\n", sorted[i]);
+		free(sorted[i]);
+		i++;
+	}
+	free(sorted);
+}
 
 // Devuelve una nueva cadena con las palabras combinadas correctamente si están entrecomilladas
 char	*join_quoted_value(t_input *input, int start)
@@ -115,6 +177,11 @@ void	ft_export(t_input *input_data, char ***envp)
 	char	**new_env;
 
 	i = 1;
+	if (!input_data->input_split[1])
+	{
+		print_sorted_env(*envp);
+		return ;
+	}
 	while (input_data->input_split[i])
 	{
 		prepared_input = ft_strdup(input_data->input_split[i]);
