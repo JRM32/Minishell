@@ -28,6 +28,8 @@ debe imprimir $USER (HAY QUE MATAR AL QUE HIZO EL BASH)
 
 export $a hara lo mismo que en export solo si $a no existe
 
+echo < fichero tiene que devolver un valor especifico.. pero ahora no esta haciendo nada mas que < fichero
+
 hay que hacer $_ actualizado. Para ello he creado una variable en la estructura llamada char *last_dollar_;
 que no ha de reservar memoria sino asignarle el ultimo input->split_exp de la secuencia.
 luego habra que exportarla en cada ciclo del while(1) (supongo que ahi). por ahora la he metido en input...
@@ -104,14 +106,15 @@ existirá si se hace export VAR (eso tambien lo tienes que mirar)
 
 (JAVI)
 
-echo "$?u " Me sale 0 cuando deberia ser 0 u
-echo "$? us " me sale 0 u cuando deberia ser $? us. es por el espacio al final.
+echo "$ a " no me sale la a.
 
-echo < fichero tiene que devolver un valor especifico.. pero ahora no esta haciendo nada mas que < fichero
+CORREGIDO - echo "$  a" en vez de dos espacios me sale 1.
+
+CORREGIDO - echo "$?u " Me sale 0 cuando deberia ser 0 u
+CORREGIDO - echo "$? us " me sale 0 u cuando deberia ser $? us. es por el espacio al final.
 
 CORREGIDO - SEÑALRES: ejecutar otra minishell en miniyo... el control c debe aparecer una linea de prompt aparecen
 			dos.. es porque hay que dormir al padre.
-
 
 CORREGIDO - export kk=-n
 			echo $kk patata falla. pone -n patata
