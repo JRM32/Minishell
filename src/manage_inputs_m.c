@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/22 17:50:15 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:55:07 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 		ft_export(input->parsed, &input->envp);//este funciona
 	else if (ft_strcmp(input->command, "env") == 0)
 		ft_env(input, input->envp);
-	else if (ft_strcmp(input->command, "unset") == 0)//mirar cambiar a && input->args[0] (es decir que no sea \0). Pero!! unset sin mas lo que hace es poner una nueva linea de prompt
+	else if (ft_strcmp(input->command, "unset") == 0)//. unset sin mas lo que hace es poner una nueva linea de prompt
 		ft_unset(input);
 	else if (ft_strcmp(input->command, "exit") == 0)
 		ft_exit(input);
