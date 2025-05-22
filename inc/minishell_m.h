@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_m.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:51:03 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/22 08:53:48 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:17:17 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	ft_cd(t_input *input);
 
 bool	execute_command(t_input *input);
 void	ft_manage_pipes(t_input *input);
-void	handle_redirection(t_input *input);
+bool	handle_redirection(t_input *input);
 void	handle_heredoc_redirection(t_input *input, char *redir);
 void	ft_manage_input(t_input *input, int in_fd, int out_fd);
 void	set_local_variable(t_input *input, char *assignment);//se va a usar?
