@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_m.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:51:03 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/21 04:04:15 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/22 07:57:55 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	clean_all(t_input *input, int error);
 //BUILT INS
 void	ft_pwd(char *input);
 void	ft_env(t_input *in, char **envp);
-void	ft_export(t_input *input_data, char ***envp);
+//void	ft_export(t_input *input_data, char ***envp);
+void	ft_export(char *input, char ***envp);
 void	ft_unset(t_input *input);
 bool	ft_cd(t_input *input);
 
