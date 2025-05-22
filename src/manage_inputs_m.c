@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_inputs_m.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/22 17:55:07 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:31:35 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 		echo_short(input);
 	else if (ft_strcmp(input->command, "export") == 0)
 		//ft_export(input, &input->envp);
-		ft_export(input->parsed, &input->envp);//este funciona
+		ft_export(input, &input->envp);//este funciona
 	else if (ft_strcmp(input->command, "env") == 0)
 		ft_env(input, input->envp);
 	else if (ft_strcmp(input->command, "unset") == 0)//. unset sin mas lo que hace es poner una nueva linea de prompt
