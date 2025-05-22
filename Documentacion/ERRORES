@@ -28,11 +28,6 @@ debe imprimir $USER (HAY QUE MATAR AL QUE HIZO EL BASH)
 
 export $a hara lo mismo que en export solo si $a no existe
 
-VAR=patata deberia hacer que echo $VAR soltara patata. (o sin echo). No declara dicha variable
-cuando se hace sin export esa variable existirá PERO SOLO en el proceso que este. 
-echo patata | echo $VAR NO SOLTARA EL ECHO DE VAR ya que no existe en otro proceso hijo. Solo 
-existirá si se hace export VAR (eso tambien lo tienes que mirar)
-
 hay que hacer $_ actualizado. Para ello he creado una variable en la estructura llamada char *last_dollar_;
 que no ha de reservar memoria sino asignarle el ultimo input->split_exp de la secuencia.
 luego habra que exportarla en cada ciclo del while(1) (supongo que ahi). por ahora la he metido en input...
@@ -96,6 +91,14 @@ export kk=patata cebolla deberia ser kk = patata solo. pero es patata cebolla...
 CORREGIDO 	
 export solo deberia soltar y todas las variables de entorno aparecen en orden
 alfabetico con un declear -x
+
+
+VAR=patata deberia hacer que echo $VAR soltara patata. (o sin echo). No declara dicha variable
+cuando se hace sin export esa variable existirá PERO SOLO en el proceso que este. 
+echo patata | echo $VAR NO SOLTARA EL ECHO DE VAR ya que no existe en otro proceso hijo. Solo 
+existirá si se hace export VAR (eso tambien lo tienes que mirar)
+
+
 ===============================================================================================================
 
 
