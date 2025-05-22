@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/22 08:21:01 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:28:28 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_input
 	char	*command;
 	char	*args;
 	int		status_exp[100];
-	//char	args[100000];
 	size_t	realloc_counter;
 	size_t	word_after_command;
 	size_t	word_after_arg;
@@ -60,6 +59,7 @@ typedef struct s_input
 	int		outputfd;
 	int		status_checked;
 	int		env_n;
+	char	*last_dollar_;
 	pid_t	last_exit_code;
 	bool	is_script;
 }			t_input;

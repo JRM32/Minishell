@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/22 07:50:00 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:47:56 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ void	ft_manage_input(t_input *input, int in_fd, int out_fd)
 		ft_exit(input);
 	else
 		execute_command(input);
+	input->last_dollar_ = ft_last_str(input->split_exp);
 	ft_input_free(input);
 }
