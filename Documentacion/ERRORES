@@ -104,10 +104,13 @@ existirá si se hace export VAR (eso tambien lo tienes que mirar)
 
 (JAVI)
 
+echo "$?u " Me sale 0 cuando deberia ser 0 u
+echo "$? us " me sale 0 u cuando deberia ser $? us. es por el espacio al final.
+
 echo < fichero tiene que devolver un valor especifico.. pero ahora no esta haciendo nada mas que < fichero
 
-SEÑALRES: ejecutar otra minishell en miniyo... el control c debe aparecer una linea de prompt aparecen
-dos.. es porque hay que dormir al padre.
+CORREGIDO - SEÑALRES: ejecutar otra minishell en miniyo... el control c debe aparecer una linea de prompt aparecen
+			dos.. es porque hay que dormir al padre.
 
 
 CORREGIDO - export kk=-n
