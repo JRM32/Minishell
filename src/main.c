@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/21 18:04:58 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/22 08:26:42 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	init_input_struct(t_input *input)
 	input->last_exit_code = 0;
 	input->realloc_counter = 0;
 	input->token = NULL;
+	input->command = NULL;
+	input->args = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
