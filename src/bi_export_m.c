@@ -6,13 +6,12 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:06:31 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/22 22:51:33 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/23 17:26:33 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
-
 static void	sort_env(char **env, int size)
 {
 	int		i;
@@ -40,17 +39,15 @@ static void	sort_env(char **env, int size)
 void	print_sorted_env(char **envp)
 {
 	char	**sorted;
-	int		count;
-	int		i;
+	int		count = 0;
+	int		i = 0;
 	char	*equal;
 
-	count = 0;
 	while (envp[count])
 		count++;
 	sorted = ft_calloc(sizeof(char *), count + 1);
 	if (!sorted)
 		return ;
-	i = 0;
 	while (i < count)
 	{
 		sorted[i] = ft_strdup(envp[i]);
@@ -75,11 +72,14 @@ void	print_sorted_env(char **envp)
 	free(sorted);
 }
 
-// Devuelve una nueva cadena con las palabras combinadas correctamente si están entrecomilladas
+// ✅ Solo une si el valor está entrecomillado
 char	*join_quoted_value(t_input *input, int start)
 {
 	char	*joined = NULL;
 	int		i = start;
+
+	if (!is_quoted(input, i))
+		return (ft_strdup(input->input_split[i])); // NO unir si no está entrecomillado
 
 	while (input->input_split[i])
 	{
@@ -94,9 +94,8 @@ char	*join_quoted_value(t_input *input, int start)
 			joined = ft_strjoin(joined, input->input_split[i]);
 			free(tmp);
 		}
-		// si la palabra estaba cerrando comillas, rompemos
 		if (is_quoted(input, i))
-			break ;
+			break;
 		i++;
 	}
 	return (joined);
@@ -110,7 +109,7 @@ bool	ft_manage_shlvl(char *input, char **envp, int i, int len)
 	while (input[j])
 	{
 		if (ft_isdigit(input[j++]))
-			continue ;
+			continue;
 		envp[i] = ft_strdup("SHLVL=0");
 		return (1);
 	}
@@ -146,7 +145,7 @@ bool	ft_check_variables(char *input, char **envp)
 		return (1);
 	equal = ft_strchr(input, '=');
 	if (!equal)
-		return (0); // <- No es error: es solo un nombre sin valor
+		return (0); // Solo un nombre, sin valor
 
 	len = equal - input;
 	i = 0;
@@ -158,20 +157,18 @@ bool	ft_check_variables(char *input, char **envp)
 				return (ft_manage_shlvl(input, envp, i, len), 1);
 			free(envp[i]);
 			envp[i] = ft_strdup(input);
-			return (!envp[i]); // return 1 on success, 0 on failure
+			return (!envp[i]); // return 1 on success
 		}
 		i++;
 	}
 	return (0);
 }
 
-
 void	ft_add_to_env(char *new_var, char ***envp)
 {
-	int		i;
+	int		i = 0;
 	char	**new_env;
 
-	i = 0;
 	while ((*envp)[i])
 		i++;
 	new_env = ft_calloc(i + 2, sizeof(char *));
@@ -194,43 +191,62 @@ void	ft_add_to_env(char *new_var, char ***envp)
 		ft_matrix_free(&new_env);
 		return ;
 	}
-	i++;
-	new_env[i] = NULL;
 	ft_matrix_free(envp);
 	*envp = new_env;
 }
 
 void	ft_export(t_input *input, char ***envp)
 {
-	int		i;
-	int		env_position;
-	char	**new_env;
+	int		i = 1;
+	bool	error = false;
 
-	if (ft_check_variables(input->parsed, *envp) == 1)
+	if (!input->input_split[1])
 	{
-		input->last_exit_code = 1;
-		ft_putstr_fd("miniyo: export: not a valid identifier\n", 2);
+		print_sorted_env(*envp);
 		return ;
 	}
-	i = 0;
-	env_position = 0;
-	while ((*envp)[env_position])
-		env_position++;
-	new_env = ft_calloc(env_position + 2, sizeof(char *));
-	if (!new_env)
-		return ; //LIBERARMOS TODO Y FUERA CLEAN_ALL
-	while (i < env_position) //SI SALE DE CHECK_VARIABLE con 0 al fallar el strdup no llegara al final de todo envp ya que uno por medio sera NULL
+	while (input->input_split[i])
 	{
-		new_env[i] = ft_strdup((*envp)[i]);
-		if (!new_env[i++])
-			return (ft_matrix_free(&new_env));
+		char *arg = join_quoted_value(input, i);
+		if (!arg)
+			break;
+
+		// Avanza el índice al final de la unión
+		int consumed = 1;
+		if (ft_strchr(arg, '"'))
+		{
+			while (input->input_split[i + consumed] &&
+				!is_quoted(input, i + consumed))
+				consumed++;
+			consumed++; // Para incluir el último token con la comilla de cierre
+		}
+
+		char *equal = ft_strchr(arg, '=');
+		char *name = (equal) ? ft_substr(arg, 0, equal - arg) : ft_strdup(arg);
+
+		if (!ft_is_valid_identifier(name))
+		{
+			error = true;
+			ft_putstr_fd("miniyo: export: not a valid identifier\n", 2);
+			free(name);
+			free(arg);
+			i += consumed;
+			continue;
+		}
+		free(name);
+
+		if (ft_check_variables(arg, *envp) == 0)
+			ft_add_to_env(arg, envp);
+
+		free(arg);
+		i += consumed;
 	}
-	new_env[i++] = ft_strdup(input->parsed);
-	if (new_env[i])//NO LO ENTIENDO (JAVI). si fuera if (envp[i]) si por que podriamos detectar el no NULL del fallo de envp pero si por si falla este strdup aqui, si se hacho sobre una i = 2, aqui estas compararon i = 3, ya que se incrementó en el strdup
-		return (ft_matrix_free(&new_env));
-	ft_matrix_free(envp);
-	*envp = new_env;
+
+	input->last_exit_code = error ? 1 : 0;
 }
+
+
+
 
 
 /*1. checks if the variable already exists in envp if so, exit*/
