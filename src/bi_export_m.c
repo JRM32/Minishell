@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_export_m.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:06:31 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/23 17:26:33 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:33:18 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,45 @@ void	ft_add_to_env(char *new_var, char ***envp)
 	*envp = new_env;
 }
 
+
 void	ft_export(t_input *input, char ***envp)
+{
+	int		i;
+	int		env_position;
+	char	**new_env;
+
+	if (ft_check_variables(input->parsed, *envp) == 1)
+	{
+		input->last_exit_code = 1;
+		ft_putstr_fd("miniyo: export: not a valid identifier\n", 2);
+		return ;
+	}
+	i = 0;
+	env_position = 0;
+	while ((*envp)[env_position])
+		env_position++;
+	new_env = ft_calloc(env_position + 2, sizeof(char *));
+	if (!new_env)
+		return ; //LIBERARMOS TODO Y FUERA CLEAN_ALL
+	while (i < env_position) //SI SALE DE CHECK_VARIABLE con 0 al fallar el strdup no llegara al final de todo envp ya que uno por medio sera NULL
+	{
+		new_env[i] = ft_strdup((*envp)[i]);
+		if (!new_env[i++])
+			return (ft_matrix_free(&new_env));
+	}
+	new_env[i++] = ft_strdup(input->parsed);
+	if (new_env[i])//NO LO ENTIENDO (JAVI). si fuera if (envp[i]) si por que podriamos detectar el no NULL del fallo de envp pero si por si falla este strdup aqui, si se hacho sobre una i = 2, aqui estas compararon i = 3, ya que se incrementó en el strdup
+		return (ft_matrix_free(&new_env));
+	ft_matrix_free(envp);
+	*envp = new_env;
+}
+
+
+
+
+
+
+/* void	ft_export(t_input *input, char ***envp)
 {
 	int		i = 1;
 	bool	error = false;
@@ -243,7 +281,7 @@ void	ft_export(t_input *input, char ***envp)
 	}
 
 	input->last_exit_code = error ? 1 : 0;
-}
+} */
 
 
 
@@ -253,8 +291,8 @@ void	ft_export(t_input *input, char ***envp)
 /*2. if not create a new **new_env VAR with space for the new VAR plus the...*/
 /*...the final NULL*/
 
-/* 
-void	ft_export(t_input *input, char ***envp)
+
+/* void	ft_export(t_input *input, char ***envp)
 {
 	int		i;
 	char	*arg;
@@ -281,4 +319,5 @@ void	ft_export(t_input *input, char ***envp)
 		}
 		i++;
 	}
-} */
+}
+ */
