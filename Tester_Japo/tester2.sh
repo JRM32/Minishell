@@ -1,95 +1,181 @@
 #!/bin/bash
-GREEN="\033[0;32m"
-RED="\033[0;31m"
-RESET="\033[0m"
-TMP_OUTPUT=".tmp_output_minishell"
 
-# Para comandos simples - toma solo la última línea
-clean_output_single() {
-    tail -n +2 "$TMP_OUTPUT" |
-    sed 's/\x1b\[[0-9;]*[mGKHF]//g' | # Eliminar códigos de color ANSI
-    sed 's/^miniyo\$[[:space:]]*//' | # Eliminar el prompt al inicio de la línea
-    sed '/^[[:space:]]*$/d' |
-    tail -n 1
+MINISHELL="../minishell"
+
+# Función para limpiar el output y quedarnos con lo anterior al prompt verde
+clean_output() {
+    input="$1"
+    full_output=$(printf "%s\n" "$input" | $MINISHELL)
+
+    output=$(echo "$full_output" | tail -n +2)
+
+    clean=""
+    found=0
+
+    while IFS= read -r line; do
+        if [[ "$line" == *$'\033[1;32m'miniyo'$'* ]]; then
+            before_prompt="${line%%$'\033[1;32m'miniyo\$*}"
+            clean+="$before_prompt"
+            found=1
+            break
+        else
+            clean+="$line"$'\n'
+        fi
+    done <<< "$output"
+    echo -n "$clean"
 }
 
-# Para comandos múltiples - preserva saltos de línea
-clean_output_multi() {
-    local raw_output=$(tail -n +2 "$TMP_OUTPUT" |
-        sed 's/\x1b\[[0-9;]*[mGKHF]//g' | # Eliminar códigos de color ANSI
-        sed 's/^miniyo\$[[:space:]]*//' | # Eliminar el prompt al inicio de cada línea
-        sed '/^[[:space:]]*$/d' |
-        sed 's/[[:space:]]*$//' |
-        awk '!/^echo(\s|$)/ && !/^\$kk(\s|$)/' )
+# Colores
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+RESET='\033[0m'
 
-    # Preservar el salto de línea final si existía en la salida original
-    if [[ $(</dev/fd/0) =~ $'\n'$ ]]; then
-        echo "$raw_output"
+# Test function
+run_test() {
+    INPUT="$1"
+    EXPECTED="$2"
+
+    clean_output "$INPUT" > temp1
+    eval "$EXPECTED" > temp2
+    if diff -q temp1 temp2 >/dev/null; then
+        echo -e "${GREEN}✔️${RESET}  $INPUT"
     else
-        echo -n "$raw_output"
+        echo -e "${RED}❌${RESET}  $INPUT"
+        echo "     Diferencias:"
+        cat temp1
+        cat temp2
     fi
+    rm temp1 temp2
 }
 
+run_test 'echo $a""a' 'echo $a""a'
+run_test 'echo $a"" a' 'echo $a"" a'
+run_test 'echo $a" " a' 'echo $a" " a'
+run_test 'echo $a" $USER"' 'echo $a" $USER"'
+run_test 'echo $a"$USER"' 'echo $a"$USER"'
+run_test 'echo $USERa$HOME' 'echo $USERa$HOME'
+run_test 'echo "$  a"' 'echo "$  a"'
+run_test 'echo "$  a "' 'echo "$  a "'
+run_test 'echo "$?u "' 'echo "$?u "'
+run_test 'echo "$? us "' 'echo "$? us "'
+export kk=-n
+run_test 'echo $kk patata' 'echo $kk patata'
+run_test 'echo $a' 'echo $a'
+#run_test 'echo $"mgs"' 'echo $"mgs"'
+#run_test "echo $'msg'" "echo $'msg'"
+export kk="echo -n msg1"
+run_test '$kk msg2' '$kk msg2'
+export kk="echo -nnnnn -n -nnnann msg1"
+run_test '$kk msg2' '$kk msg2'
+export kk="echo msg1"
+run_test '$kk -n msg2' '$kk -n msg2'
+run_test 'echo "-n" patata' 'echo "-n" patata'
+run_test "echo '-n' patata" "echo '-n' patata"
+run_test 'echo "-n patata"' 'echo "-n patata"'
+run_test "echo '-n patata'" "echo '-n patata'"
+run_test 'echo "-n -na" patata' 'echo "-n -na" patata'
+run_test 'echo "-nnnnnn" patata' 'echo "-nnnnnn" patata'
+run_test 'echo "-nnnnn " patata' 'echo "-nnnnn " patata'
+run_test 'echo " " -n patata' 'echo " " -n patata'
+run_test 'echo " " patata' 'echo " " patata'
+export kk="  hola         que     tal      "
+run_test 'echo $kk' 'echo $kk'
+run_test 'echo "$kk"' 'echo "$kk"'
+run_test "echo '\$kk'" "echo '\$kk'"
+run_test 'echo "' 'echo -n'
+export kk="echo tomate"
+run_test '$kk' '$kk'
+run_test 'echo $$2patata' 'echo 2patata'
+run_test 'echo "$ a"' 'echo "$ a"'
+run_test 'echo "$a5e#tomate 'p'"' 'echo "$a5e#tomate 'p'"'
+run_test 'echo "$a 'p'"' 'echo "$a 'p'"'
+run_test 'echo $$' 'echo'
+run_test 'echo "$$$USER"' 'echo "$USER"'
+run_test 'echo "$$$patata"' 'echo "$patata"'
+run_test 'echo "$$%patata"' 'echo "%patata"'
+run_test 'echo "$%patata"' 'echo "$%patata"'
+run_test 'echo "$!patata"' 'echo "$!patata"'
+run_test 'echo "$a664464562ssertetr)'p'"' 'echo "$a664464562ssertetr)'p'"'
+run_test 'echo $2patata' 'echo patata'
+run_test 'echo $2 patata' 'echo patata'
+run_test 'echo $$2patata' 'echo 2patata'
+run_test 'echo $$2 patata' 'echo 2 patata'
+run_test 'echo $* patata' 'echo patata'
+run_test "echo 'patata"\$USER"'" "echo 'patata"\$USER"'"
+run_test 'echo $.' 'echo $.'
+run_test 'echo $' 'echo $'
+run_test 'echo $$' 'echo'
+run_test 'echo $$$' 'echo $'
+run_test 'echo hola' 'echo hola'
+run_test 'echo "'hola'"' 'echo "'hola'"'
+run_test "echo '"hola"'" "echo '"hola"'"
+run_test 'echo -n hola' 'echo -n hola'
+run_test 'echo -n -n hola' 'echo -n -n hola'
+run_test 'echo -n -n -n hola' 'echo -n -n -n hola'
+run_test 'echo -n -n -n -n hola' 'echo -n -n -n -n hola'
+run_test 'echo -n -nnnn hola' 'echo -n -nnnn hola'
+run_test 'echo -nnnn hola' 'echo -nnnn hola'
+run_test 'echo hola "\"n mundo' "echo 'hola \n mundo'"
+run_test 'echo "hola mundo"' 'echo "hola mundo"'
+run_test "echo 'hola mundo'" "echo 'hola mundo'"
+run_test 'echo hola" mundo"' 'echo hola" mundo"'
+run_test 'echo "hola mundo"' 'echo "hola mundo"'
+run_test "echo 'hola mundo'" "echo 'hola mundo'"
+run_test "echo 'hola'\" mundo\"" "echo hola mundo"
+run_test 'echo "saludo: $HOME"' 'echo "saludo: $HOME"'
+export kk=32
+run_test 'echo $kk' 'echo $kk'
+export kk=hola
+run_test 'echo "$kk"' 'echo "$kk"'
+run_test 'echo $NOEXISTE' 'echo $NOEXISTE'
+run_test 'echo $PATH' 'echo $PATH'
+run_test 'echo $LS_COLORS' 'echo $LS_COLORS'
+run_test 'echo "$USER$HOME"' 'echo "$USER$HOME"'
+run_test 'echo $LS_COLORS$PATH$LS_COLORS$PATH$LS_COLORS$PATH$LS_COLORS$PATH$LS_COLORS$PATH' 'echo $LS_COLORS$PATH$LS_COLORS$PATH$LS_COLORS$PATH$LS_COLORS$PATH$LS_COLORS$PATH'
+run_test 'echo "$USER"' 'echo "$USER"'
+run_test 'echo $USER' 'echo $USER'
+run_test "echo '\$USER'" "echo '\$USER'"
+run_test 'echo "$?"' 'echo "$?"'
+run_test 'echo "$USER literal $HOME"' 'echo "$USER literal $HOME"'
+export UNSETVAR=patata
+unset UNSETVAR
+run_test 'echo $UNSETVAR' 'echo $UNSETVAR'
+run_test 'echo ""' 'echo ""'
+run_test "echo ''" "echo ''"
+run_test 'echo "hola     mundo"' 'echo "hola     mundo"'
+run_test 'echo hola     mundo' 'echo hola     mundo'
+run_test 'echo -n "hola\nmundo"' 'echo -n "hola\nmundo"'
+run_test 'echo "a'\$USER'"' 'echo "a'\$USER'"'
+run_test 'echo "'\$USER'"' 'echo "'\$USER'"'
+run_test "echo \"\$USER's folder\"" "echo \"\$USER's folder\""
+run_test 'echo "$UNDEFINED"' 'echo "$UNDEFINED"'
+run_test 'echo "$UNDEFINED texto"' 'echo "$UNDEFINED texto"'
+run_test "echo '\$UNDEFINED texto'" "echo '\$UNDEFINED texto'"
+run_test 'echo "$USER''$HOME"' 'echo "$USER''$HOME"'
+run_test 'echo "$USER '' $HOME"' 'echo "$USER '' $HOME"'
+run_test 'echo "  $USER  "' 'echo "  $USER  "'
+run_test "echo \"'single' \"double\"\"" "echo \"'single' double\""
+run_test 'echo "$? status"' 'echo "$? status"'
+run_test 'echo $?' 'echo $?'
+run_test "echo \"'\$?'\"" "echo \"'\$?'\""
+run_test "echo '\"hola\"'" "echo '\"hola\"'"
+run_test "echo \" \" \$USER \" \"" "echo \" \" \$USER \" \""
 
-test_echo() {
-    local input="$1"
-    local expected="$2"
-    echo "$input" | ../minishell > "$TMP_OUTPUT" 2>/dev/null
-    local cleaned_output
-    cleaned_output=$(clean_output_single)
-    if [ "$cleaned_output" = "$expected" ]; then
-        echo -e "${GREEN}✔️  $input${RESET}"
-    else
-        echo -e "${RED}❌  $input${RESET}"
-        echo "    Esperado: \"$(echo -e "$expected")\""
-        echo "    Obtenido: \"$(echo -e "$cleaned_output")\""
-    fi
-}
+run_test 'echo $a " " a' 'echo $a " " a'
+run_test 'echo "$ a "' 'echo "$ a "'
 
-# Nueva función para múltiples líneas que preserva saltos
-test_multiline() {
-    local input="$1"
-    local expected="$2"
-    echo -e "$input" | ../minishell > "$TMP_OUTPUT" 2>/dev/null
-    local cleaned_output
-    cleaned_output=$(clean_output_multi)
-    if [ "$cleaned_output" = "$expected" ]; then
-        echo -e "${GREEN}✔️  ${input//\\n/ | }${RESET}"
-    else
-        echo -e "${RED}❌  ${input//\\n/ | }${RESET}"
-        echo "    Esperado: \"$(echo -e "$expected")\""
-        echo "    Obtenido: \"$(echo -e "$cleaned_output")\""
-        echo "    Raw output:"
-        cat "$TMP_OUTPUT" | sed 's/^/        /'
-    fi
-}
 
-# -------------------
-# Pruebas individuales
-# -------------------
-test_echo "echo hola" "hola\n"
-test_echo "echo -n hola" "hola"
-test_echo "echo -nnnn -n -n hola" "hola"
-test_echo "echo $a\"\"a" "a\n"
-test_echo "echo $a\"\" a" " a\n"
-test_echo 'echo $a" $USER"' " ${USER}\n"
-test_echo 'echo $a"$USER"' "${USER}\n"
-test_echo 'echo $USERa$HOME' "${HOME}\n"
-test_echo 'echo "$  a"' "$  a\n"
-test_echo 'echo "$?u "' "${?}u\n"
-test_echo 'echo "$? us "' "${?} us\n"
-test_echo 'echo $a' "\n"
-test_echo 'echo $"msg"' "msg\n"
-test_echo 'echo $ "msg"' "$ msg\n"
-test_echo "echo $'msg'" "msg\n"
 
-# -------------------
-# Pruebas con export
-# -------------------
-test_multiline "export kk=-n\necho \$kk patata" "patata"
-test_multiline "export kk=echo -n msg1\n\$kk msg2" "msg1 msg2"
-test_multiline "export kk=echo -nnnnn -n -nnnann msg1\n\$kk msg2" "-nnnann msg1 msg2"
-test_multiline "export kk=echo msg1\n\$kk -n msg2" "msg1 -n msg2"
 
-# Limpieza
-rm -f "$TMP_OUTPUT"
+
+
+
+
+
+
+
+
+
+
+run_test '' ''
+run_test "" ""
