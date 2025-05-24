@@ -6,13 +6,12 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:49:50 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/24 02:08:45 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/24 02:21:23 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
-
 void	update_exit_code_env(t_input *input, int exit_code)
 {
 	char	*new_var;
@@ -103,9 +102,6 @@ char	*join_path(const char *dir, const char *command)
 }
 
 // Busca un ejecutable en los directorios de PATH.
-#include <sys/stat.h> // para stat()
-#include <errno.h>
-
 
 char *find_executable(char *command, char **envp)
 {
@@ -142,8 +138,8 @@ char *find_executable(char *command, char **envp)
 	dirs = ft_split(path, ':');
 	if (!dirs)
 		return NULL;
-
-	for (i = 0; dirs[i]; i++)
+	i = 0;
+	while (dirs[i])
 	{
 		full_path = join_path(dirs[i], command);
 		if (!full_path)
@@ -172,6 +168,7 @@ char *find_executable(char *command, char **envp)
 			}
 		}
 		free(full_path);
+		i++;
 	}
 	ft_matrix_free(&dirs);
 	return NULL;
