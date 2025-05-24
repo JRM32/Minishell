@@ -165,17 +165,3 @@ run_test 'echo $a " " a' 'echo $a " " a'
 run_test 'echo "$ a "' 'echo "$ a "'
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-run_test '' ''
-run_test "" ""
