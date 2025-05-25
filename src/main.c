@@ -78,7 +78,11 @@ int	main(int argc, char **argv, char **envp)
 		ft_printf("%d.%s %d\n", i, input.split_exp[i], input.status_exp[i]);//
 		printf("-----SALIDA-----\n"); */
 		
-		ft_manage_pipes(&input);
+		if (ft_strchr(input.parsed, '|'))
+			ft_manage_pipes(&input);
+		else
+			ft_manage_input(&input);
+
 		free(input.input);
 	}
 	
