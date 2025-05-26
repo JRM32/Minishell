@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/26 15:11:33 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:55:20 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,14 @@ int	main(int argc, char **argv, char **envp)
 		}
 		compose_command_args(&input);
 		parsing(&input);
-		/* printf("============\nPARSEADO:%s\n==========\n", input.parsed);
+		/*
+		 printf("============\nPARSEADO:%s\n==========\n", input.parsed);
 		printf("command:%s\n", input.command);
 		printf("arg:%s\n", input.args);
 		for (size_t i = 0; input.split_exp[i]; i++)//
 		ft_printf("%d.%s %d\n", i, input.split_exp[i], input.status_exp[i]);//
-		printf("-----SALIDA-----\n"); */
-		
+		printf("-----SALIDA-----\n"); 
+		*/
 		if (ft_strchr(input.parsed, '|'))
 			ft_manage_pipes(&input);
 		else
