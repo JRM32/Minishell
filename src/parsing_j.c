@@ -6,37 +6,108 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:24 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/26 12:12:21 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:11:06 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
+
+void	remove_quotes(char *string)
+{
+	size_t	read_i;
+	size_t	write_i;
+	char	*str;
+
+	if (!string)
+		return ;
+	str = string;
+	read_i = 0;
+	write_i = 0;
+	while (str[read_i])
+	{
+		if (str[read_i] == '\'')
+		{
+			read_i++;
+			while (str[read_i] && str[read_i] != '\'')
+			{
+				string[write_i] = str[read_i];
+				write_i++;
+				read_i++;
+			}
+			if (str[read_i] == '\'')
+				read_i++;
+		}
+		else
+		{
+			string[write_i] = str[read_i];
+			write_i++;
+			read_i++;
+		}
+	}
+	string[write_i] = '\0';
+}
+
+
 /*When < token1 token2 token3 command will be token2 and arg token3."<" is...*/
 /*...not valid*/
 void	compose_command(t_input *in)
 {	
-	if (in->split_exp
-		&& (in->split_exp[0][0] == '<' || in->split_exp[0][0] == '>')
-		&& in->status_exp[0] == 0)
+	size_t	i;
+	size_t	final_redir;
+	size_t	quotes;
+	char	*str;
+	char	c;
+	
+	i = 0;
+	quotes = 0;
+	if (!in->split_exp)
+		return ;
+	c = ' ';
+	str = in->split_exp[0];
+	if ((str[0] == '<' || str[0] == '>') && in->status_exp[0] == 0)
 	{
-		if (in->split_exp[0] && in->split_exp[1] && in->split_exp[2])
+		while (str[i])
 		{
-			free(in->command);
-			in->command = ft_strdup(in->split_exp[2]);
+			if ((str[i] == '\'' || str[i] == '"') && !(quotes % 2))
+			{
+				c = str[i];
+				quotes++;
+			}
+			else if ((str[i] == '\'' || str[i] == '"') && c == str[i])
+			{		
+				c = ' ';
+				quotes++;
+			}
+			if ((str[i] == '<' || str[i] == '>') && !(quotes % 2))
+				final_redir = i;
+			i++;
 		}
-		if (in->split_exp[0] && in->split_exp[1] && in->split_exp[2]
-			&& in->split_exp[3])
+		if (str[final_redir] && str[final_redir + 1])
 		{
-			free(in->command);
-			in->command = ft_strdup(in->split_exp[3]);
+			if (in->split_exp[0] && in->split_exp[1])
+			{
+				free(in->command);
+				in->command = ft_strdup(in->split_exp[1]);
+			}
+			if (!in->command)
+					clean_all(in, 1);
 		}
-		if (!in->command)
+		else
+		{
+			if (in->split_exp[0] && in->split_exp[1] && in->split_exp[2])
+			{
+				free(in->command);
+				in->command = ft_strdup(in->split_exp[2]);
+			}
+			if (!in->command)
 				clean_all(in, 1);
+		}
+		remove_quotes(in->command);
 	}
-
 }
+
 
 /*parsed returns with the command included. I need this to make expand env...*/
 /*...with echo, So I need to clean the command from parsed and take the rest.*/

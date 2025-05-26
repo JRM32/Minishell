@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:34 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/26 12:15:12 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:34:19 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,13 @@ void	search_token_dollar(t_input *in, size_t *i, size_t *j, size_t *k)
 	else
 	{
 		dynamic_input(in, *k);
+		if (is_quoted(in, *i) && *j == 0)////////////
+			in->token[(*k)++] = '\'';
+		dynamic_input(in, *k);
 		in->token[(*k)++] = in->input_split[*i][(*j)++];
+		dynamic_input(in, *k);
+		if (!in->input_split[*i][(*j)] && is_quoted(in, *i))
+			in->token[(*k)++] = '\'';
 	}
 }
 
