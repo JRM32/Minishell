@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:24 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/23 18:00:39 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:12:21 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void	parsing(t_input *in)
 
 	in->realloc_counter = 0;
 	compose_token(in);
-	compose_command(in);///
+	compose_command(in);
 	stdout_save = dup(STDOUT_FILENO);
 	in->filename = choose_name();
 	if (stdout_save == -1 || !in->filename)

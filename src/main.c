@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/25 16:28:58 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:11:35 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	init_input_struct(t_input *input)
 	input->token = NULL;
 	input->command = NULL;
 	input->args = NULL;
+	input->from_expand = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
