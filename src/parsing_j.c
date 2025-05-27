@@ -6,12 +6,23 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:24 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/27 12:49:33 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:39:29 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
+
+void	up_to_space(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] && str[i] != ' ')
+		i++;
+	str[i] = '\0';
+}
+
 
 /*When < tk1 tk2 tk3 command will be tk2 and arg tk3."<" is not valid*/
 /*char 0x1F is to ignore kk'>' token. So I write in compose token the 0x1F char*/
@@ -69,6 +80,7 @@ void	compose_command(t_input *in)
 				clean_all(in, 1);
 		}
 		remove_control_char(in->command);
+		up_to_space(in->command);
 	}
 }
 
