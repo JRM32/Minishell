@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:24:00 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/24 16:40:21 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:55:34 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,20 +95,13 @@ void	echo_short(t_input *in, int fd)
 		i++;
 	if (in->input[i] == '$')
 		parsed_n = 1;
-	else if (in->args && in->args[0] == '$')
-	{
-		if (in->split_exp && in->split_exp[0] && in->split_exp[1])
-		{
-			if (is_valid_arg_(in->split_exp[1]))
-				parsed_n = 1;
-		}
-	}
+	else if (in->args && in->args[0] == '$' && in->split_exp && in->split_exp[0]
+		&& in->split_exp[1] && is_valid_arg_(in->split_exp[1]))
+			parsed_n = 1;
 	if (parsed_n)
 		in->echo_error_n_arg = 1;
 	start = check_argument(in, parsed_n);
 	write(fd, in->parsed + start, ft_strlen(in->parsed + start));
-	//ft_printf("%s", in->parsed + start);
 	if (in->echo_error_n_arg == 1)
 		write(fd, "\n", 1);
-		//ft_printf("\n");	
 }
