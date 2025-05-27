@@ -6,43 +6,12 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:24 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/27 11:37:52 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:49:33 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
-
-/*in split_exp I use status_exp to control if the token came between quotes...*/
-/*...but potato"tomato" would be 0 as starts without quotes. that is the...*/
-/*...reason I mark it with 0x1F that is invisible and not used.*/
-void	remove_control_char(char *string)
-{
-	size_t	i;
-	size_t	j;
-	char	*str;
-
-	if (!string)
-		return ;
-	str = string;
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (str[i] == 0x1F)
-		{
-			i++;
-			while (str[i] && str[i] != 0x1F)
-				string[j++] = str[i++];
-			if (str[i] == 0x1F)
-				i++;
-		}
-		else
-			string[j++] = str[i++];
-	}
-	string[j] = '\0';
-}
-
 
 /*When < tk1 tk2 tk3 command will be tk2 and arg tk3."<" is not valid*/
 /*char 0x1F is to ignore kk'>' token. So I write in compose token the 0x1F char*/
