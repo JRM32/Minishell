@@ -29,69 +29,83 @@ int	count_pipes(t_input *input)
 	return (count);
 }
 
-
 void execute_pipeline(t_input *input)
 {
-	int i = 0, cmd_start = 0;
 	int num_cmds = count_pipes(input) + 1;
-	int pipefd[2], prev_fd = -1;
-	pid_t pid;
+	int prev_fd = -1;
+	int cmd_start = 0;
 
 	for (int cmd = 0; cmd < num_cmds; cmd++)
 	{
-		// Encuentra el final del comando actual
-		int cmd_end = cmd_start;
+		int pipefd[2];
+		int i, cmd_end = cmd_start;
+
+		// Localiza el fin de este comando
 		while (input->split_exp[cmd_end] &&
-			   !(ft_strcmp(input->split_exp[cmd_end], "|") == 0 && input->status_exp[cmd_end] == 0))
+			!(ft_strcmp(input->split_exp[cmd_end], "|") == 0 && input->status_exp[cmd_end] == 0))
 			cmd_end++;
 
-		// Extrae los argumentos del comando actual
+		// Construye args
 		char **args = malloc(sizeof(char *) * (cmd_end - cmd_start + 1));
 		for (i = cmd_start; i < cmd_end; i++)
 			args[i - cmd_start] = input->split_exp[i];
 		args[i - cmd_start] = NULL;
 
-		// Prepara pipe si no es el último comando
+		// Solo creamos una pipe si no es el último comando
 		if (cmd < num_cmds - 1)
-			pipe(pipefd);
-
-		pid = fork();
-		if (pid == 0) // Proceso hijo
 		{
+			if (pipe(pipefd) == -1)
+			{
+				perror("pipe");
+				exit(EXIT_FAILURE);
+			}
+		}
+
+		pid_t pid = fork();
+		if (pid == -1)
+		{
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+
+		if (pid == 0) // Hijo
+		{
+			// Si hay input desde pipe previa
 			if (prev_fd != -1)
 			{
-				dup2(prev_fd, 0); // stdin desde anterior pipe
+				dup2(prev_fd, 0);
 				close(prev_fd);
 			}
+			// Si hay output hacia próxima pipe
 			if (cmd < num_cmds - 1)
 			{
-				close(pipefd[0]);      // Cierra read
-				dup2(pipefd[1], 1);    // stdout al write de la pipe
+				close(pipefd[0]);
+				dup2(pipefd[1], 1);
 				close(pipefd[1]);
 			}
 			execvp(args[0], args);
 			perror("execvp failed");
 			exit(EXIT_FAILURE);
 		}
-		else if (pid > 0)
+		else // Padre
 		{
-			// Proceso padre
 			if (prev_fd != -1)
 				close(prev_fd);
 			if (cmd < num_cmds - 1)
 			{
-				close(pipefd[1]);  // Cerramos write
-				prev_fd = pipefd[0]; // Guardamos read
+				close(pipefd[1]); // No escribir desde padre
+				prev_fd = pipefd[0]; // Este será el input del próximo hijo
 			}
-			free(args);
+			free(args); // Liberamos el array (pero no sus contenidos, pues los apuntan a split_exp)
 		}
-		cmd_start = cmd_end + 1; // Salta la pipe
+		cmd_start = cmd_end + 1; // Siguiente comando después de '|'
 	}
 
-	// Espera a todos los procesos
+	// Espera a todos
 	for (int j = 0; j < num_cmds; j++)
 		wait(NULL);
 }
+
 
 void ft_manage_pipes(t_input *input)
 {
