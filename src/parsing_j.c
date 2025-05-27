@@ -6,52 +6,47 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:24 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/26 19:38:46 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:37:52 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
-
-void	remove_quotes(char *string)
+/*in split_exp I use status_exp to control if the token came between quotes...*/
+/*...but potato"tomato" would be 0 as starts without quotes. that is the...*/
+/*...reason I mark it with 0x1F that is invisible and not used.*/
+void	remove_control_char(char *string)
 {
-	size_t	read_i;
-	size_t	write_i;
+	size_t	i;
+	size_t	j;
 	char	*str;
 
 	if (!string)
 		return ;
 	str = string;
-	read_i = 0;
-	write_i = 0;
-	while (str[read_i])
+	i = 0;
+	j = 0;
+	while (str[i])
 	{
-		if (str[read_i] == '^')
+		if (str[i] == 0x1F)
 		{
-			read_i++;
-			while (str[read_i] && str[read_i] != '^')
-			{
-				string[write_i] = str[read_i];
-				write_i++;
-				read_i++;
-			}
-			if (str[read_i] == '^')
-				read_i++;
+			i++;
+			while (str[i] && str[i] != 0x1F)
+				string[j++] = str[i++];
+			if (str[i] == 0x1F)
+				i++;
 		}
 		else
-		{
-			string[write_i] = str[read_i];
-			write_i++;
-			read_i++;
-		}
+			string[j++] = str[i++];
 	}
-	string[write_i] = '\0';
+	string[j] = '\0';
 }
 
 
-/*When < token1 token2 token3 command will be token2 and arg token3."<" is...*/
-/*...not valid*/
+/*When < tk1 tk2 tk3 command will be tk2 and arg tk3."<" is not valid*/
+/*char 0x1F is to ignore kk'>' token. So I write in compose token the 0x1F char*/
+/*...that is not used, to control that is like a quoted < or >*/
 void	compose_command(t_input *in)
 {	
 	size_t	i;
@@ -70,12 +65,12 @@ void	compose_command(t_input *in)
 	{
 		while (str[i])
 		{
-			if ((str[i] == '^') && !(quotes % 2))
+			if ((str[i] == 0x1F) && !(quotes % 2))
 			{
 				c = str[i];
 				quotes++;
 			}
-			else if ((str[i] == '^') && c == str[i])
+			else if ((str[i] == 0x1F) && c == str[i])
 			{		
 				c = ' ';
 				quotes++;
@@ -104,7 +99,7 @@ void	compose_command(t_input *in)
 			if (!in->command)
 				clean_all(in, 1);
 		}
-		remove_quotes(in->command);
+		remove_control_char(in->command);
 	}
 }
 
@@ -216,7 +211,7 @@ void	parsing(t_input *in)
 	compose_token(in);
 	compose_command(in);
 	while (in->split_exp && in->split_exp[i])
-		remove_quotes(in->split_exp[i++]);
+		remove_control_char(in->split_exp[i++]);
 	stdout_save = dup(STDOUT_FILENO);
 	in->filename = choose_name();
 	if (stdout_save == -1 || !in->filename)
