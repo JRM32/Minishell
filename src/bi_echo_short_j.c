@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:24:00 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/27 16:25:41 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:47:16 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,24 +87,35 @@ size_t	check_argument(t_input *in, int parsed_n)
 /*But > or < came from exported VARS (input->status_exp = 2) will print > <*/
 /*I search for first coincidence of echo (only or if come from exported VAR)..*/
 /*...in split_aux*/
-/* size_t	check_redirects(t_input *in, size_t start)
+size_t	check_redirects(t_input *in, size_t start)
 {
 	size_t	i;
 	char	*aux;
+	char	*aux2;
 	
 	i = 0;
-	//aux = in->parsed[start];
+	aux = NULL;
+	aux2 = NULL;
 	while (in->split_exp && in->split_exp[i])
 	{
-		if (ft_strncmp(in->split_exp[i], "echo", 4)
+		if (!ft_strncmp(in->split_exp[i], "echo", 4)
 			&& (!in->split_exp[i][4] || in->status_exp[i] == 2))
 			break ;
 		i++;
 	}
-
-
-	
-} */
+	if (!in->split_exp[i][4])
+		aux = in->split_exp[i + 1];
+	else if (in->status_exp[i] == 2)
+		aux = &in->split_exp[i][5];
+	if (aux && in->parsed)
+		aux2 = ft_strnstr(in->parsed, aux, ft_strlen(in->parsed));
+	i = 0;
+	while (aux2 && in->parsed && in->parsed[i] && &in->parsed[i] != aux2)
+		i++;
+	if (start >= i)
+		return start;
+	return (i);
+}
 
 /*I want to check if the echo comes from $VAR or not. so that is the reason...*/
 /*...of running the input to find first char appart from ' or ". If so, the...*/
@@ -127,7 +138,7 @@ void	echo_short(t_input *in, int fd)
 	if (parsed_n)
 		in->echo_error_n_arg = 1;
 	start = check_argument(in, parsed_n);
-	//start = check_redirects(in, start);
+	start = check_redirects(in, start);
 	write(fd, in->parsed + start, ft_strlen(in->parsed + start));
 	if (in->echo_error_n_arg == 1)
 		write(fd, "\n", 1);
