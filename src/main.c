@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/26 18:55:20 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:20:14 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,24 @@ int	main(int argc, char **argv, char **envp)
 		ft_printf("%d.%s %d\n", i, input.split_exp[i], input.status_exp[i]);//
 		printf("-----SALIDA-----\n"); 
 		*/
-		if (ft_strchr(input.parsed, '|'))
-			ft_manage_pipes(&input);
-		else
+		int i;
+		bool pipe;
+		pipe = false;
+		i = 0;
+		while (input.split_exp[i])
+		{
+			if (ft_strcmp(input.split_exp[i], "|") == 0 && input.status_exp[i] == 0)
+			{
+				ft_manage_pipes(&input);
+				pipe = true;
+				break ;
+			}
+			i++;	
+		}
+		if (!pipe)
+		{
 			ft_manage_input(&input);
-
+		}
 		free(input.input);
 	}
 	
