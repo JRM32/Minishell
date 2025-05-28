@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:24:00 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/27 17:47:16 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/28 09:13:05 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	is_valid_arg_(char *str)
 		return (0);
 	while (str[i] == 'n')
 		i++;
-	if (str[i] != '\0')
-		return (0);
-	return (1);
+	if (str[i] == '\0' || str[i] == ' ')
+		return (1);
+	return (0);
 }
 
 size_t	check_more_n(t_input *in)
