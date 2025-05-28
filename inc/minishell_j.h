@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:30:16 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/28 13:37:22 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:50:25 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void	print_rest_no_env(t_input *in, size_t w, size_t *i);
 void	print_if_spaced_and_valid_env(t_input *in, size_t w, int spaced);
 void	print_valid_env_variable(t_input *n, size_t w, size_t *i);
 void	space_after_first_invalid_env(t_input *in, size_t w, size_t i, int on);
+int		is_valid_arg(char *str);
+size_t	check_more_n(t_input *in);
 
 //SIGNALS
 void	init_sigaction(struct sigaction *sa);
