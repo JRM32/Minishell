@@ -50,8 +50,9 @@ void	ft_input_free(t_input *input)
 		free(input->filename);
 	input->filename = NULL;
 	if (input->parsed)
-		free(input->parsed);
-	if (input->args)
+		free(input->parsed);	
+	if (input->args && input->args[0])
 		free(input->args);
 	input->parsed = NULL;
 }
+
