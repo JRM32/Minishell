@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:24:00 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/28 10:32:03 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:41:07 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,17 @@ size_t	check_redirects(t_input *in, size_t start)
 	while (aux && in->parsed && in->parsed[i] && &in->parsed[i] != aux)
 		i++;
 	if (start >= i)
+	{
+		/* i = 0;
+		if (in->parsed && (in->parsed[0] == '>' || in->parsed[0] == '<'))
+		{
+			if (in->parsed)
+				aux = ft_strnstr(in->parsed, "echo", ft_strlen(in->parsed));
+			while (in->parsed[i] && &in->parsed[i] != aux)
+				i++;
+		} */
 		return start;
+	}
 	if (is_valid_arg(&in->parsed[i]))
 	{
 		in->echo_error_n_arg = 0;
@@ -140,6 +150,8 @@ size_t	check_redirects(t_input *in, size_t start)
 /*I want to check if the echo comes from $VAR or not. so that is the reason...*/
 /*...of running the input to find first char appart from ' or ". If so, the...*/
 /* -n that rules is the one in in->parsed*/
+/*after second start, the if will look for cases as >file echo only to not...*/
+/*...print anything and only print if something is behind that echo*/
 void	echo_short(t_input *in, int fd)
 {
 	int		parsed_n;
@@ -159,7 +171,18 @@ void	echo_short(t_input *in, int fd)
 		in->echo_error_n_arg = 1;
 	start = check_argument(in, parsed_n);
 	start = check_redirects(in, start);
-	write(fd, in->parsed + start, ft_strlen(in->parsed + start));
+	if (in->split_exp && in->split_exp[0] 
+		&& (in->split_exp[0][0] == '<' || in->split_exp[0][0] == '>')
+		&& (in->status_exp[0] == 0))
+	{
+		i = 0;
+		while (in->split_exp[i])
+			i++;
+		if (ft_strncmp(in->split_exp[i - 1], "echo", 5))
+			write(fd, in->parsed + start, ft_strlen(in->parsed + start));
+	}
+	else
+		write(fd, in->parsed + start, ft_strlen(in->parsed + start));
 	if (in->echo_error_n_arg == 1)
 		write(fd, "\n", 1);
 }
