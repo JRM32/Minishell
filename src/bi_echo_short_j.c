@@ -6,14 +6,14 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:24:00 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/28 09:13:05 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:32:03 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
-int	is_valid_arg_(char *str)
+int	is_valid_arg(char *str)
 {
 	size_t	i;
 
@@ -82,20 +82,19 @@ size_t	check_argument(t_input *in, int parsed_n)
 	return (i);
 }
 
-/*if there is an > or < the msg that has to be echoed has to stop there...*/
-/*or can be an parsed= >file echo msg that needs to be printed from echo.*/
+
+/*parsed= >file echo msg needs to be printed from echo.*/
 /*But > or < came from exported VARS (input->status_exp = 2) will print > <*/
 /*I search for first coincidence of echo (only or if come from exported VAR)..*/
 /*...in split_aux*/
 size_t	check_redirects(t_input *in, size_t start)
 {
 	size_t	i;
+	size_t	j;
 	char	*aux;
-	char	*aux2;
 	
 	i = 0;
 	aux = NULL;
-	aux2 = NULL;
 	while (in->split_exp && in->split_exp[i])
 	{
 		if (!ft_strncmp(in->split_exp[i], "echo", 4)
@@ -108,12 +107,33 @@ size_t	check_redirects(t_input *in, size_t start)
 	else if (in->status_exp[i] == 2)
 		aux = &in->split_exp[i][5];
 	if (aux && in->parsed)
-		aux2 = ft_strnstr(in->parsed, aux, ft_strlen(in->parsed));
+		aux = ft_strnstr(in->parsed, aux, ft_strlen(in->parsed));
 	i = 0;
-	while (aux2 && in->parsed && in->parsed[i] && &in->parsed[i] != aux2)
+	while (aux && in->parsed && in->parsed[i] && &in->parsed[i] != aux)
 		i++;
 	if (start >= i)
 		return start;
+	if (is_valid_arg(&in->parsed[i]))
+	{
+		in->echo_error_n_arg = 0;
+		while (in->parsed[i] && (in->parsed[i] != ' '))
+			i++;
+		if (in->parsed[i] == ' ')
+			i++;
+		j = i;
+		while (in->parsed[i] && in->parsed[j] == '-')
+		{
+			i++;
+			while (in->parsed[i] && in->parsed[i] == 'n')
+				i++;
+			if (in->parsed[i] != ' ')
+				break ;
+			else if (in->parsed[i] == ' ')
+				j = ++i;
+		}
+		if (in->parsed[i])
+			i = j;
+	}
 	return (i);
 }
 
@@ -133,7 +153,7 @@ void	echo_short(t_input *in, int fd)
 	if (in->input[i] == '$')
 		parsed_n = 1;
 	else if (in->args && in->args[0] == '$' && in->split_exp && in->split_exp[0]
-		&& in->split_exp[1] && is_valid_arg_(in->split_exp[1]))
+		&& in->split_exp[1] && is_valid_arg(in->split_exp[1]))
 			parsed_n = 1;
 	if (parsed_n)
 		in->echo_error_n_arg = 1;
