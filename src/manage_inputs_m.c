@@ -36,6 +36,6 @@ void	ft_manage_input(t_input *input)
 	else
 		execute_command(input);
 	input->last_dollar_ = ft_last_str(input->split_exp);
-	input->last_exit_code = WEXITSTATUS(*input->status);
+	//input->last_exit_code = WEXITSTATUS(*input->status);
 	//ft_input_free(input);
 }
