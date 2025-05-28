@@ -13,6 +13,31 @@
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
+char *join_command(char **split_exp, int start, int end) {
+    int i;
+    size_t len = 0;
+    char *joined;
+
+    // Calculate total length
+    for (i = start; i < end; i++) {
+        len += strlen(split_exp[i]) + 1;
+    }
+
+    joined = malloc(len + 1);
+    if (!joined)
+        return NULL;
+    
+    joined[0] = '\0';
+    for (i = start; i < end; i++) {
+        strcat(joined, split_exp[i]);
+        if (i < end - 1)
+            strcat(joined, " ");
+    }
+
+    return joined;
+}
+
+
 int	count_pipes(t_input *input)
 {
 	int	i;
@@ -46,6 +71,32 @@ void execute_pipeline(t_input *input)
 			cmd_end++;
 
 		// Construye args
+		// Build input_child
+		t_input input_child;
+		ft_bzero(&input_child, sizeof(t_input)); // Make sure it's zeroed
+
+		// Generate input string
+		input_child.input = join_command(input->split_exp, cmd_start, cmd_end);
+		input_child.input_split = ft_split_quotes(input_child.input, ' ', &input_child);
+		compose_command_args(&input_child);
+		parsing(&input_child);
+
+		// Debug print
+		printf("Process %d input_child.input: %s\n", cmd, input_child.input);
+		
+		 printf("============\nPARSEADO:%s\n==========\n", input_child.parsed);
+		printf("command:%s\n", input_child.command);
+		printf("arg:%s\n", input_child.args);
+		for (size_t i = 0; input_child.split_exp[i]; i++)//
+		ft_printf("%d.%s %d\n", i, input_child.split_exp[i], input_child.status_exp[i]);//
+			
+		ft_input_free(&input_child); // Free input_child if needed
+
+		// Use existing logic to re-parse this string into input_child.split_exp etc.
+		// This depends on how you handle parsing normally
+		//ft_parse_input(&input_child); // Hypothetical function
+
+		// Build args from input_child (or just reuse old logic if already correct)
 		int argc = cmd_end - cmd_start;
 		char **args = malloc(sizeof(char *) * (argc + 1));
 		for (i = 0; i < argc; i++)

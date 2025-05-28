@@ -34,6 +34,9 @@ void	ft_input_free(t_input *input)
 {
 	ft_matrix_free(&input->input_split);
 	ft_matrix_free(&input->split_exp);
+	if (input->input)
+		free(input->input);
+	input->input = NULL;
 	if (input->status)
 		free(input->status);
 	input->status = NULL;
@@ -48,5 +51,7 @@ void	ft_input_free(t_input *input)
 	input->filename = NULL;
 	if (input->parsed)
 		free(input->parsed);
+	if (input->args)
+		free(input->args);
 	input->parsed = NULL;
 }
