@@ -28,12 +28,12 @@ int	count_pipes(t_input *input)
 	}
 	return (count);
 }
-
 void execute_pipeline(t_input *input)
 {
 	int num_cmds = count_pipes(input) + 1;
 	int prev_fd = -1;
 	int cmd_start = 0;
+	pid_t last_pid = -1;
 
 	for (int cmd = 0; cmd < num_cmds; cmd++)
 	{
@@ -46,12 +46,12 @@ void execute_pipeline(t_input *input)
 			cmd_end++;
 
 		// Construye args
-		char **args = malloc(sizeof(char *) * (cmd_end - cmd_start + 1));
-		for (i = cmd_start; i < cmd_end; i++)
-			args[i - cmd_start] = input->split_exp[i];
-		args[i - cmd_start] = NULL;
+		int argc = cmd_end - cmd_start;
+		char **args = malloc(sizeof(char *) * (argc + 1));
+		for (i = 0; i < argc; i++)
+			args[i] = input->split_exp[cmd_start + i];
+		args[i] = NULL;
 
-		// Solo creamos una pipe si no es el último comando
 		if (cmd < num_cmds - 1)
 		{
 			if (pipe(pipefd) == -1)
@@ -70,13 +70,11 @@ void execute_pipeline(t_input *input)
 
 		if (pid == 0) // Hijo
 		{
-			// Si hay input desde pipe previa
 			if (prev_fd != -1)
 			{
 				dup2(prev_fd, 0);
 				close(prev_fd);
 			}
-			// Si hay output hacia próxima pipe
 			if (cmd < num_cmds - 1)
 			{
 				close(pipefd[0]);
@@ -84,7 +82,6 @@ void execute_pipeline(t_input *input)
 				close(pipefd[1]);
 			}
 			execvp(args[0], args);
-			perror("execvp failed");
 			exit(EXIT_FAILURE);
 		}
 		else // Padre
@@ -93,17 +90,24 @@ void execute_pipeline(t_input *input)
 				close(prev_fd);
 			if (cmd < num_cmds - 1)
 			{
-				close(pipefd[1]); // No escribir desde padre
-				prev_fd = pipefd[0]; // Este será el input del próximo hijo
+				close(pipefd[1]);
+				prev_fd = pipefd[0];
 			}
-			free(args); // Liberamos el array (pero no sus contenidos, pues los apuntan a split_exp)
+			free(args);
+			last_pid = pid; // Guardamos el último PID
 		}
-		cmd_start = cmd_end + 1; // Siguiente comando después de '|'
+
+		cmd_start = cmd_end + 1;
 	}
 
-	// Espera a todos
-	for (int j = 0; j < num_cmds; j++)
-		wait(NULL);
+	// Espera a todos y guarda el exit code del último hijo
+	int status;
+	pid_t wpid;
+	while ((wpid = wait(&status)) > 0)
+	{
+		if (wpid == last_pid && WIFEXITED(status))
+			input->last_exit_code = WEXITSTATUS(status);
+	}
 }
 
 
