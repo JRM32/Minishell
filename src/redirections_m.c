@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 01:26:18 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 19:15:20 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 19:59:30 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ bool handle_redirection(t_input *input)
 				break ;
 			}
 			else if (result == -1)
-				return (1);
+				return (ft_matrix_free(&redirections), 1);
 			j++;
 		}
 		i++;
