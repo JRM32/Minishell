@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 01:26:18 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 19:59:30 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 21:14:24 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ bool ft_manage_output_redirection(t_input *input, int i, bool lonely)
     if (input->outputfd == -1)
     {
         input->last_exit_code = 1;
-        ft_putstr_fd("miniyo: Cannot open file for writing\n", 2);
+        ft_putstr_fd("miniyo: Permission denied\n", 2);
         return (0);
     }
     update_input(input, i, lonely);
@@ -72,7 +72,7 @@ bool ft_manage_append_redirection(t_input *input, int i, bool lonely)
     if (input->outputfd == -1)
     {
         input->last_exit_code = 1;
-        ft_putstr_fd("miniyo: Cannot open file for appending\n", 2);
+        ft_putstr_fd("miniyo: Permission denied\n", 2);
         return (0);
     }
     update_input(input, i, lonely);

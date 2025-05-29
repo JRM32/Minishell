@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 19:34:55 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 21:13:00 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_manage_input(t_input *input)
 	else if (ft_strcmp(input->command, "cd") == 0)
 		ft_cd(input);
 	else if (ft_strcmp(input->command, "echo") == 0)
-		echo_short(input, 1);
+		echo_short(input, input->outputfd);
 	else if (ft_strcmp(input->command, "export") == 0)
 		ft_export(input, &input->envp);
 	else if (ft_strcmp(input->command, "env") == 0)
