@@ -42,4 +42,7 @@ bool	handle_redirection(t_input *input);
 void	handle_heredoc_redirection(t_input *input, char *redir);
 void	ft_manage_input(t_input *input);
 
+
+void	init_input_struct(t_input *input);
+
 #endif

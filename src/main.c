@@ -15,8 +15,8 @@
 
 void	init_input_struct(t_input *input)
 {
-	input->parsed = NULL;
 	input->filename = NULL;
+	input->parsed = NULL;
 	input->input_split = NULL;
 	input->split_exp = NULL;
 	input->redir_in = NULL;

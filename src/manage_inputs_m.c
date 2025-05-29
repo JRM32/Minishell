@@ -16,9 +16,17 @@
 
 void	ft_manage_input(t_input *input)
 {
-	//input->inputfd = STDIN_FILENO;
-	//input->outputfd = STDOUT_FILENO;
 	//handle_redirection(input);
+
+	/*
+			printf("============\nPARSEADO:%s\n==========\n", input->parsed);
+	printf("command:%s\n", input->command);
+	printf("arg:%s\n", input->args);
+	for (size_t i = 0; input->split_exp[i]; i++)//
+	ft_printf("%d.%s %d\n", i, input->split_exp[i], input->status_exp[i]);//
+	printf("-----SALIDA-----\n"); 
+*/
+
 	if (ft_strcmp(input->command, "pwd") == 0)
 		ft_pwd(input->args);
 	else if (ft_strcmp(input->command, "cd") == 0)
@@ -36,6 +44,4 @@ void	ft_manage_input(t_input *input)
 	else
 		execute_command(input);
 	input->last_dollar_ = ft_last_str(input->split_exp);
-	//input->last_exit_code = WEXITSTATUS(*input->status);
-	//ft_input_free(input);
 }
