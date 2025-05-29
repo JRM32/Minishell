@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:32:40 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 19:37:45 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 21:05:57 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,8 @@ void execute_pipeline(t_input *input)
 
 void ft_manage_pipes(t_input *input)
 {
+    input->inputfd = STDIN_FILENO;
+    input->outputfd = STDOUT_FILENO;
 	if (count_pipes(input) == 0)
 		ft_manage_input(input);  // Ya lo tenías definido
 	else

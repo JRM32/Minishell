@@ -1,4 +1,14 @@
-Soy el archivo A
-Soy el archivo 1
-Soy el archivo A
-Soy el archivo B
+Documentacion
+Makefile
+Tester_Japo
+a.txt
+b.txt
+c.txt
+cambios_casa
+ft_printf
+inc
+libft
+minishell
+minishell_tester
+obj
+src
