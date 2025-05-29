@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:49:50 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 19:31:56 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 22:55:37 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,65 +14,90 @@
 #include "../inc/minishell_j.h"
 
 
-static char	*join_path_cmd(char *dir, char *cmd)
+static char *join_path_cmd(char *dir, char *cmd)
 {
-	char	*full;
-	size_t	len;
-
-	len = strlen(dir) + strlen(cmd) + 2;
-	full = malloc(len);
+	size_t len = ft_strlen(dir) + ft_strlen(cmd) + 2;
+	char *full = malloc(len);
 	if (!full)
-		return (NULL);
+		return NULL;
 	strcpy(full, dir);
-	strcat(full, "/");
-	strcat(full, cmd);
-	return (full);
+	ft_strcat(full, "/");
+	ft_strcat(full, cmd);
+	return full;
 }
 
-static char	*search_path(char *cmd, char **envp)
+static char *search_path(char *cmd, char **envp)
 {
-	char	**paths;
-	char	*full_path;
-	int		i;
+	char **paths = NULL;
+	char *full_path = NULL;
+	int i = 0;
 
 	while (*envp && strncmp(*envp, "PATH=", 5) != 0)
 		envp++;
-	if (!*envp)
-		return (NULL);
-	paths = ft_split(*envp + 5, ':');
+	if (*envp)
+		paths = ft_split(*envp + 5, ':');
 	if (!paths)
-		return (NULL);
-	i = 0;
+		return NULL;
+
 	while (paths[i])
 	{
 		full_path = join_path_cmd(paths[i], cmd);
 		if (full_path && access(full_path, X_OK) == 0)
-			return (full_path);
+		{
+			ft_matrix_free(&paths);
+			return full_path;
+		}
 		free(full_path);
 		i++;
 	}
-	// free the split array here if needed
-	return (NULL);
+	ft_matrix_free(&paths);
+	return NULL;
 }
 
-char	*get_cmd_path_from_env(char **envp, char *cmd)
+char *get_cmd_path_from_env(t_input *input, char **envp, char *cmd)
 {
-	if (!cmd)
-		return (NULL);
+	struct stat st;
+
+	if (!cmd || *cmd == '\0')
+	{
+		ft_putstr_fd("minishell: Permission denied\n", 2);
+		exit(1);
+	}
+
 	if (strchr(cmd, '/'))
 	{
-		if (access(cmd, X_OK) == 0)
-			return (strdup(cmd));
-		else
-			return (NULL);
+		if (access(cmd, F_OK) != 0)
+		{
+			perror(cmd);
+			exit(127); // command not found
+		}
+		if (stat(cmd, &st) == 0 && S_ISDIR(st.st_mode))
+		{
+			ft_putstr_fd("minishell: Is a directory\n", 2);
+			exit(126);
+		}
+		if (access(cmd, X_OK) != 0)
+		{
+			input->last_exit_code = 0; // permission denied
+			exit(126); // permission denied or exec format error
+		}
+		return strdup(cmd);
 	}
-	return (search_path(cmd, envp));
+
+	char *path = search_path(cmd, envp);
+	if (!path)
+	{
+		ft_putstr_fd("minishell: command not found\n", 2);
+		exit(127);
+	}
+	return path;
 }
+
 static void	child_process(t_input *input)
 {
 	char	*cmd_path;
 
-	cmd_path = get_cmd_path_from_env(input->envp, input->command);
+	cmd_path = get_cmd_path_from_env(input, input->envp, input->command);
 	if (!cmd_path)
 	{
 		ft_putstr_fd("minishell: command not found: ", 2);
