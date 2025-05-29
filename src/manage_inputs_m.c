@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 17:19:32 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:38:40 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	ft_manage_input(t_input *input)
 {
 	//if (handle_redirection(input) == 1)
 	//	return ;
-	handle_redirection(input);
+	if (handle_redirection(input) == 1)
+		return ;
+	
 	/*
 	printf("============\nPARSEADO:%s\n==========\n", input->parsed);
 	printf("input:%s\n", input->input);
@@ -32,7 +34,7 @@ void	ft_manage_input(t_input *input)
 		ft_printf("Split exp %d:%s %d\n", i, input->split_exp[i], input->status_exp[i]);//
 	printf("-----SALIDA-----\n"); 
 	*/
-
+	
 	if (ft_strcmp(input->command, "pwd") == 0)
 		ft_pwd(input->args);
 	else if (ft_strcmp(input->command, "cd") == 0)

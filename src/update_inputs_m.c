@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:14:19 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 16:55:13 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:17:27 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,10 @@ void update_input(t_input *input, int i, bool lonely)
 	input->input_split = ft_split_quotes(input->input, ' ', input);
 	//free(input->args);
 	compose_command_args(input);
+	free(input->parsed);
+	free(input->filename);
+	for (int j = 0; input->split_exp[j] != 0 && j < 100; j++)
+		input->status_exp[j] = 0;
+	ft_matrix_free(&input->split_exp);
+	parsing(input);
 }

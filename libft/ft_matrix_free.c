@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_matrix_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:09:14 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/28 18:31:08 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:42:51 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	ft_matrix_free(char ***matrix)
 		return ;
 	while ((*matrix)[i])
 	{
-		free((*matrix)[i]);
+		if ((*matrix)[i])
+			free((*matrix)[i]);
 		(*matrix)[i] = NULL;
 		i++;
 	}
