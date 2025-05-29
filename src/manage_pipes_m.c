@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:32:40 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 19:01:27 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 19:37:45 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void execute_pipeline(t_input *input)
 
             ft_manage_input(input_child);
             //printf("Executing command: %s\n", input_child->input);
-            ft_input_free(input_child); // Liberar input_child si no se usa
+             // Liberar input_child si no se usa
             //execvp(args[0], args);
             //perror("execvp");
             // Liberar memoria en hijo si quieres (opcional ya que el exec reemplaza)
@@ -154,7 +154,11 @@ void execute_pipeline(t_input *input)
                 free(args[i]);
             free(args);
 
-            exit(EXIT_FAILURE);
+            exit(input_child->last_exit_code);
+            ft_input_free(input_child);
+
+
+            
         }
         else // Padre
         {
@@ -177,7 +181,6 @@ void execute_pipeline(t_input *input)
         cmd_start = cmd_end + 1;
     }
 
-    // Espera a todos y guarda el exit code del último hijo
     int status;
     pid_t wpid;
     while ((wpid = wait(&status)) > 0)

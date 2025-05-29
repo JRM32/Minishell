@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:49:50 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 17:50:28 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 19:31:56 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,5 +139,7 @@ bool	execute_command(t_input *input)
 		input->last_exit_code = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		input->last_exit_code = 128 + WTERMSIG(status);
+	//ft_printf("Command executed: %s\n", input->command);
+	//ft_printf("Exit code: %d\n", input->last_exit_code);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 18:38:40 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 19:34:55 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 
 void	ft_manage_input(t_input *input)
 {
-	//if (handle_redirection(input) == 1)
-	//	return ;
 	if (handle_redirection(input) == 1)
 		return ;
 	
@@ -52,4 +50,6 @@ void	ft_manage_input(t_input *input)
 	else
 		execute_command(input);
 	input->last_dollar_ = ft_last_str(input->split_exp);
+	//ft_printf("Comand: %s\n", input->command);
+	//ft_printf("last_exit_code_: %s\n", input->last_dollar_);
 }
