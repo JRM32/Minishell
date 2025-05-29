@@ -6,6 +6,10 @@ hay pruebas para hacer...
 
 (MARIO)
 
+funcion CD le falta:
+	actualizar PWD y OLDPWD en ENV
+	cd ~ falta por implementar
+
 ls $a deberia mostrar el ls normal como bash... pero dice que no tiene ese directorio.
 
 ls -la "|" wc muestra el listado como si se hiciera un ls -la. Deberia mostrar no such file or directory
