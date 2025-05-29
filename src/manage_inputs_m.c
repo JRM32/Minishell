@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 17:01:36 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:19:32 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	ft_manage_input(t_input *input)
 	//if (handle_redirection(input) == 1)
 	//	return ;
 	handle_redirection(input);
-	ft_printf("Imhere2\n");
 	/*
 	printf("============\nPARSEADO:%s\n==========\n", input->parsed);
 	printf("input:%s\n", input->input);

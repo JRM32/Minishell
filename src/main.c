@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/27 14:20:14 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:49:20 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	init_input_struct(t_input *input)
 	input->command = NULL;
 	input->args = NULL;
 	input->from_expand = 0;
+	input->inputfd = STDIN_FILENO;
+	input->outputfd = STDOUT_FILENO;
 }
 
 int	main(int argc, char **argv, char **envp)
