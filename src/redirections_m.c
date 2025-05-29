@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 01:26:18 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 18:48:47 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 19:07:19 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,25 @@ bool handle_redirection(t_input *input)
 	redirections[2] = ft_strdup(">>");
 	redirections[3] = ft_strdup(">");
 	redirections[4] = NULL;
+
+	//for (int j = 0; input->split_exp[j]; j++)
+	//	printf("Split exp %d: %s\n", j, input->split_exp[j]);
+	//printf("input: %s\n", input->input);
+	//printf("command: %s\n", input->command);
+	//printf("args: %s\n", input->args);
+	//printf("inputfd: %d\n", input->inputfd);
+	//printf("outputfd: %d\n", input->outputfd);
+
 	while (input->split_exp[i])
 	{
 		j = 0;
 		while (j < 4)
 		{
+			if (input->status_exp[i] != 0)	
+			{
+				j++;
+				continue ;
+			}
 			result = ft_check_one_redirection(input, i, redirections[j]);
 			if (result == 1)
 			{
@@ -96,13 +110,7 @@ bool handle_redirection(t_input *input)
 		}
 		i++;
 	}
-	//for (int j = 0; input->split_exp[j]; j++)
-	//	printf("Split exp %d: %s\n", j, input->split_exp[j]);
-	//printf("input: %s\n", input->input);
-	//printf("command: %s\n", input->command);
-	//printf("args: %s\n", input->args);
-	//printf("inputfd: %d\n", input->inputfd);
-	//printf("outputfd: %d\n", input->outputfd);
+
 	ft_matrix_free(&redirections);
 	return (0);
 }
