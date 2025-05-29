@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:49:50 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/27 14:17:42 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 04:07:46 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,10 @@ bool	exec_child(t_input *input, pid_t pid, char *executable)
 
 		signal(SIGINT, SIG_DFL);
     	signal(SIGQUIT, SIG_DFL); //javi signals
-			
+		
+		printf("Executable: %s\n", executable);
+		for (size_t i = 0; command_union[i]; i++)
+			printf("Command union[%zu]: %s\n", i, command_union[i]);
 		execve(executable, command_union, input->envp);
 		if (command_union)
 			free (command_union);

@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:28:00 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/27 14:32:01 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 03:39:09 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,21 @@
 
 void	ft_manage_input(t_input *input)
 {
-	//handle_redirection(input);
+	handle_redirection(input);
 
 	/*
-			printf("============\nPARSEADO:%s\n==========\n", input->parsed);
+	printf("============\nPARSEADO:%s\n==========\n", input->parsed);
+	printf("input:%s\n", input->input);
 	printf("command:%s\n", input->command);
 	printf("arg:%s\n", input->args);
+	printf("parsed:%s\n", input->parsed);
+	
+	for (size_t i = 0; input->input_split[i]; i++)//
+		ft_printf("Input split %d:%s %d\n", i, input->input_split[i], input->input_split[i]);//
 	for (size_t i = 0; input->split_exp[i]; i++)//
-	ft_printf("%d.%s %d\n", i, input->split_exp[i], input->status_exp[i]);//
+		ft_printf("Split exp %d:%s %d\n", i, input->split_exp[i], input->status_exp[i]);//
 	printf("-----SALIDA-----\n"); 
-*/
+	*/
 
 	if (ft_strcmp(input->command, "pwd") == 0)
 		ft_pwd(input->args);

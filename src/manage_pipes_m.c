@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:32:40 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 02:53:03 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 04:00:37 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,17 @@ void execute_pipeline(t_input *input)
             //printf("command: %s\n", input_child->command);
             //printf("args: %s\n", input_child->args);
             //parsing(input_child);
-            input_child->parsed = ft_strdup(input_child->input);
+            char *space = strchr(input_child->input, ' ');
+            if (space != NULL) {
+                // Saltar espacios adicionales después del comando
+                while (*space == ' ')
+                    space++;
+                input_child->parsed = ft_strdup(space);
+            } else {
+                // No hay argumentos, dejar parsed vacío
+                input_child->parsed = ft_strdup("");
+            }
+
             input_child->split_exp = ft_matrix_dup(input_child->input_split);
             //printf("parsed: %s\n", input_child->parsed);
             //for(i = 0; input_child->split_exp[i]; i++)
