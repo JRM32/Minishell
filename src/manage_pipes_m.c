@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:32:40 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 21:05:57 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/30 01:28:06 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,16 +115,18 @@ void execute_pipeline(t_input *input)
             t_input *input_child = malloc(sizeof(t_input));
             init_input_struct(input_child);
             input_child->input = join_command(input->split_exp, cmd_start, cmd_end);
-            //ft_printf("input_child->input: %s\n", input_child->input);
 	    	input_child->input_split = ft_split_quotes(input_child->input, ' ', input_child);
-            //for (i = 0; input_child->input_split[i]; i++)
-            //    ft_printf("input_child->input_split[%d]: %s\n", i, input_child->input_split[i]);
             input_child->envp = input->envp;
             compose_command_args(input_child);
-            //printf("command: %s\n", input_child->command);
-            //printf("args: %s\n", input_child->args);
-            //parsing(input_child);
-
+            free(input_child->filename);
+            if (input_child->input_split[1])
+                parsing(input_child);
+            else
+            {
+                input_child->parsed = ft_strdup("");
+                input_child->split_exp = ft_matrix_dup(input_child->input_split);
+            }
+            /*
             char *space = strchr(input_child->input, ' ');
             if (space != NULL) {
                 // Saltar espacios adicionales después del comando
@@ -135,9 +137,9 @@ void execute_pipeline(t_input *input)
                 // No hay argumentos, dejar parsed vacío
                 input_child->parsed = ft_strdup("");
             }
+            */
             
-            
-            input_child->split_exp = ft_matrix_dup(input_child->input_split);
+            // input_child->split_exp = ft_matrix_dup(input_child->input_split);
             //printf("parsed: %s\n", input_child->parsed);
             //for(i = 0; input_child->split_exp[i]; i++)
             //    ft_printf("input_child->split_exp[%d]: %s, status: %d\n", i, input_child->split_exp[i], input_child->status_exp[i]);
@@ -145,20 +147,11 @@ void execute_pipeline(t_input *input)
 
 
             ft_manage_input(input_child);
-            //printf("Executing command: %s\n", input_child->input);
-             // Liberar input_child si no se usa
-            //execvp(args[0], args);
-            //perror("execvp");
-            // Liberar memoria en hijo si quieres (opcional ya que el exec reemplaza)
             for (i = 0; args[i]; i++)
                 free(args[i]);
             free(args);
-
             exit(input_child->last_exit_code);
             ft_input_free(input_child);
-
-
-            
         }
         else // Padre
         {
