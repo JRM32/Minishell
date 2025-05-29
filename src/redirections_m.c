@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 01:26:18 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 19:07:19 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 19:15:20 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,61 @@ bool ft_manage_input_redirection(t_input *input, int i, bool lonely)
 	return (1);
 }
 
+bool ft_manage_output_redirection(t_input *input, int i, bool lonely)
+{
+    char *filename;
+
+    if (lonely)
+        filename = input->split_exp[i + 1];
+    else
+        filename = input->split_exp[i] + ft_strlen(">");
+    if (input->outputfd > 2)
+        close(input->outputfd);
+
+    input->outputfd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (input->outputfd == -1)
+    {
+        input->last_exit_code = 1;
+        ft_putstr_fd("miniyo: Cannot open file for writing\n", 2);
+        return (0);
+    }
+    update_input(input, i, lonely);
+    return (1);
+}
+
+bool ft_manage_append_redirection(t_input *input, int i, bool lonely)
+{
+    char *filename;
+
+    if (lonely)
+        filename = input->split_exp[i + 1];
+    else
+        filename = input->split_exp[i] + ft_strlen(">>");
+    if (input->outputfd > 2)
+        close(input->outputfd);
+
+    input->outputfd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+    if (input->outputfd == -1)
+    {
+        input->last_exit_code = 1;
+        ft_putstr_fd("miniyo: Cannot open file for appending\n", 2);
+        return (0);
+    }
+    update_input(input, i, lonely);
+    return (1);
+}
+
 bool ft_manage_redirection(t_input *input, char *search, int i, bool lonely)
 {
 	if (ft_strcmp(search, "<") == 0)
 		if (ft_manage_input_redirection(input, i, lonely) == 0)
 			return (0);
-	//if (ft_strcmp(search, ">") == 0)
-	//	ft_manage_output_redirection(input, i, lonely);
-	//if (ft_strcmp(search, "<<") == 0)
-	//	ft_manage_heardoc_redirection(input, i, lonely);
-	//if (ft_strcmp(search, ">>") == 0)
-	//	ft_manage_append_redirection(input, i, lonely);
+	if (ft_strcmp(search, ">") == 0)
+		if (ft_manage_output_redirection(input, i, lonely) == 0)
+			return (0);
+	if (ft_strcmp(search, ">>") == 0)
+		if (ft_manage_append_redirection(input, i, lonely) == 0)
+			return (0);
 	return (1);
 }
 
