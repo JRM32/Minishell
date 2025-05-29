@@ -6,12 +6,13 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:49:50 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 04:07:46 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:14:02 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
+
 void	update_exit_code_env(t_input *input, int exit_code)
 {
 	char	*new_var;
@@ -174,64 +175,85 @@ char *find_executable(char *command, char **envp)
 	return NULL;
 }
 
-
-bool	exec_child(t_input *input, pid_t pid, char *executable)
+bool exec_child(t_input *input, pid_t pid, char *executable)
 {
-	char	**command_union;
+    char **command_union;
+    char **args_split = NULL;
+    int argc = 0;
 
-	if (input->args[0])
-		command_union = (char **)ft_calloc(3, sizeof(char *));
-	else
-		command_union = (char **)ft_calloc(2, sizeof(char *));
-	if (!command_union)
-		return (false);
-	command_union[0] = input->command;
-	if (input->args[0])
-		command_union[1] = input->args;
-	if (pid == -1)
-	{
-		perror("fork");
-		free(executable);
-		if (command_union)
-			free (command_union);
-		command_union = NULL;
-		return (false);
-	}
-	if (pid == 0)
-	{
-		if (input->inputfd != STDIN_FILENO)
-			dup2(input->inputfd, STDIN_FILENO);
-		if (input->outputfd != STDOUT_FILENO)
-			dup2(input->outputfd, STDOUT_FILENO);
+    // Split input->args if it's non-empty
+    if (input->args && input->args[0])
+    {
+        args_split = ft_split(input->args, ' ');
+        if (!args_split)
+            return false;
 
-		signal(SIGINT, SIG_DFL);
-    	signal(SIGQUIT, SIG_DFL); //javi signals
-		
-		printf("Executable: %s\n", executable);
-		for (size_t i = 0; command_union[i]; i++)
-			printf("Command union[%zu]: %s\n", i, command_union[i]);
-		execve(executable, command_union, input->envp);
-		if (command_union)
-			free (command_union);
-		command_union = NULL;
-		free(executable);
-		exit(1);
-	}
-	return (free (command_union), true);
+        while (args_split[argc])
+            argc++;
+    }
+
+    // Allocate command_union (command + args + NULL)
+    command_union = (char **)ft_calloc(argc + 2, sizeof(char *));
+    if (!command_union)
+    {
+        if (args_split)
+            ft_matrix_free(&args_split);
+        return false;
+    }
+
+    // Build the argv array for execve
+    command_union[0] = input->command;
+    for (int i = 0; i < argc; i++)
+        command_union[i + 1] = args_split[i];
+    command_union[argc + 1] = NULL;
+
+    if (pid == -1)
+    {
+        perror("fork");
+        free(executable);
+        free(command_union);  // only free the outer array, args_split memory is reused
+        return false;
+    }
+
+    if (pid == 0)
+    {
+        if (input->inputfd != STDIN_FILENO)
+            dup2(input->inputfd, STDIN_FILENO);
+        if (input->outputfd != STDOUT_FILENO)
+            dup2(input->outputfd, STDOUT_FILENO);
+
+        signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
+
+        execve(executable, command_union, input->envp);
+
+        // If execve fails
+        perror("execve");
+        free(command_union);
+        free(executable);
+        exit(1);
+    }
+
+    // Only parent continues here
+    free(command_union);  // Don't free args_split strings—they're part of command_union now
+    return true;
 }
-
 bool execute_command(t_input *input)
 {
 	char *executable;
 	pid_t pid;
 	int status, sig;
 
-	// printf("============\nPARSEADO:%s\n==========\n", input->parsed);
-	// printf("command:%s\n", input->command);
-	// printf("arg:%s\n", input->args);
-	// for (size_t i = 0; input->split_exp[i]; i++)
-	// 	ft_printf("%d.%s %d\n", i, input->split_exp[i], input->status_exp[i]);
-	// printf("-----SALIDA-----\n"); 
+	ft_printf("command:%s\n", input->command);
+	ft_printf("arg:%s\n", input->args);
+	ft_printf("parsed:%s\n", input->parsed);
+	for (size_t i = 0; input->input_split[i]; i++)
+		ft_printf("Input split%d:%s %d\n", i, input->input_split[i], input->status_exp[i]);
+	for (size_t i = 0; input->split_exp[i]; i++)
+		ft_printf("Split exp%d:%s %d\n", i, input->split_exp[i], input->status_exp[i]);
+	ft_printf("inputfd:%d\n", input->inputfd);
+	ft_printf("outputfd:%d\n", input->outputfd);
+	ft_printf("-----SALIDA-----\n\n\n\n"); 
 
 	if (!input->input_split || !input->input_split[0] || !input->command || input->command[0] == '\0')
 	{
@@ -241,6 +263,7 @@ bool execute_command(t_input *input)
 
 	errno = 0;
 	executable = find_executable(input->command, input->envp);
+	
 	if (!executable)
 	{
 		if (errno == EACCES)
@@ -260,16 +283,18 @@ bool execute_command(t_input *input)
 		}
 		return false;
 	}
+	
 
 	pid = fork();
+	
 	if (!exec_child(input, pid, executable))
 	{
 		free(executable);
 		return false;
 	}
-
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
+
 
 	if (WIFSIGNALED(status))
 	{

@@ -6,38 +6,12 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 01:26:18 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 14:09:50 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:09:46 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
-
-void update_input(t_input *input, int i, bool lonely)
-{
-	int j = 0;
-	int k = 0;
-
-	char **split_exp = ft_matrix_dup(input->split_exp);
-	ft_matrix_free(&input->split_exp);
-	if (lonely)
-		input->split_exp = malloc(sizeof(char *) * (ft_matrix_len(split_exp) - 1));
-	else
-		input->split_exp = malloc(sizeof(char *) * (ft_matrix_len(split_exp)));
-	while (split_exp[j])
-	{
-		if (j == i);
-		else if (lonely && j == i + 1);
-		else
-		{
-			input->split_exp[k]= ft_strdup(split_exp[j]);
-			k++;
-		}
-		j++;
-	}
-	input->split_exp[k] = NULL;
-	ft_matrix_free(&split_exp);
-}
 
 void ft_manage_input_redirection(t_input *input, int i, bool lonely)
 {
@@ -101,7 +75,12 @@ bool handle_redirection(t_input *input)
 			i = -1;
 		i++;
 	}
-	for (int j = 0; input->split_exp[j]; j++)
-		printf("Split exp %d: %s\n", j, input->split_exp[j]);
-	return (1);
+	//for (int j = 0; input->split_exp[j]; j++)
+	//	printf("Split exp %d: %s\n", j, input->split_exp[j]);
+	//printf("input: %s\n", input->input);
+	//printf("command: %s\n", input->command);
+	//printf("args: %s\n", input->args);
+	//printf("inputfd: %d\n", input->inputfd);
+	//printf("outputfd: %d\n", input->outputfd);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:52:12 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/04/03 14:03:56 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/05/29 14:31:17 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
-	if (s == NULL)
+	if (!s || !s[0])
 		return (0);
 	i = 0;
-	while (s[i] != 0)
+	while (s[i])
 		i++;
 	return (i);
 }
