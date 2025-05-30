@@ -56,8 +56,10 @@ int	count_pipes(t_input *input)
 void ft_compose_parsed(t_input *input)
 {
     int i;
+    bool first;
 
     i = 0;
+    first = true;
     input->parsed = ft_strdup("");
     while (input->input_split[i])
     {
@@ -66,7 +68,10 @@ void ft_compose_parsed(t_input *input)
             i++;
             continue;
         }
+        if (!first)
+            input->parsed = ft_strjoin_and_replace(input->parsed, " ");
         input->parsed = ft_strjoin_and_replace(input->parsed, input->input_split[i]);
+        first = false;
         i++;
     }
     input->parsed = ft_strjoin_and_replace(input->parsed, "\0");

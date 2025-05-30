@@ -164,7 +164,6 @@ bool	execute_command(t_input *input)
 	
 	if (pid == 0)
 		child_process(input);
-	ft_input_free(input);
 	if (waitpid(pid, &status, 0) == -1)
 	{
 		perror("waitpid");
