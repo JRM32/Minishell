@@ -90,7 +90,7 @@ char		**ft_matrix_dup(char **matrix);
 char		*ft_strchr_quotes(const char *s, int c);
 char		*ft_strcat(char *dest, const char *src);
 size_t		ft_strcspn(const char *str1, const char *str2);
-int 	ft_matrix_len(char **matrix);
+int			ft_matrix_len(char **matrix);
 
 //MINISHELL - Javi
 char		**ft_split_quotes(char const *s, char c, t_input *input);
