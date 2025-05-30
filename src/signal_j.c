@@ -23,7 +23,6 @@ void	disable_echoctl(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
-
 void	ctrlc_handler(int sig)
 {
 	(void)sig;

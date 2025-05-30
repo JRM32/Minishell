@@ -47,14 +47,12 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	
 	input.envp = ft_matrix_dup(envp);
 	if (!input.envp)
 		clean_all(&input, 1);
 	input.is_script = !isatty(STDIN_FILENO);
 	init_sigaction(&sa);
 	init_input_struct(&input);
-	
 	while (1)
 	{
 		input.input = readline("\001\033[1;32m\002miniyo$\001\033[0m\002 ");
@@ -98,7 +96,6 @@ int	main(int argc, char **argv, char **envp)
 		ft_manage_pipes(&input);
 		free(input.input);
 	}
-	
 	clean_all(&input, 0);
 	if (input.is_script)
 		exit(input.last_exit_code != 0 ? input.last_exit_code : 1);

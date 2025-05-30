@@ -13,24 +13,27 @@
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
-void update_input_split_exp(t_input *input, int i, bool lonely)
+void	update_input_split_exp(t_input *input, int i, bool lonely)
 {
-	int j = 0;
-	int k = 0;
+	int		j;
+	int		k;
+	char	**split_exp_dup;
+	int		len_dup;
 
-	char **split_exp_dup = ft_matrix_dup(input->split_exp);
+	j = 0;
+	k = 0;
+	split_exp_dup = ft_matrix_dup(input->split_exp);
 	ft_matrix_free(&input->split_exp);
+	len_dup = ft_matrix_len(split_exp_dup);
 	if (lonely)
-		input->split_exp = malloc(sizeof(char *) * (ft_matrix_len(split_exp_dup) - 1));
+		input->split_exp = malloc(sizeof(char *) * (len_dup - 1));
 	else
-		input->split_exp = malloc(sizeof(char *) * (ft_matrix_len(split_exp_dup)));
+		input->split_exp = malloc(sizeof(char *) * (len_dup));
 	while (split_exp_dup[j])
 	{
-		if (j == i);
-		else if (lonely && j == i + 1);
-		else
+		if (!((j == i) || (lonely && j == i + 1)))
 		{
-			input->split_exp[k]= ft_strdup(split_exp_dup[j]);
+			input->split_exp[k] = ft_strdup(split_exp_dup[j]);
 			k++;
 		}
 		j++;
@@ -66,18 +69,20 @@ char	*ft_matrix_to_str(char **matrix)
 	return (result);
 }
 
-void update_input(t_input *input, int i, bool lonely)
+void	update_input(t_input *input, int i, bool lonely)
 {
+	int	j;
+	int	k;
+
 	update_input_split_exp(input, i, lonely);
 	free(input->input);
 	input->input = ft_matrix_to_str(input->split_exp);
 	ft_matrix_free(&input->input_split);
 	input->input_split = ft_split_quotes(input->input, ' ', input);
-	//free(input->args);
 	compose_command_args(input);
 	free(input->parsed);
-	int j = -1;
-	int k = 0;
+	j = -1;
+	k = 0;
 	while (input->split_exp[++j])
 	{
 		if (i == j || (lonely && i + 1 == j))
@@ -88,11 +93,7 @@ void update_input(t_input *input, int i, bool lonely)
 			k++;
 		}
 	}
-	//for (int j = 0; input->split_exp[j] != 0 && j < 100; j++)
-	//	input->status_exp[j] = 0;
 	ft_matrix_free(&input->split_exp);
-	//parsing(input);
 	ft_compose_parsed(input);
 	input->split_exp = ft_matrix_dup(input->input_split);
-
 }
