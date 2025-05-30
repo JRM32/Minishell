@@ -279,6 +279,8 @@ run_redir '>kk echo -n patata' 'echo -n patata'
 run_redir '>kk echo -nnnnn -na patata' 'echo -nnnnn -na patata'
 run_redir '>kk echo -nnnnn' 'echo -nnnnn'
 run_redir '>kk echo' 'echo'
+run 'echo con redireccion "normal"' 'echo con redireccion "normal"'
+run 'echo redirs/a' 'echo redirs/b'
 
 echo -e "\n"
 echo "############"
@@ -322,6 +324,11 @@ run_command_return_value '/bin/diff redirs/a redirs/a' 0
 run_command_return_value '/bin/diff redirs/a redirs/c' 2
 run_command_return_value '/bin/test -f redirs/a' 0
 run_command_return_value '/bin/test -f redirs/c' 1
-
+run_command_return_value '/bin/test 5 -gt 3' 0
+run_command_return_value '/bin/test 1 -gt 3' 1
+run_command_return_value '/bin/test 3 -eq 3' 0
+SHLVL_VAL=$SHLVL
+run "expr $SHLVL_VAL + $SHLVL_VAL" "expr $SHLVL_VAL + $SHLVL_VAL"
+run 'expr $SHLVL + $SHLVL' 'expr $SHLVL + $SHLVL - 2'
 
 
