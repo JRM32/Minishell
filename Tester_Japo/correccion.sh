@@ -99,6 +99,26 @@ run()
     rm redirs/temp1 redirs/temp2
 }
 
+run_command_return_value()
+{
+    INPUT="$1"
+	EXPECTED="$2"
+    
+	echo -e "$INPUT\nexit \$?" | ../minishell > redirs/temp1 2>&1
+    EXIT_CODE=$?
+
+	if [ "$EXIT_CODE" -eq "$EXPECTED" ]; then
+        echo -e "${GREEN}✔️${RESET}  $INPUT (exit $EXIT_CODE)"
+    else
+        echo -e "${RED}❌${RESET}  $INPUT (got $EXIT_CODE, expected $EXPECTED)"
+		cat temp1
+    fi
+	rm redirs/temp1
+}
+
+
+
+
 echo "##########################"
 echo "# COMANDS con ruta       #"
 echo "##########################"
@@ -282,9 +302,20 @@ run_exit "exit 9223372036854775808" 2
 run_exit "exit -9223372036854775809" 2
 run_exit "exit -922337203685477580834" 2
 run_exit "exit patata" 2
-run_exit "ls" 0
-run_exit "patata" 127
 
+echo -e "\n"
+echo "###################################"
+echo "# VALOR RETORNO DE UN PROCESO     #"
+echo "###################################"
+echo -e "\n"
 
+run_exit "/bin/ls" 0
+run_exit "/bin/patata" 127
+run_command_return_value "/bin/ls" 0
+run_command_return_value "/bin/patata" 127
+run_command_return_value "/bin/patata" 127
+run_command_return_value '/bin/grep "ejemplo" redirs/a' 0
+run_command_return_value '/bin/grep "rollon" redirs/a' 1
+run_command_return_value '/bin/grep "rollon" redirs/c' 2
 
 
