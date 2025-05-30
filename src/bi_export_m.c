@@ -13,33 +13,12 @@
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
-char	**dup_env(char **env, int extra)
-{
-	char	**new_env;
-	int		i;
-
-	i = 0;
-	while (env && env[i])
-		i++;
-	new_env = malloc(sizeof(char *) * (i + extra + 1));
-	if (!new_env)
-		return (NULL);
-	i = 0;
-	while (env && env[i])
-	{
-		new_env[i] = ft_strdup(env[i]);
-		i++;
-	}
-	new_env[i] = NULL;
-	return (new_env);
-}
-
 void	env_add(char ***envp, char *new_var)
 {
 	char	**new_env;
 	int		i;
 
-	new_env = dup_env(*envp, 1);
+	new_env = ft_matrix_dup_plus(*envp, 1);
 	if (!new_env)
 		return ;
 	i = 0;
@@ -47,7 +26,6 @@ void	env_add(char ***envp, char *new_var)
 		i++;
 	new_env[i] = ft_strdup(new_var);
 	new_env[i + 1] = NULL;
-
 	i = 0;
 	while ((*envp)[i])
 	{
@@ -145,7 +123,7 @@ void	export_print_sorted(char **env)
 
 static int	is_valid_key(char *str)
 {
-	int i;
+	int	i;
 
 	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
 		return (0);
@@ -160,8 +138,6 @@ static int	is_valid_key(char *str)
 		return (0);
 	return (1);
 }
-
-
 
 static char	*get_env_key(char *str)
 {
@@ -214,8 +190,8 @@ static void	export_var(char *arg, char ***envp)
 	len = ft_strlen(key);
 	while (env && env[i])
 	{
-		if (ft_strncmp(env[i], key, len) == 0 &&
-			(env[i][len] == '=' || env[i][len] == '\0'))
+		if (ft_strncmp(env[i], key, len) == 0
+			&& (env[i][len] == '=' || env[i][len] == '\0'))
 		{
 			free(env[i]);
 			env[i] = ft_strdup(arg);
@@ -252,7 +228,6 @@ static void	export_args(t_input *input, char ***envp)
 	}
 	input->last_exit_code = error_flag;
 }
-
 
 void	ft_export(t_input *input, char ***envp)
 {
