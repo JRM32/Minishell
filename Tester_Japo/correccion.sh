@@ -317,5 +317,11 @@ run_command_return_value "/bin/patata" 127
 run_command_return_value '/bin/grep "ejemplo" redirs/a' 0
 run_command_return_value '/bin/grep "rollon" redirs/a' 1
 run_command_return_value '/bin/grep "rollon" redirs/c' 2
+run_command_return_value '/bin/diff redirs/a redirs/b' 1
+run_command_return_value '/bin/diff redirs/a redirs/a' 0
+run_command_return_value '/bin/diff redirs/a redirs/c' 2
+run_command_return_value '/bin/test -f redirs/a' 0
+run_command_return_value '/bin/test -f redirs/c' 1
+
 
 
