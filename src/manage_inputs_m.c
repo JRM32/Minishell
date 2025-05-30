@@ -13,12 +13,10 @@
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
-
 void	ft_manage_input(t_input *input)
 {
 	if (handle_redirection(input) == 1)
 		return ;
-	//printf("============\nPARSEADO:%s\n==========\n", input->parsed);
 	/*
 	printf("============\nENTRADA\n==========\n");
 	printf("input:%s\n", input->input);
@@ -32,8 +30,6 @@ void	ft_manage_input(t_input *input)
 		ft_printf("Split exp %d:%s %d\n", i, input->split_exp[i], input->status_exp[i]);//
 	printf("-----SALIDA-----\n"); 
 	*/
-	//printf("parseado:%s\n", input->parsed);
-	if (ft_strcmp(input->command, "") == 0 || input->command == NULL);
 	else if (ft_strcmp(input->command, "pwd") == 0)
 		ft_pwd(input->args);
 	else if (ft_strcmp(input->command, "cd") == 0)
@@ -48,7 +44,7 @@ void	ft_manage_input(t_input *input)
 		ft_unset(input);
 	else if (ft_strcmp(input->command, "exit") == 0)
 		ft_exit(input);
-	else
+	else if (!(ft_strcmp(input->command, "") == 0 || input->command == NULL))
 		execute_command(input);
 	input->last_dollar_ = ft_last_str(input->split_exp);
 }

@@ -22,7 +22,7 @@ char	*join_command(char **split_exp, int start, int end)
 	len = 0;
 	i = start;
 	while (i < end)
-		len += strlen(split_exp[i++]) + 1;
+		len += ft_strlen(split_exp[i++]) + 1;
 	joined = malloc(len + 1);
 	if (!joined)
 		return (NULL);
@@ -30,9 +30,9 @@ char	*join_command(char **split_exp, int start, int end)
 	i = start;
 	while (i < end)
 	{
-		strcat(joined, split_exp[i]);
+		ft_strcat(joined, split_exp[i]);
 		if (i < end - 1)
-			strcat(joined, " ");
+			ft_strcat(joined, " ");
 		i++;
 	}
 	return (joined);
