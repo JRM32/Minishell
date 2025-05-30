@@ -98,6 +98,7 @@ static void	child_process(t_input *input)
 	char	*cmd_path;
 
 	cmd_path = get_cmd_path_from_env(input, input->envp, input->command);
+	
 	if (!cmd_path)
 	{
 		ft_putstr_fd("minishell: command not found: ", 2);
@@ -105,6 +106,7 @@ static void	child_process(t_input *input)
 		ft_putchar_fd('\n', 2);
 		exit(127); // Standard exit code for command not found
 	}
+	
 	if (input->inputfd != STDIN_FILENO)
 	{
 		if (dup2(input->inputfd, STDIN_FILENO) == -1)
@@ -113,6 +115,7 @@ static void	child_process(t_input *input)
 			exit(1);
 		}
 	}
+	
 	if (input->outputfd != STDOUT_FILENO)
 	{
 		if (dup2(input->outputfd, STDOUT_FILENO) == -1)
@@ -121,6 +124,9 @@ static void	child_process(t_input *input)
 			exit(1);
 		}
 	}
+	
+	if (input->parsed)
+		free(input->parsed);
 	execve(cmd_path, input->split_exp, input->envp);
 	perror("execve");
 	free(cmd_path);
@@ -147,24 +153,30 @@ bool	execute_command(t_input *input)
 	ft_printf("-----END-----\n"); 
 	*/
 
+	
 	pid = fork();
+	
 	if (pid < 0)
 	{
 		perror("fork");
 		return (false);
 	}
+	
 	if (pid == 0)
 		child_process(input);
+	ft_input_free(input);
 	if (waitpid(pid, &status, 0) == -1)
 	{
 		perror("waitpid");
 		return (false);
 	}
+	
 	if (WIFEXITED(status))
 		input->last_exit_code = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		input->last_exit_code = 128 + WTERMSIG(status);
 	//ft_printf("Command executed: %s\n", input->command);
 	//ft_printf("Exit code: %d\n", input->last_exit_code);
+
 	return (true);
 }
