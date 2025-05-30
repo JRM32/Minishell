@@ -16,10 +16,10 @@
 
 void	ft_input_null(t_input *input)
 {
-	int i;
-	
+	int	i;
+
 	if (!input)
-		return;
+		return ;
 	i = 0;
 	input->input = NULL;
 	input->status = NULL;
@@ -56,4 +56,3 @@ void	ft_input_free(t_input *input)
 		ft_matrix_free(&input->split_exp);
 	ft_input_null(input);
 }
-

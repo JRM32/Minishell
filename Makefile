@@ -37,7 +37,8 @@ SRC = 	src/main.c \
 		src/realloc_input_j.c \
 		src/split_exp_utils_j.c \
 		src/update_inputs_m.c \
-		src/redirections_solve_m.c
+		src/redirections_solve_m.c \
+		src/bi_export_utils_m.c
 OBJDIR = obj
 OBJS = $(SRC:src/%.c=$(OBJDIR)/%.o)
 RM	= rm -rf

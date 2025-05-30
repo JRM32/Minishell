@@ -46,4 +46,8 @@ bool	ft_manage_input_redirection(t_input *input, int i, bool lonely);
 bool	ft_manage_output_redirection(t_input *input, int i, bool lonely);
 bool	ft_manage_append_redirection(t_input *input, int i, bool lonely);
 
+void	export_print_sorted(char **env);
+void	update_shlvl(char **arg);
+void	env_add(char ***envp, char *new_var);
+
 #endif
