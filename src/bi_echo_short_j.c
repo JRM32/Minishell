@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_echo_short_j.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:24:00 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/05/30 00:31:24 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/30 08:58:05 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	print_final_echo(t_input *in, int fd, size_t start)
 	}
 	else
 		write(fd, in->parsed + start, ft_strlen(in->parsed + start));
-	//if (in->echo_error_n_arg == 1)
+	if (in->echo_error_n_arg == 1)
 		write(fd, "\n", 1);
 }
 
