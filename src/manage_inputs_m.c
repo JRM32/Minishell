@@ -19,16 +19,15 @@ void	ft_manage_input(t_input *input)
 	if (handle_redirection(input) == 1)
 		return ;
 	//printf("============\nPARSEADO:%s\n==========\n", input->parsed);
-	
 	/*
-	printf("============\nPARSEADO:%s\n==========\n", input->parsed);
+	printf("============\nENTRADA\n==========\n");
 	printf("input:%s\n", input->input);
 	printf("command:%s\n", input->command);
 	printf("arg:%s\n", input->args);
 	printf("parsed:%s\n", input->parsed);
 	
 	for (size_t i = 0; input->input_split[i]; i++)//
-		ft_printf("Input split %d:%s %d\n", i, input->input_split[i], input->input_split[i]);//
+		ft_printf("Input split %d:%s %d\n", i, input->input_split[i], input->status_exp[i]);//
 	for (size_t i = 0; input->split_exp[i]; i++)//
 		ft_printf("Split exp %d:%s %d\n", i, input->split_exp[i], input->status_exp[i]);//
 	printf("-----SALIDA-----\n"); 

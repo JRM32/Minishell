@@ -76,8 +76,20 @@ void update_input(t_input *input, int i, bool lonely)
 	//free(input->args);
 	compose_command_args(input);
 	free(input->parsed);
-	for (int j = 0; input->split_exp[j] != 0 && j < 100; j++)
-		input->status_exp[j] = 0;
+	int j = -1;
+	int k = 0;
+	while (input->split_exp[++j])
+	{
+		if (i == j || (lonely && i + 1 == j))
+			continue ;
+		if (input->status_exp[j] == 0)
+		{
+			input->status_exp[k] = input->status_exp[j];
+			k++;
+		}
+	}
+	//for (int j = 0; input->split_exp[j] != 0 && j < 100; j++)
+	//	input->status_exp[j] = 0;
 	ft_matrix_free(&input->split_exp);
 	//parsing(input);
 	ft_compose_parsed(input);

@@ -63,6 +63,7 @@ typedef struct s_input
 	char	*last_dollar_;
 	pid_t	last_exit_code;
 	bool	is_script;
+	int		total_pipes;
 }			t_input;
 
 //CHECK INPUT

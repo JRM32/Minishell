@@ -37,6 +37,7 @@ void	init_input_struct(t_input *input)
 	input->from_expand = 0;
 	input->inputfd = STDIN_FILENO;
 	input->outputfd = STDOUT_FILENO;
+	input->total_pipes = 0;
 }
 
 int	main(int argc, char **argv, char **envp)

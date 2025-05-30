@@ -79,7 +79,7 @@ void ft_compose_parsed(t_input *input)
 
 void execute_pipeline(t_input *input)
 {
-    int num_cmds = count_pipes(input) + 1;
+    int num_cmds = input->total_pipes + 1;
     int prev_fd = -1;
     int cmd_start = 0;
     pid_t last_pid = -1;
@@ -141,6 +141,7 @@ void execute_pipeline(t_input *input)
             input_child->input = join_command(input->split_exp, cmd_start, cmd_end);
 	    	input_child->input_split = ft_split_quotes(input_child->input, ' ', input_child);
             input_child->envp = input->envp;
+            input_child->total_pipes = input->total_pipes;
             compose_command_args(input_child);
             free(input_child->filename);
             ft_compose_parsed(input_child);
@@ -210,7 +211,8 @@ void ft_manage_pipes(t_input *input)
 {
     input->inputfd = STDIN_FILENO;
     input->outputfd = STDOUT_FILENO;
-	if (count_pipes(input) == 0)
+    input->total_pipes = count_pipes(input);
+	if (input->total_pipes == 0)
 		ft_manage_input(input);
 	else
 		execute_pipeline(input);
