@@ -280,7 +280,6 @@ run_redir '>kk echo -nnnnn -na patata' 'echo -nnnnn -na patata'
 run_redir '>kk echo -nnnnn' 'echo -nnnnn'
 run_redir '>kk echo' 'echo'
 run 'echo con redireccion "normal"' 'echo con redireccion "normal"'
-run 'echo redirs/a' 'echo redirs/b'
 
 echo -e "\n"
 echo "############"
