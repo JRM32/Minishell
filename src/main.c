@@ -74,6 +74,18 @@ int	main(int argc, char **argv, char **envp)
 		}
 		compose_command_args(&input);
 		parsing(&input);
+		if ((!input.command || !input.command[0]) && input.parsed)
+		{
+			free(input.filename);
+			free(input.input);
+			input.input = ft_strdup(input.parsed);
+			free(input.parsed);
+			ft_matrix_free(&input.input_split);
+			
+			input.input_split = ft_split_quotes(input.input, ' ', &input);
+			compose_command_args(&input);
+			parsing(&input);
+		}
 		/*
 		 printf("============\nPARSEADO:%s\n==========\n", input.parsed);
 		printf("command:%s\n", input.command);

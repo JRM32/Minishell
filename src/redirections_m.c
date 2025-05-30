@@ -53,7 +53,7 @@ bool ft_manage_output_redirection(t_input *input, int i, bool lonely)
         ft_putstr_fd("miniyo: Permission denied\n", 2);
         return (0);
     }
-    //update_input(input, i, lonely);
+    update_input(input, i, lonely);
     return (1);
 }
 
