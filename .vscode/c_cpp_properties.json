@@ -1,17 +1,17 @@
 {
   "configurations": [
     {
-      "name": "linux-gcc-x64",
+      "name": "windows-gcc-x64",
       "includePath": [
         "${workspaceFolder}/**"
       ],
       "defines": [
         "_POSIX_C_SOURCE=199309L"
       ],
-      "compilerPath": "/usr/bin/gcc",
+      "compilerPath": "C:/TDM-GCC-64/bin/gcc.exe",
       "cStandard": "${default}",
       "cppStandard": "${default}",
-      "intelliSenseMode": "linux-gcc-x64"
+      "intelliSenseMode": "windows-gcc-x64"
     }
   ],
   "version": 4

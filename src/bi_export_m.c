@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:06:31 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/26 19:05:23 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:31:45 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,6 @@ static int	is_valid_key(char *str)
 			return (0);
 		i++;
 	}
-	// si empieza con '=' o es solo '='
 	if (str[0] == '=' || str[0] == '\0')
 		return (0);
 	return (1);
@@ -225,7 +224,7 @@ static void	export_var(char *arg, char ***envp)
 		}
 		i++;
 	}
-	env_add(envp, arg); // solo lo añade si no existe
+	env_add(envp, arg);
 	free(key);
 }
 
