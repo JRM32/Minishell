@@ -40,7 +40,7 @@ void	ft_manage_input(t_input *input)
 		ft_export(input, &input->envp);
 	else if (ft_strcmp(input->command, "env") == 0)
 		ft_env(input, input->envp);
-	else if (ft_strcmp(input->command, "unset") == 0)//. unset sin mas lo que hace es poner una nueva linea de prompt
+	else if (ft_strcmp(input->command, "unset") == 0)
 		ft_unset(input);
 	else if (ft_strcmp(input->command, "exit") == 0)
 		ft_exit(input);
