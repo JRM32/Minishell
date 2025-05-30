@@ -122,7 +122,7 @@ void	print_final_echo(t_input *in, int fd, size_t start)
 	}
 	else
 		write(fd, in->parsed + start, ft_strlen(in->parsed + start));
-	if (in->echo_error_n_arg == 1)
+	//if (in->echo_error_n_arg == 1)
 		write(fd, "\n", 1);
 }
 
