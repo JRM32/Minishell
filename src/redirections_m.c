@@ -39,7 +39,6 @@ bool ft_manage_output_redirection(t_input *input, int i, bool lonely)
 {
     char *filename;
 
-	ft_printf("find redirection");
     if (lonely)
         filename = input->split_exp[i + 1];
     else

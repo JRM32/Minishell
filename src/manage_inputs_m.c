@@ -37,7 +37,8 @@ void	ft_manage_input(t_input *input)
 	
 
 
-	if (ft_strcmp(input->command, "pwd") == 0)
+	if (ft_strcmp(input->command, "") == 0 || input->command == NULL);
+	else if (ft_strcmp(input->command, "pwd") == 0)
 		ft_pwd(input->args);
 	else if (ft_strcmp(input->command, "cd") == 0)
 		ft_cd(input);

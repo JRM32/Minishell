@@ -101,7 +101,7 @@ static void	child_process(t_input *input)
 	
 	if (!cmd_path)
 	{
-		ft_putstr_fd("minishell: command not found: ", 2);
+		ft_putstr_fd("minishell: command not founda: ", 2);
 		ft_putstr_fd(input->command, 2);
 		ft_putchar_fd('\n', 2);
 		exit(127); // Standard exit code for command not found
