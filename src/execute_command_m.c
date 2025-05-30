@@ -96,10 +96,13 @@ char	*get_cmd_path_from_env(t_input *input, char **envp, char *cmd)
 	return (path);
 }
 
+
+
 static void	child_process(t_input *input)
 {
 	char	*cmd_path;
 
+	//printf("Command: %s\n", input->command);
 	cmd_path = get_cmd_path_from_env(input, input->envp, input->command);
 	if (!cmd_path)
 	{
@@ -125,9 +128,9 @@ static void	child_process(t_input *input)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(input->command, 2);
-		ft_putstr_fd(": command not found\n", 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		free(cmd_path);
-		exit(127);
+		exit(2);
 	}
 	else if (errno == EACCES)
 	{
