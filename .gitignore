@@ -3,3 +3,4 @@ minishell
 *.a
 *.out
 minishell_tester/
+norminette-env/
