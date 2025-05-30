@@ -64,8 +64,8 @@ bool	handle_redirection(t_input *input)
 	char	**redirections;
 
 	redirections = ft_create_redirection();
-	i = 0;
-	while (input->split_exp[i])
+	i = -1;
+	while (input->split_exp[++i])
 	{
 		j = -1;
 		while (++j < 4)
@@ -75,16 +75,14 @@ bool	handle_redirection(t_input *input)
 			result = ft_check_one_redirection(input, i, redirections[j]);
 			if (result == 1)
 			{
-				i = 0;
+				i = -1;
 				break ;
 			}
 			else if (result == -1)
 				return (ft_matrix_free(&redirections), 1);
 		}
-		i++;
 	}
-	ft_matrix_free(&redirections);
-	return (0);
+	return (ft_matrix_free(&redirections), 0);
 }
 	/*
 	printf("ANTES\n");
