@@ -48,6 +48,26 @@ run_test() {
     rm temp1 temp2
 }
 
+
+run_redir() {
+    INPUT="$1"
+    EXPECTED="$2"
+
+    clean_output "$INPUT" > temp1
+    eval "$EXPECTED" > temp2
+    if diff -q kk temp2 >/dev/null; then
+        echo -e "${GREEN}✔️${RESET}  $INPUT"
+    else
+        echo -e "${RED}❌${RESET}  $INPUT"
+        echo "     Diferencias:"
+        cat kk
+        cat temp2
+    fi
+    rm kk temp2
+}
+
+
+
 run_test 'echo $a""a' 'echo $a""a'
 run_test 'echo $a"" a' 'echo $a"" a'
 run_test 'echo $a" " a' 'echo $a" " a'
@@ -174,10 +194,9 @@ run_test 'echo ""$a""t' 'echo ""$a""t'
 run_test 'echo ""$a"" t' 'echo ""$a"" t'
 run_test 'echo ""$a" " t' 'echo ""$a" " t'
 run_test 'echo ""$a "  " t ""$a "  " t ' 'echo ""$a "  " t ""$a "  " t '
-run_test '>kk echo patata' 'echo patata'
-run_test '> kk echo patata' 'echo patata'
-run_test '>kk echo -n patata' 'echo -n patata'
-run_test '>kk echo -nnnnn -na patata' 'echo -nnnnn -na patata'
-run_test '>kk echo -nnnnn' 'echo -nnnnn'
-run_test '>kk echo' 'echo'
-
+run_redir '>kk echo patata' 'echo patata'
+run_redir '> kk echo patata' 'echo patata'
+run_redir '>kk echo -n patata' 'echo -n patata'
+run_redir '>kk echo -nnnnn -na patata' 'echo -nnnnn -na patata'
+run_redir '>kk echo -nnnnn' 'echo -nnnnn'
+run_redir '>kk echo' 'echo'
