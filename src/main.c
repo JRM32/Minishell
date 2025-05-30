@@ -80,7 +80,6 @@ int	main(int argc, char **argv, char **envp)
 			input.input = ft_strdup(input.parsed);
 			free(input.parsed);
 			ft_matrix_free(&input.input_split);
-			
 			input.input_split = ft_split_quotes(input.input, ' ', &input);
 			compose_command_args(&input);
 			parsing(&input);
