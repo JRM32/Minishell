@@ -13,6 +13,7 @@
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
+/*
 // ====== SEÑALES DE JAVI ======
 volatile	sig_atomic_t heredoc_interrupted;
 
@@ -152,3 +153,4 @@ void	handle_heredoc_redirection(t_input *input, char *redir)
 	sigaction(SIGINT, &sa_old_int, NULL);//javi signals
 	sigaction(SIGQUIT, &sa_old_quit, NULL);//javi signals
 }
+*/
