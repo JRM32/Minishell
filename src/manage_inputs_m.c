@@ -33,9 +33,6 @@ void	ft_manage_input(t_input *input)
 	printf("-----SALIDA-----\n"); 
 	*/
 	//printf("parseado:%s\n", input->parsed);
-	
-
-
 	if (ft_strcmp(input->command, "") == 0 || input->command == NULL);
 	else if (ft_strcmp(input->command, "pwd") == 0)
 		ft_pwd(input->args);
@@ -54,6 +51,4 @@ void	ft_manage_input(t_input *input)
 	else
 		execute_command(input);
 	input->last_dollar_ = ft_last_str(input->split_exp);
-	//ft_printf("Comand: %s\n", input->command);
-	//ft_printf("last_exit_code_: %s\n", input->last_dollar_);
 }
