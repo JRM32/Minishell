@@ -91,7 +91,8 @@ char		*ft_strchr_quotes(const char *s, int c);
 char		*ft_strcat(char *dest, const char *src);
 size_t		ft_strcspn(const char *str1, const char *str2);
 int			ft_matrix_len(char **matrix);
-char	**ft_matrix_dup_plus(char **env, int extra);
+char		**ft_matrix_dup_plus(char **env, int extra);
+char		*ft_strjoin_r(char *s1, char const *s2);
 
 //MINISHELL - Javi
 char		**ft_split_quotes(char const *s, char c, t_input *input);
@@ -105,6 +106,4 @@ int			is_quoted(t_input *input, int word);
 long long	ft_atol(char *nptr, int *error);
 char		*ft_first_word(char *str, char c);
 char		*ft_last_str(char **str);
-char		*ft_strjoin_and_replace(char *s1, char const *s2);
-
 #endif
