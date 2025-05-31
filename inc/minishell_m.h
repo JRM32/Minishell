@@ -29,7 +29,7 @@ void	ft_manage_history(char *input, bool clean);
 void	clean_all(t_input *input, int error);
 
 //BUILT INS
-void	ft_pwd(char *input);
+void	ft_pwd(char *args, t_input *input);
 void	ft_env(t_input *in, char **envp);
 void	ft_export(t_input *input, char ***envp);
 void	ft_unset(t_input *input);

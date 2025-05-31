@@ -109,7 +109,7 @@ static void	export_args(t_input *input, char ***envp)
 void	ft_export(t_input *input, char ***envp)
 {
 	input->last_exit_code = 0;
-	if (!input->split_exp[1])
+	if (!input->split_exp[1] || !input->split_exp[1][0])
 		export_print_sorted(*envp);
 	else
 		export_args(input, envp);
