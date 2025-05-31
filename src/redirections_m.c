@@ -24,6 +24,9 @@ bool	ft_manage_redirection(t_input *input, char *search, int i, bool lonely)
 	if (ft_strcmp(search, ">>") == 0)
 		if (ft_manage_append_redirection(input, i, lonely) == 0)
 			return (0);
+	if (ft_strcmp(search, "<<") == 0)
+		if (ft_manage_heredoc_redirection(input, i, lonely) == 0)
+			return (0);
 	return (1);
 }
 

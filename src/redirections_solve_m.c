@@ -75,3 +75,41 @@ bool	ft_manage_append_redirection(t_input *input, int i, bool lonely)
 	update_input(input, i, lonely);
 	return (1);
 }
+
+bool	ft_manage_heredoc_redirection(t_input *input, int i, bool lonely)
+{
+	char	*delimiter;
+	char	*line;
+	int		pipefd[2];
+
+	if (lonely)
+		delimiter = input->split_exp[i + 1];
+	else
+		delimiter = input->split_exp[i] + ft_strlen("<<");
+	if (pipe(pipefd) == -1)
+	{
+		ft_putstr_fd("miniyo: pipe error\n", 2);
+		input->last_exit_code = 1;
+		return (0);
+	}
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			break;
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write(pipefd[1], line, strlen(line));
+		write(pipefd[1], "\n", 1);
+		free(line);
+	}
+	close(pipefd[1]);
+	if (input->inputfd > 2)
+		close(input->inputfd);
+	input->inputfd = pipefd[0];
+	update_input(input, i, lonely);
+	return (1);
+}

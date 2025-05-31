@@ -50,4 +50,6 @@ void	export_print_sorted(char **env);
 void	update_shlvl(char **arg);
 void	env_add(char ***envp, char *new_var);
 
+bool	ft_manage_heredoc_redirection(t_input *input, int i, bool lonely);
+
 #endif
