@@ -14,6 +14,8 @@
 #include "../inc/minishell_j.h"
 #include <termios.h>
 
+volatile sig_atomic_t g_signal_received = 0;
+
 void	disable_echoctl(void)
 {
 	struct termios	term;
@@ -26,7 +28,8 @@ void	disable_echoctl(void)
 void	ctrlc_handler(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
+	g_signal_received = SIGINT;
+	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

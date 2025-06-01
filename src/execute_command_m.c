@@ -123,6 +123,12 @@ static void	child_process(t_input *input)
 	}
 	if (input->parsed)
 		free(input->parsed);
+	
+	//SEÑALES DE JAVI NO BORRAR!!!!
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+
+	
 	execve(cmd_path, input->split_exp, input->envp);
 	if (errno == ENOEXEC)
 	{
@@ -155,20 +161,38 @@ static void	child_process(t_input *input)
 
 bool	execute_command(t_input *input)
 {
-	pid_t	pid;
-	int		status;
+	pid_t				pid;
+	int					status;
+	struct sigaction	sa; ///NO BORRAR!!! SEÑALES
+
+	// Ignorar señales en padre mientras hijo corre no preocuparse por rayas rojas..
+    signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
 
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), false);
 	if (pid == 0)
 		child_process(input);
-	if (waitpid(pid, &status, 0) == -1)
-		return (perror("waitpid"), false);
-	if (WIFEXITED(status))
-		input->last_exit_code = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		input->last_exit_code = 128 + WTERMSIG(status);
+	else
+	{
+		if (waitpid(pid, &status, 0) == -1)
+			return (perror("waitpid"), false);
+		
+		
+		init_sigaction(&sa); ///NO BORRAR!!! SEÑALES
+		if (WIFEXITED(status))
+			input->last_exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+		{
+			int sig;
+
+			sig = WTERMSIG(status);
+			if (sig == SIGQUIT)
+				write(2, "Quit (core dumped)\n", 19);
+			input->last_exit_code = 128 + sig;
+		}
+	}
 	return (true);
 }
 

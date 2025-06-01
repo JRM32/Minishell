@@ -96,6 +96,7 @@ void	execute_pipeline(t_input *input)
 	t_input	*input_child;
 	int		status;
 	pid_t	wpid;
+	int		sig; // señales NOOOO BORRAR
 
 	num_cmds = input->total_pipes + 1;
 	prev_fd = -1;
@@ -132,6 +133,15 @@ void	execute_pipeline(t_input *input)
 		}
 		if (pid == 0)
 		{
+			// ====== SEÑALES DE JAVI ======
+
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
+
+			// =============================
+			
+			
+			
 			if (prev_fd != -1)
 			{
 				dup2(prev_fd, STDIN_FILENO);
@@ -180,8 +190,22 @@ void	execute_pipeline(t_input *input)
 	}
 	while ((wpid = wait(&status)) > 0)
 	{
-		if (wpid == last_pid && WIFEXITED(status))
-			input->last_exit_code = WEXITSTATUS(status);
+		if (wpid == last_pid)
+		{
+			if (WIFEXITED(status))
+				input->last_exit_code = WEXITSTATUS(status);
+			
+			//SEÑALES!! NO BORRAR!!!
+			else if (WIFSIGNALED(status))
+			{
+				sig = WTERMSIG(status);
+				if (sig == SIGINT)
+					write(1, "\n", 1);
+				else if (sig == SIGQUIT)
+					write(1, "Quit (core dumped)\n", 19);
+				input->last_exit_code = 128 + sig;
+			}
+		}
 	}
 }
 

@@ -56,6 +56,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		input.input = readline("\001\033[1;32m\002miniyo$\001\033[0m\002 ");
+		if (g_signal_received == SIGQUIT)
+			clean_all(&input, 131);
 		if (!input.input)
 			break ;
 		if (!input.input[0])
