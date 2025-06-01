@@ -38,6 +38,7 @@ void	init_input_struct(t_input *input)
 	input->inputfd = STDIN_FILENO;
 	input->outputfd = STDOUT_FILENO;
 	input->total_pipes = 0;
+	input->total_redirections = 0;
 }
 
 int	main(int argc, char **argv, char **envp)

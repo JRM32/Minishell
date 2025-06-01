@@ -64,6 +64,7 @@ typedef struct s_input
 	pid_t	last_exit_code;
 	bool	is_script;
 	int		total_pipes;
+	int		total_redirections;
 }			t_input;
 
 //CHECK INPUT
