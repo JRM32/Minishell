@@ -159,6 +159,28 @@ run_command_return_value()
 	rm redirs/temp1
 }
 
+run_export() {
+    local INPUT="$1"
+    local EXPECTED_OUTPUT="$2"
+    local ENV_VARS="$3"
+
+    mkdir -p ../redirs
+
+    OUTPUT=$(clean_output "$INPUT" "$ENV_VARS")
+
+    if [ "$OUTPUT" = "$EXPECTED_OUTPUT" ]; then
+        echo -e "${GREEN}✔️${RESET}  $INPUT"
+    else
+        echo -e "${RED}❌${RESET}  $INPUT"
+        echo "Esperado: '$EXPECTED_OUTPUT'"
+        echo "Tengo:      '$OUTPUT'"
+    fi
+
+    rm -rf ../redirs
+}
+
+
+
 
 clear
 
@@ -446,8 +468,26 @@ run "'/bin/echo' '   '" "'/bin/echo' '   '"
 run "'cat' '   redirs/a   '" "'cat' '   redirs/a   '"
 run "'/bin/echo' patata '|' 'cat'" "'/bin/echo' patata '|' 'cat'"
 run "'/bin/ls' '-l' '|' 'wc' '-l'" "'/bin/ls' '-l' '|' 'wc' '-l'"
-
 run_directory_invalid "'cat' redirs/a '|' 'grep' hola" "'cat' redirs/a '|' 'grep' hola"
 run "'echo' hola '>' redirs/salida.txt" "'echo' hola '>' redirs/salida.txt"
 run "'cat' '<' redirs/a" "'cat' '<' redirs/a"
 run_directory_invalid "'grep' hola '<' redirs/a '>' redirs/out" "'grep' hola '<' redirs/a '>' redirs/out"
+run 'echo '\''$USER'\''' 'echo '\''$USER'\'''
+run_directory_invalid 'cd '\''~'\''' 'cd '\''~'\'''
+
+echo -e "\n"
+echo "###############################"
+echo "# ENV VARIABLES DE ENTORNO    #"
+echo "###############################"
+echo -e "\n"
+
+#run 'env' 'env'
+
+echo -e "\n"
+echo "#############"
+echo "# EXPORT    #"
+echo "#############"
+echo -e "\n"
+
+#run_export 'echo $a' 'patata' 'a=patata'
+
