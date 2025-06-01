@@ -159,27 +159,6 @@ run_command_return_value()
 	rm redirs/temp1
 }
 
-run_export() {
-    local INPUT="$1"
-    local EXPECTED_OUTPUT="$2"
-    local ENV_VARS="$3"
-
-    mkdir -p ../redirs
-
-    OUTPUT=$(clean_output "$INPUT" "$ENV_VARS")
-
-    if [ "$OUTPUT" = "$EXPECTED_OUTPUT" ]; then
-        echo -e "${GREEN}✔️${RESET}  $INPUT"
-    else
-        echo -e "${RED}❌${RESET}  $INPUT"
-        echo "Esperado: '$EXPECTED_OUTPUT'"
-        echo "Tengo:      '$OUTPUT'"
-    fi
-
-    rm -rf ../redirs
-}
-
-
 
 
 clear
@@ -489,5 +468,8 @@ echo "# EXPORT    #"
 echo "#############"
 echo -e "\n"
 
-#run_export 'echo $a' 'patata' 'a=patata'
+test_export "export a=patata" "echo \$a" "patata"
+
+
+
 
