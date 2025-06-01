@@ -45,7 +45,7 @@ int	count_pipes(t_input *input)
 
 	i = 0;
 	count = 0;
-	while (input->split_exp[i])
+	while (input->split_exp && input->split_exp[i])
 	{
 		if (ft_strcmp(input->split_exp[i], "|") == 0
 			&& input->status_exp[i] == 0)

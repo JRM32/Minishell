@@ -86,17 +86,19 @@ run()
 	INPUT="$1"
 	EXPECTED="$2"
 
-	clean_output "$INPUT" > redirs/temp1 2>&1
-	bash -c "$EXPECTED" > redirs/temp2 2>&1
-	if diff -q redirs/temp1 redirs/temp2 >/dev/null; then
+    rm -rf ../redirs
+    mkdir ../redirs
+	clean_output "$INPUT" > ../redirs/temp1 2>&1
+	bash -c "$EXPECTED" > ../redirs/temp2 2>&1
+	if diff -q ../redirs/temp1 ../redirs/temp2 >/dev/null; then
         echo -e "${GREEN}✔️${RESET}  $INPUT"
     else
         echo -e "${RED}❌${RESET}  $INPUT"
         echo "     Diferencias:"
-        cat redirs/temp1
-        cat redirs/temp2
+        cat ../redirs/temp1
+        cat ../redirs/temp2
     fi
-    rm redirs/temp1 redirs/temp2
+    rm -rf ../redirs
 }
 
 run_command_return_value()
@@ -117,7 +119,7 @@ run_command_return_value()
 }
 
 
-
+clear
 
 echo "##########################"
 echo "# COMANDS con ruta       #"
@@ -330,4 +332,26 @@ SHLVL_VAL=$SHLVL
 run "expr $SHLVL_VAL + $SHLVL_VAL" "expr $SHLVL_VAL + $SHLVL_VAL"
 run 'expr $SHLVL + $SHLVL' 'expr $SHLVL + $SHLVL - 2'
 
+echo -e "\n"
+echo "######################"
+echo "# COMILLAS DOBLES    #"
+echo "######################"
+echo -e "\n"
 
+
+run '"/bin/ls"' '"/bin/ls"'
+run '"/bin/pwd"' '"/bin/pwd"'
+run '"/bin/echo" patata' '"/bin/echo" patata'
+run '"/bin/echo" -n patata' '"/bin/echo" -n patata'
+run '"/bin/printf" patata' '"/bin/printf" patata'
+run '"/bin/cat" redirs/a' '"/bin/cat" redirs/a'
+run '"whoami"' '"whoami"'
+run '""' '""'
+run '   ""    ' '   ""    '
+run '"/bin/ls" -la' '"/bin/ls" -la'
+run '"/bin/ls" -l' '"/bin/ls" -l'
+run '"echo" uno dos tres cuatro' '"echo" uno dos tres cuatro'
+run '"/bin/ls" -l -a -h' '"/bin/ls" -l -a -h'
+run '"/bin/ls" -lhS' '"/bin/ls" -lhS'
+run '"/bin/cat" redirs/a redirs/b' '"/bin/cat" redirs/a redirs/b'
+run '"head" -n 5 redirs/a' '"head" -n 5 redirs/a'

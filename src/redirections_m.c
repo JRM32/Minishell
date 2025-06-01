@@ -69,7 +69,7 @@ bool	handle_redirection(t_input *input)
 
 	redirections = ft_create_redirection();
 	i = -1;
-	while (input->split_exp[++i])
+	while (input->split_exp && input->split_exp[++i])
 	{
 		j = -1;
 		while (++j < 4)
