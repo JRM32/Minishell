@@ -101,6 +101,47 @@ run()
     rm -rf ../redirs
 }
 
+run_command_invalid()
+{
+	INPUT="$1"
+	EXPECTED="$2"
+
+    rm -rf ../redirs
+    mkdir ../redirs
+	clean_output "$INPUT" > ../redirs/temp1 2>&1
+	bash -c "$EXPECTED" > ../redirs/temp2 2>&1
+	if grep -q "command not found" ../redirs/temp1 && grep -q "command not found" ../redirs/temp2; then
+        echo -e "${GREEN}✔️${RESET}  $INPUT"
+    else
+        echo -e "${RED}❌${RESET}  $INPUT"
+        echo "     Diferencias:"
+        cat ../redirs/temp1
+        cat ../redirs/temp2
+    fi
+    rm -rf ../redirs
+}
+
+run_directory_invalid()
+{
+	INPUT="$1"
+	EXPECTED="$2"
+
+    rm -rf ../redirs
+    mkdir ../redirs
+	clean_output "$INPUT" > ../redirs/temp1 2>&1
+	bash -c "$EXPECTED" > ../redirs/temp2 2>&1
+	if grep -q "No such file or directory" ../redirs/temp1 && grep -q "No such file or directory" ../redirs/temp2; then
+        echo -e "${GREEN}✔️${RESET}  $INPUT"
+    else
+        echo -e "${RED}❌${RESET}  $INPUT"
+        echo "     Diferencias:"
+        cat ../redirs/temp1
+        cat ../redirs/temp2
+    fi
+    rm -rf ../redirs
+}
+
+
 run_command_return_value()
 {
     INPUT="$1"
@@ -346,8 +387,8 @@ run '"/bin/echo" -n patata' '"/bin/echo" -n patata'
 run '"/bin/printf" patata' '"/bin/printf" patata'
 run '"/bin/cat" redirs/a' '"/bin/cat" redirs/a'
 run '"whoami"' '"whoami"'
-run '""' '""'
-run '   ""    ' '   ""    '
+run_command_invalid '""' '""'
+run_command_invalid '   ""    ' '   ""    '
 run '"/bin/ls" -la' '"/bin/ls" -la'
 run '"/bin/ls" -l' '"/bin/ls" -l'
 run '"echo" uno dos tres cuatro' '"echo" uno dos tres cuatro'
@@ -355,3 +396,58 @@ run '"/bin/ls" -l -a -h' '"/bin/ls" -l -a -h'
 run '"/bin/ls" -lhS' '"/bin/ls" -lhS'
 run '"/bin/cat" redirs/a redirs/b' '"/bin/cat" redirs/a redirs/b'
 run '"head" -n 5 redirs/a' '"head" -n 5 redirs/a'
+run '"""p"w"d"""' '"""p"w"d"""'
+run_command_invalid '"pwd "' '"pwd "'
+run_command_invalid '"patata"' '"patata"'
+run 'echo "cat lol.c | cat > lol.c"' 'echo "cat lol.c | cat > lol.c"'
+run 'echo "-n" "cat lol.c | cat > lol.c"' 'echo "-n" "cat lol.c | cat > lol.c"'
+run_command_invalid '"ls "' '"ls "'
+run_command_invalid '"abc def"' '"abc def"'
+run_command_invalid '"echoo"' '"echoo"'
+run_directory_invalid '"/noexiste"' '"/noexiste"'
+
+
+echo -e "\n"
+echo "#######################"
+echo "# COMILLAS SIMPLES    #"
+echo "#######################"
+echo -e "\n"
+
+run "'/bin/ls'" "'/bin/ls'"
+run "'/bin/pwd'" "'/bin/pwd'"
+run "'/bin/echo' patata" "'/bin/echo' patata"
+run "'/bin/echo' -n patata" "'/bin/echo' -n patata"
+run "'/bin/printf' patata" "'/bin/printf' patata"
+run "'/bin/cat' redirs/a" "'/bin/cat' redirs/a"
+run "'whoami'" "'whoami'"
+run_command_invalid "''" "''"
+run_command_invalid "   ''    " "   ''    "
+run "'/bin/ls' -la" "'/bin/ls' -la"
+run "'/bin/ls' -l" "'/bin/ls' -l"
+run "'echo' uno dos tres cuatro" "'echo' uno dos tres cuatro"
+run "'/bin/ls' -l -a -h" "'/bin/ls' -l -a -h"
+run "'/bin/ls' -lhS" "'/bin/ls' -lhS"
+run "'/bin/cat' redirs/a redirs/b" "'/bin/cat' redirs/a redirs/b"
+run "'head' -n 5 redirs/a" "'head' -n 5 redirs/a"
+run "'''p'w'd'''" "'''p'w'd'''"
+run_command_invalid "'pwd '" "'pwd '"
+run_command_invalid "'patata'" "'patata'"
+run "echo 'cat lol.c | cat > lol.c'" "echo 'cat lol.c | cat > lol.c'"
+run "echo '-n' 'cat lol.c | cat > lol.c'" "echo '-n' 'cat lol.c | cat > lol.c'"
+run_command_invalid "'ls '" "'ls '"
+run_command_invalid "'abc def'" "'abc def'"
+run_command_invalid "'echoo'" "'echoo'"
+run_directory_invalid "'/noexiste'" "'/noexiste'"
+run "'echo' '\$HOME'" "'echo' '\$HOME'"
+run "'/bin/echo' '\$PATH'" "'/bin/echo' '\$PATH'"
+run "'printenv' 'USER'" "'printenv' 'USER'"
+run "'echo' '   uno   dos   tres   '" "'echo' '   uno   dos   tres   '"
+run "'/bin/echo' '   '" "'/bin/echo' '   '"
+run "'cat' '   redirs/a   '" "'cat' '   redirs/a   '"
+run "'/bin/echo' patata '|' 'cat'" "'/bin/echo' patata '|' 'cat'"
+run "'/bin/ls' '-l' '|' 'wc' '-l'" "'/bin/ls' '-l' '|' 'wc' '-l'"
+
+run_directory_invalid "'cat' redirs/a '|' 'grep' hola" "'cat' redirs/a '|' 'grep' hola"
+run "'echo' hola '>' redirs/salida.txt" "'echo' hola '>' redirs/salida.txt"
+run "'cat' '<' redirs/a" "'cat' '<' redirs/a"
+run_directory_invalid "'grep' hola '<' redirs/a '>' redirs/out" "'grep' hola '<' redirs/a '>' redirs/out"
