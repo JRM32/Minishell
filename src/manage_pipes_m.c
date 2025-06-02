@@ -18,7 +18,7 @@ static char	**get_args_for_cmd(t_input *input)
 	char	**args;
 
 	input->cmd_end = input->cmd_start;
-	while (input->split_exp[input->cmd_end]
+	while (input->split_exp && input->split_exp[input->cmd_end]
 		&& !(ft_strcmp(input->split_exp[input->cmd_end], "|") == 0
 			&& input->status_exp[input->cmd_end] == 0))
 		input->cmd_end++;

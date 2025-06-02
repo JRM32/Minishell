@@ -64,5 +64,6 @@ void	child_p_2(t_input *input, t_input *child, int cmd_start, int cmd_end);
 void	child_p(int prev_fd, int *pipefd, t_input *input);
 void	parent_p(int *prev_fd, int *pipefd, int is_last, char **args);
 void	wait_for_children(pid_t last_pid, t_input *input);
+char	*get_env_value(char **envp, const char *name);
 
 #endif

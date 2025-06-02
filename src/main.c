@@ -67,6 +67,27 @@ static void	shell_loop(t_input *input)
 	}
 }
 
+bool init_shlvl(t_input *input)
+{
+	char	*shlvl_str;
+	int		shlvl_int;
+
+	shlvl_str = get_env_value(input->envp, "SHLVL");
+	if (!shlvl_str)
+		return (1);
+	shlvl_int = ft_atoi(shlvl_str);
+	shlvl_str = NULL;
+	shlvl_int += 1;
+	shlvl_str = ft_itoa(shlvl_int);
+	if (!shlvl_str)
+		return (1);
+	update_env(input, "SHLVL", shlvl_str);
+	if (shlvl_str && shlvl_str[0])
+		free(shlvl_str);
+	shlvl_str = NULL;
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_input				input;
@@ -76,6 +97,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	input.envp = ft_matrix_dup(envp);
 	if (!input.envp)
+		clean_all(&input, 1);
+	if (init_shlvl(&input))
 		clean_all(&input, 1);
 	input.is_script = !isatty(STDIN_FILENO);
 	init_sigaction(&sa);
