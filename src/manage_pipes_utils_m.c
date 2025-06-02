@@ -79,7 +79,6 @@ void	ft_compose_parsed(t_input *input)
 	input->parsed = ft_strjoin_r(input->parsed, "\0");
 }
 
-
 void	setup_pipe(int *pipefd, int cmd, int num_cmds)
 {
 	if (cmd < num_cmds - 1 && pipe(pipefd) == -1)
