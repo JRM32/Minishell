@@ -78,28 +78,56 @@ void	ft_compose_parsed(t_input *input)
 	}
 	input->parsed = ft_strjoin_r(input->parsed, "\0");
 }
+
 static char	**get_command_args(char **split_exp, int start, int end)
 {
-	int		argc = end - start;
-	char	**args = malloc(sizeof(char *) * (argc + 1));
+	int		argc;
+	char	**args;
 	int		i;
 
+	i = 0;
+	argc = end - start;
+	args = malloc(sizeof(char *) * (argc + 1));
 	if (!args)
 	{
 		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-	for (i = 0; i < argc; i++)
+	while (i < argc)
+	{
 		args[i] = ft_strdup(split_exp[start + i]);
+		i++;
+	}
 	args[i] = NULL;
 	return (args);
 }
 
-static void	child_process(int prev_fd, int *pipefd, t_input *input, int cmd_start, int cmd_end)
+void	child_p_2(t_input *input, t_input *child, int cmd_start, int cmd_end)
 {
 	int		k;
-	t_input	*child = malloc(sizeof(t_input));
 
+	k = 0;
+	init_input_struct(child);
+	child->input = join_command(input->split_exp, cmd_start, cmd_end);
+	child->input_split = ft_split_quotes(child->input, ' ', child);
+	child->envp = input->envp;
+	child->total_pipes = input->total_pipes;
+	compose_command_args(child);
+	free(child->filename);
+	ft_compose_parsed(child);
+	child->split_exp = ft_matrix_dup(child->input_split);
+	while (child->split_exp[k])
+	{
+		child->status_exp[k] = input->status_exp[cmd_start + k];
+		k++;
+	}
+}
+
+void	child_p(int prev_fd, int *pipefd, t_input *input, int cmd_start, int cmd_end)
+{
+	t_input	*child;
+
+	child = malloc(sizeof(t_input));
 	if (!child)
 		exit(EXIT_FAILURE);
 	signal(SIGINT, SIG_DFL);
@@ -115,18 +143,7 @@ static void	child_process(int prev_fd, int *pipefd, t_input *input, int cmd_star
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 	}
-
-	init_input_struct(child);
-	child->input = join_command(input->split_exp, cmd_start, cmd_end);
-	child->input_split = ft_split_quotes(child->input, ' ', child);
-	child->envp = input->envp;
-	child->total_pipes = input->total_pipes;
-	compose_command_args(child);
-	free(child->filename);
-	ft_compose_parsed(child);
-	child->split_exp = ft_matrix_dup(child->input_split);
-	for (k = 0; child->split_exp[k]; k++)
-		child->status_exp[k] = input->status_exp[cmd_start + k];
+	child_p_2(input, child, cmd_start, cmd_end);
 	ft_manage_input(child);
 	ft_input_free(child);
 	exit(child->last_exit_code);
@@ -189,15 +206,12 @@ void	execute_pipeline(t_input *input)
 		while (input->split_exp[cmd_end] &&
 			!(ft_strcmp(input->split_exp[cmd_end], "|") == 0 && input->status_exp[cmd_end] == 0))
 			cmd_end++;
-
 		args = get_command_args(input->split_exp, cmd_start, cmd_end);
-
 		if (cmd < num_cmds - 1 && pipe(pipefd) == -1)
 		{
 			perror("pipe");
 			exit(EXIT_FAILURE);
 		}
-
 		pid = fork();
 		if (pid == -1)
 		{
@@ -205,7 +219,7 @@ void	execute_pipeline(t_input *input)
 			exit(EXIT_FAILURE);
 		}
 		if (pid == 0)
-			child_process(prev_fd, (cmd < num_cmds - 1) ? pipefd : NULL, input, cmd_start, cmd_end);
+			child_p(prev_fd, (cmd < num_cmds - 1) ? pipefd : NULL, input, cmd_start, cmd_end);
 		else
 		{
 			handle_parent_process(&prev_fd, pipefd, cmd == num_cmds - 1, args);
@@ -215,7 +229,6 @@ void	execute_pipeline(t_input *input)
 	}
 	wait_for_children(last_pid, input);
 }
-
 
 void	ft_manage_pipes(t_input *input)
 {
