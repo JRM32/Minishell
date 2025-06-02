@@ -13,6 +13,7 @@
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
+/*
 void	heredoc_sigint_handler(int sig)
 {
 	(void)sig;
@@ -137,7 +138,7 @@ void	handle_heredoc_redirection(t_input *input, char *redir)
 	sigaction(SIGINT, &sa_old_int, NULL);
 	sigaction(SIGQUIT, &sa_old_quit, NULL);
 }
-
+*/
 /*
 void	handle_heredoc_redirection(t_input *input, char *redir)
 {
