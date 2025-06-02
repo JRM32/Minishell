@@ -13,7 +13,52 @@
 #include "../inc/minishell_m.h"
 #include "../inc/minishell_j.h"
 
-static void	child_process(t_input *input)
+static void	setup_redirects(t_input *input)
+{
+	if (input->inputfd != STDIN_FILENO)
+	{
+		if (dup2(input->inputfd, STDIN_FILENO) == -1)
+		{
+			perror("dup2 inputfd");
+			exit(1);
+		}
+	}
+	if (input->outputfd != STDOUT_FILENO)
+	{
+		if (dup2(input->outputfd, STDOUT_FILENO) == -1)
+		{
+			perror("dup2 outputfd");
+			exit(1);
+		}
+	}
+}
+
+static void	handle_exec_error(t_input *input, char *cmd_path)
+{
+	if (errno == ENOEXEC || errno == ENOENT)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(input->command, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		free(cmd_path);
+		if (errno == ENOEXEC)
+			exit(2);
+		exit(127);
+	}
+	if (errno == EACCES)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(input->command, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+		free(cmd_path);
+		exit(126);
+	}
+	perror("execve");
+	free(cmd_path);
+	exit(1);
+}
+
+void	child_process(t_input *input)
 {
 	char	*cmd_path;
 
@@ -25,87 +70,40 @@ static void	child_process(t_input *input)
 		ft_putchar_fd('\n', 2);
 		exit(127);
 	}
-	if (input->inputfd != STDIN_FILENO && dup2(input->inputfd, STDIN_FILENO) == -1)
-	{
-		perror("dup2 inputfd");
-		exit(1);
-	}
-	if (input->outputfd != STDOUT_FILENO && dup2(input->outputfd, STDOUT_FILENO) == -1)
-	{
-		perror("dup2 outputfd");
-		exit(1);
-	}
+	setup_redirects(input);
 	if (input->parsed)
 		free(input->parsed);
-	
-	//SEÑALES DE JAVI NO BORRAR!!!!
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-
-	
 	execve(cmd_path, input->split_exp, input->envp);
-	if (errno == ENOEXEC)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(input->command, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		free(cmd_path);
-		exit(2);
-	}
-	else if (errno == EACCES)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(input->command, 2);
-		ft_putstr_fd(": Permission denied\n", 2);
-		free(cmd_path);
-		exit(126);
-	}
-	else if (errno == ENOENT)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(input->command, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		free(cmd_path);
-		exit(127);
-	}
-	perror("execve");
-	free(cmd_path);
-	exit(1);
+	handle_exec_error(input, cmd_path);
 }
 
 bool	execute_command(t_input *input)
 {
 	pid_t				pid;
 	int					status;
-	struct sigaction	sa; ///NO BORRAR!!! SEÑALES
+	struct sigaction	sa;
+	int					sig;
 
-	// Ignorar señales en padre mientras hijo corre no preocuparse por rayas rojas..
-    signal(SIGINT, SIG_IGN);
-    signal(SIGQUIT, SIG_IGN);
-
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), false);
 	if (pid == 0)
 		child_process(input);
-	else
+	if (waitpid(pid, &status, 0) == -1)
+		return (perror("waitpid"), false);
+	init_sigaction(&sa);
+	if (WIFEXITED(status))
+		input->last_exit_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
 	{
-		if (waitpid(pid, &status, 0) == -1)
-			return (perror("waitpid"), false);
-		
-		
-		init_sigaction(&sa); ///NO BORRAR!!! SEÑALES
-		if (WIFEXITED(status))
-			input->last_exit_code = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-		{
-			int sig;
-
-			sig = WTERMSIG(status);
-			if (sig == SIGQUIT)
-				write(2, "Quit (core dumped)\n", 19);
-			input->last_exit_code = 128 + sig;
-		}
+		sig = WTERMSIG(status);
+		if (sig == SIGQUIT)
+			write(2, "Quit (core dumped)\n", 19);
+		input->last_exit_code = 128 + sig;
 	}
 	return (true);
 }
