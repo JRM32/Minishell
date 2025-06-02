@@ -39,12 +39,27 @@ static char	*get_cd_path(t_input *input, char *oldpwd)
 	return (input->parsed);
 }
 
+static void	ft_update_pwd_env(t_input *input, char *prev, char *oldpwd)
+{
+	char	newpwd[4096];
+
+	if (!getcwd(newpwd, sizeof(newpwd)))
+	{
+		perror("getcwd");
+		input->last_exit_code = 1;
+		return ;
+	}
+	update_env(input, "PWD", newpwd);
+	update_env(input, "OLDPWD", prev);
+	ft_strlcpy(oldpwd, prev, sizeof(oldpwd));
+	input->last_exit_code = 0;
+}
+
 void	ft_cd(t_input *input)
 {
-	char			*path;
-	static char		oldpwd[4096];
-	char			prev[4096];
-	char			newpwd[4096];
+	char		*path;
+	static char	oldpwd[4096];
+	char		prev[4096];
 
 	if (input->split_exp[1] && input->split_exp[2])
 	{
@@ -59,26 +74,12 @@ void	ft_cd(t_input *input)
 		return ;
 	}
 	path = get_cd_path(input, oldpwd);
-	if (!path)
+	if (!path || chdir(path) != 0)
 	{
+		if (!path || errno)
+			perror("cd");
 		input->last_exit_code = 1;
 		return ;
 	}
-	if (chdir(path) != 0)
-	{
-		perror("cd");
-		input->last_exit_code = 1;
-		return ;
-	}
-	if (!getcwd(newpwd, sizeof(newpwd)))
-	{
-		perror("getcwd");
-		input->last_exit_code = 1;
-		return ;
-	}
-	update_env(input, "PWD", newpwd);
-	update_env(input, "OLDPWD", prev);
-	strncpy(oldpwd, prev, sizeof(oldpwd) - 1);
-	oldpwd[sizeof(oldpwd) - 1] = '\0';
-	input->last_exit_code = 0;
+	ft_update_pwd_env(input, prev, oldpwd);
 }
