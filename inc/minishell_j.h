@@ -97,6 +97,8 @@ void	do_even_token_dollars2(t_input *in, size_t w, size_t *i, size_t *k);
 void	token_env_question2(t_input *in, size_t w, size_t *i, size_t *k);
 void	token_env_if_even_dollars2(t_input *in, size_t w, size_t *i, size_t *k);
 void	token_rare_cases2(t_input *in, size_t *k, char *str, size_t id);
+void	compose_command(t_input *in);
+void	quit_parsing(t_input *in, int stdout_save);
 
 //BUILT INS
 void	echo_short(t_input *in, int fd);

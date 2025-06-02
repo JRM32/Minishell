@@ -31,6 +31,7 @@ SRC = 	src/main.c \
 		src/get_next_line.c \
 		src/get_next_line_utils.c \
 		src/parsing_j.c \
+		src/parsing2_j.c \
 		src/manage_token_parsing_j.c \
 		src/manage_token_dollars_j.c \
 		src/manage_token_dollars2_j.c \
