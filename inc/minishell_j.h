@@ -91,6 +91,8 @@ void	remove_control_char(char *string);
 void	do_even_dollars2(t_input *in, size_t w, size_t *i, size_t *k);
 void	env_question2(t_input *in, size_t w, size_t *i, size_t *k);
 void	input_check_prev_dollar(t_input *in, size_t *i, size_t *j, size_t *k);
+void	save_env_if_even_dollars2(t_input *in, size_t w, size_t *i, size_t *k);
+void	save_rare_cases2(t_input *in, size_t *k, char *str, size_t id);
 
 //BUILT INS
 void	echo_short(t_input *in, int fd);
