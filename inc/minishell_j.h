@@ -67,6 +67,8 @@ typedef struct s_input
 	bool	is_script;
 	int		total_pipes;
 	int		total_redirections;
+	int		cmd_start;
+	int		cmd_end;
 }			t_input;
 
 //CHECK INPUT

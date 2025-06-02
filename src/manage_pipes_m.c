@@ -123,7 +123,7 @@ void	child_p_2(t_input *input, t_input *child, int cmd_start, int cmd_end)
 	}
 }
 
-void	child_p(int prev_fd, int *pipefd, t_input *input, int cmd_start, int cmd_end)
+void	child_p(int prev_fd, int *pipefd, t_input *input)
 {
 	t_input	*child;
 
@@ -143,16 +143,17 @@ void	child_p(int prev_fd, int *pipefd, t_input *input, int cmd_start, int cmd_en
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 	}
-	child_p_2(input, child, cmd_start, cmd_end);
+	child_p_2(input, child, input->cmd_start, input->cmd_end);
 	ft_manage_input(child);
 	ft_input_free(child);
 	exit(child->last_exit_code);
 }
 
-static void	handle_parent_process(int *prev_fd, int *pipefd, int is_last, char **args)
+void	handle_parent_pr(int *prev_fd, int *pipefd, int is_last, char **args)
 {
 	int	i;
 
+	i = 0;
 	if (*prev_fd != -1)
 		close(*prev_fd);
 	if (!is_last)
@@ -160,8 +161,8 @@ static void	handle_parent_process(int *prev_fd, int *pipefd, int is_last, char *
 		close(pipefd[1]);
 		*prev_fd = pipefd[0];
 	}
-	for (i = 0; args[i]; i++)
-		free(args[i]);
+	while (args[i])
+		free(args[i++]);
 	free(args);
 }
 
@@ -171,7 +172,8 @@ static void	wait_for_children(pid_t last_pid, t_input *input)
 	pid_t	wpid;
 	int		sig;
 
-	while ((wpid = wait(&status)) > 0)
+	wpid = wait(&status);
+	while (wpid > 0)
 	{
 		if (wpid == last_pid)
 		{
@@ -187,6 +189,7 @@ static void	wait_for_children(pid_t last_pid, t_input *input)
 				input->last_exit_code = 128 + sig;
 			}
 		}
+		wpid = wait(&status);
 	}
 }
 
@@ -194,19 +197,18 @@ void	execute_pipeline(t_input *input)
 {
 	int		num_cmds = input->total_pipes + 1;
 	int		prev_fd = -1;
-	int		cmd_start = 0;
-	int		cmd, cmd_end;
+	int		cmd;
 	char	**args;
 	int		pipefd[2];
 	pid_t	pid, last_pid = -1;
 
 	for (cmd = 0; cmd < num_cmds; cmd++)
 	{
-		cmd_end = cmd_start;
-		while (input->split_exp[cmd_end] &&
-			!(ft_strcmp(input->split_exp[cmd_end], "|") == 0 && input->status_exp[cmd_end] == 0))
-			cmd_end++;
-		args = get_command_args(input->split_exp, cmd_start, cmd_end);
+		input->cmd_end = input->cmd_start;
+		while (input->split_exp[input->cmd_end] &&
+			!(ft_strcmp(input->split_exp[input->cmd_end], "|") == 0 && input->status_exp[input->cmd_end] == 0))
+			input->cmd_end++;
+		args = get_command_args(input->split_exp, input->cmd_start, input->cmd_end);
 		if (cmd < num_cmds - 1 && pipe(pipefd) == -1)
 		{
 			perror("pipe");
@@ -219,13 +221,13 @@ void	execute_pipeline(t_input *input)
 			exit(EXIT_FAILURE);
 		}
 		if (pid == 0)
-			child_p(prev_fd, (cmd < num_cmds - 1) ? pipefd : NULL, input, cmd_start, cmd_end);
+			child_p(prev_fd, (cmd < num_cmds - 1) ? pipefd : NULL, input);
 		else
 		{
-			handle_parent_process(&prev_fd, pipefd, cmd == num_cmds - 1, args);
+			handle_parent_pr(&prev_fd, pipefd, cmd == num_cmds - 1, args);
 			last_pid = pid;
 		}
-		cmd_start = cmd_end + 1;
+		input->cmd_start = input->cmd_end + 1;
 	}
 	wait_for_children(last_pid, input);
 }
