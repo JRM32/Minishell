@@ -34,6 +34,7 @@ SRC = 	src/main.c \
 		src/manage_token_parsing_j.c \
 		src/manage_token_dollars_j.c \
 		src/manage_token_dollars2_j.c \
+		src/manage_token_dollars3_j.c \
 		src/manage_pipes_m.c \
 		src/realloc_input_j.c \
 		src/split_exp_utils_j.c \
