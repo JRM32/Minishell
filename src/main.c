@@ -40,6 +40,7 @@ void	init_input_struct(t_input *input)
 	input->total_pipes = 0;
 	input->total_redirections = 0;
 	input->cmd_start = 0;
+	input->num_cmds = 0;
 }
 
 static int	handle_input(t_input *input)

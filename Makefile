@@ -43,7 +43,9 @@ SRC = 	src/main.c \
 		src/redirections_solve_m.c \
 		src/bi_export_utils_m.c \
 		src/update_env_m.c \
-		src/execute_command_path_m.c
+		src/execute_command_path_m.c \
+		src/manage_pipes_utils_m.c \
+		src/manage_pipes_utils2_m.c
 OBJDIR = obj
 OBJS = $(SRC:src/%.c=$(OBJDIR)/%.o)
 RM	= rm -rf
