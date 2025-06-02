@@ -24,6 +24,7 @@ SRC = 	src/main.c \
 		src/manage_inputs_utils_j.c \
 		src/manage_input_dollars_j.c \
 		src/manage_input_dollars2_j.c \
+		src/manage_input_dollars3_j.c \
 		src/redirections_m.c \
 		src/bi_exit_j.c \
 		src/redirections_heredoc_m.c \
