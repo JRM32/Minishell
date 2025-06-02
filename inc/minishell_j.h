@@ -29,6 +29,8 @@
 # define N_ODDCHAR "!@*-#`(){["
 # define BUFFER 100
 
+extern volatile sig_atomic_t	g_signal_received;
+
 typedef struct s_input
 {
 	char	*input;
@@ -105,6 +107,5 @@ size_t	check_more_n(t_input *in);
 //SIGNALS
 void	init_sigaction(struct sigaction *sa);
 void	ctrlc_handler(int sig);
-extern 	volatile sig_atomic_t g_signal_received;
 
 #endif

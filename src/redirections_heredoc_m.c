@@ -149,4 +149,3 @@ void	handle_heredoc_redirection(t_input *input, char *redir)
 	sigaction(SIGINT, &sa_old_int, NULL);//javi signals
 	sigaction(SIGQUIT, &sa_old_quit, NULL);//javi signals
 }
-

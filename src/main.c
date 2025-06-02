@@ -87,14 +87,6 @@ int	main(int argc, char **argv, char **envp)
 			compose_command_args(&input);
 			parsing(&input);
 		}
-		/*
-		 printf("============\nPARSEADO:%s\n==========\n", input.parsed);
-		printf("command:%s\n", input.command);
-		printf("arg:%s\n", input.args);
-		for (size_t i = 0; input.split_exp[i]; i++)//
-		ft_printf("%d.%s %d\n", i, input.split_exp[i], input.status_exp[i]);//
-		printf("-----SALIDA-----\n"); 
-		*/
 		ft_manage_pipes(&input);
 		free(input.input);
 	}
@@ -104,3 +96,14 @@ int	main(int argc, char **argv, char **envp)
 	else
 		exit(input.last_exit_code);
 }
+
+
+
+		/*
+		 printf("============\nPARSEADO:%s\n==========\n", input.parsed);
+		printf("command:%s\n", input.command);
+		printf("arg:%s\n", input.args);
+		for (size_t i = 0; input.split_exp[i]; i++)//
+		ft_printf("%d.%s %d\n", i, input.split_exp[i], input.status_exp[i]);//
+		printf("-----SALIDA-----\n"); 
+		*/

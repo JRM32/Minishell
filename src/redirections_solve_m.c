@@ -96,7 +96,7 @@ bool	ft_manage_heredoc_redirection(t_input *input, int i, bool lonely)
 	{
 		line = readline("> ");
 		if (!line)
-			break;
+			break ;
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
 		{
 			free(line);
