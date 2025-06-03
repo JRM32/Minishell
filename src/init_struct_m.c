@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init_struct_m.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:53:26 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/05/29 17:49:20 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/06/03 10:07:55 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static void	init_input_struct_null(t_input *input)
 	input->parsed = NULL;
 	input->input_split = NULL;
 	input->split_exp = NULL;
-	input->redir_in = NULL;
-	input->redir_out = NULL;
 	input->status = NULL;
 	input->token = NULL;
 	input->command = NULL;

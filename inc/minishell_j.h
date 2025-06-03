@@ -40,8 +40,6 @@ typedef struct s_input
 	char	**split_exp;
 	char	**envp;
 	char	**local_envp;
-	char	*redir_in;///
-	char	*redir_out;///
 	int		*status;
 	char	*token;
 	char	*command;

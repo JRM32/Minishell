@@ -27,11 +27,11 @@ static char	**get_args_for_cmd(t_input *input)
 	return (args);
 }
 
-pid_t	execute_pipeline_in(t_input *input)
+pid_t	execute_pipeline_in(t_input *input, pid_t last_pid)
 {
 	int			pipefd[2];
 	char		**args;
-	pid_t		last_pid;
+	//pid_t		last_pid;
 	pid_t		pid;
 	static int	prev_fd = -1;
 
@@ -59,11 +59,13 @@ pid_t	execute_pipeline_in(t_input *input)
 void	execute_pipeline(t_input *input)
 {
 	pid_t	last_pid;
+	pid_t	last_pid2;//
 
+	last_pid2 = 0;
 	input->cmd = 0;
 	input->num_cmds = input->total_pipes + 1;
 	while (input->cmd < input->num_cmds)
-		last_pid = execute_pipeline_in(input);
+		last_pid = execute_pipeline_in(input, last_pid2);//
 	wait_for_children(last_pid, input);
 }
 
