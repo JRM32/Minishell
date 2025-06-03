@@ -10,7 +10,8 @@ CORREGIDO - al hacer echo $? despues de un comando fallido deberia ser 127 y lo 
 
 CORREGIDO - la señal controlC en cat deberia dar un salto de linea.. sin embargo no 	lo hace.
 
-
+CORREGIDO - haciendo cd a un directorio no existente solo muestra un salto de linea.
+Deberia mostrar NO SUCH FILE OR DIRECTORY.
 
 
 

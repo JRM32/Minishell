@@ -97,6 +97,8 @@ void	ft_cd(t_input *input)
 	path = get_cd_path(input, oldpwd);
 	if (!path || chdir(path) != 0)
 	{
+		if (path)
+			ft_printf("%s: No such file or directory\n", path);
 		input->last_exit_code = 1;
 		return ;
 	}
