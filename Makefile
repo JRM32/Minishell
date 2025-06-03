@@ -40,6 +40,7 @@ SRC = 	src/main.c \
 		src/split_exp_utils_j.c \
 		src/update_inputs_m.c \
 		src/redirections_solve_m.c \
+		src/redirections_solve_j.c \
 		src/bi_export_utils_m.c \
 		src/update_env_m.c \
 		src/execute_command_path_m.c \

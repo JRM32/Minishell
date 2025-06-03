@@ -78,24 +78,17 @@ bool	ft_manage_append_redirection(t_input *input, int i, bool lonely)
 
 static bool	ft_handle_heredoc_input(char *delimiter, int pipefd[2])
 {
-	struct	sigaction	sa;
-	struct	sigaction	sa_old_int;
-	struct	sigaction	sa_old_quit;
-	char	*line;
+	struct sigaction	sa;
+	struct sigaction	sa_old_int;
+	struct sigaction	sa_old_quit;
+	char				*line;
 
-	sigaction(SIGINT, NULL, &sa_old_int);
-	sigaction(SIGQUIT, NULL, &sa_old_quit);
-	sa.sa_handler = heredoc_sigint_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	g_signal_received = 0;
+	heredoc_signals(&sa, &sa_old_int, &sa_old_quit);
 	while (1)
 	{
 		if (g_signal_received)
 		{
-			sigaction(SIGINT, &sa_old_int, NULL);
-			sigaction(SIGQUIT, &sa_old_quit, NULL);
+			restore_signals(&sa_old_int, &sa_old_quit);
 			return (false);
 		}
 		line = readline("> ");
@@ -107,13 +100,9 @@ static bool	ft_handle_heredoc_input(char *delimiter, int pipefd[2])
 			free(line);
 			break ;
 		}
-		write(pipefd[1], line, ft_strlen(line));
-		write(pipefd[1], "\n", 1);
-		free(line);
+		print_heredoc(line, pipefd[1]);
 	}
-	sigaction(SIGINT, &sa_old_int, NULL);
-	sigaction(SIGQUIT, &sa_old_quit, NULL);
-	return (true);
+	return (restore_signals(&sa_old_int, &sa_old_quit), true);
 }
 
 bool	ft_manage_heredoc_redirection(t_input *input, int i, bool lonely)
@@ -137,11 +126,10 @@ bool	ft_manage_heredoc_redirection(t_input *input, int i, bool lonely)
 		close(pipefd[1]);
 		input->last_exit_code = 130;
 		return (false);
-	} 
+	}
 	close(pipefd[1]);
 	if (input->inputfd > 2)
 		close(input->inputfd);
 	input->inputfd = pipefd[0];
-	update_input(input, i, lonely);
-	return (true);
+	return (update_input(input, i, lonely), true);
 }

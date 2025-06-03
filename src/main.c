@@ -67,7 +67,7 @@ static void	shell_loop(t_input *input)
 	}
 }
 
-bool init_shlvl(t_input *input)
+bool	init_shlvl(t_input *input)
 {
 	char	*shlvl_str;
 	int		shlvl_int;
