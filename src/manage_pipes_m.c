@@ -31,7 +31,6 @@ pid_t	execute_pipeline_in(t_input *input, pid_t last_pid)
 {
 	int			pipefd[2];
 	char		**args;
-	//pid_t		last_pid;
 	pid_t		pid;
 	static int	prev_fd = -1;
 
@@ -59,25 +58,32 @@ pid_t	execute_pipeline_in(t_input *input, pid_t last_pid)
 void	execute_pipeline(t_input *input)
 {
 	pid_t	last_pid;
-	pid_t	last_pid2;//
+	pid_t	last_pid2;
 
 	last_pid2 = 0;
 	input->cmd = 0;
 	input->num_cmds = input->total_pipes + 1;
 	while (input->cmd < input->num_cmds)
-		last_pid = execute_pipeline_in(input, last_pid2);//
+		last_pid = execute_pipeline_in(input, last_pid2);
 	wait_for_children(last_pid, input);
 }
 
 void	ft_manage_pipes(t_input *input)
 {
+	struct sigaction	sa;
+
 	input->inputfd = STDIN_FILENO;
 	input->outputfd = STDOUT_FILENO;
 	input->total_pipes = count_pipes(input);
 	if (input->total_pipes == 0)
 		ft_manage_input(input);
 	else
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		execute_pipeline(input);
+		init_sigaction(&sa);
+	}
 	if (input)
 		ft_input_free(input);
 }
