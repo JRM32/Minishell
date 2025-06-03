@@ -5,10 +5,10 @@ hay pruebas para hacer...
 
 NUEVOS
 
-al hacer echo $? despues de un comando fallido deberia ser 127 y lo es
-pero al volver a hacer de nuevo echo $? deberia ser 0 pero sigue siendo 127
+CORREGIDO - al hacer echo $? despues de un comando fallido deberia ser 127 y lo es
+	pero al volver a hacer de nuevo echo $? deberia ser 0 pero sigue siendo 127
 
-la señal controlC en cat deberia dar un salto de linea.. sin embargo no lo hace.
+CORREGIDO - la señal controlC en cat deberia dar un salto de linea.. sin embargo no 	lo hace.
 
 
 
