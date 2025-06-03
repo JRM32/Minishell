@@ -74,7 +74,7 @@ bool	handle_redirection(t_input *input)
 		j = -1;
 		while (++j < 4)
 		{
-			if (input->status_exp[i] != 0)
+			if (i < 100 && input->status_exp[i] != 0)
 				continue ;
 			result = ft_check_one_redirection(input, i, redirections[j]);
 			if (result == 1)
