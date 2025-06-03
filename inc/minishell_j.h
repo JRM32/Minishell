@@ -18,6 +18,7 @@
 # include "../ft_printf/ft_printf.h"
 # include "../inc/get_next_line.h"
 # include <stdbool.h>
+# include <sys/ioctl.h>
 
 # define EPTY_NSP 0
 # define EPTY_SP 1
@@ -120,5 +121,7 @@ size_t	check_more_n(t_input *in);
 //SIGNALS
 void	init_sigaction(struct sigaction *sa);
 void	ctrlc_handler(int sig);
+void	heredoc_sigint_handler(int sig);
+void	disable_echoctl(void);
 
 #endif
