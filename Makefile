@@ -17,6 +17,7 @@ SRC = 	src/main.c \
 		src/bi_echo_dollar_2_j.c \
 		src/bi_export_m.c \
 		src/signal_j.c \
+		src/signal2_j.c \
 		src/bi_cd_m.c \
 		src/bi_unset_m.c \
 		src/execute_command_m.c \

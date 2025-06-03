@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:32:40 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/06/03 17:58:49 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/06/03 21:20:35 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,9 @@ void	wait_for_children(pid_t last_pid, t_input *input)
 			{
 				sig = WTERMSIG(status);
 				if (sig == SIGINT)
-					write(1, "\n", 1);
+					one_hundred_thirty(input);
 				else if (sig == SIGQUIT)
-					write(1, "Quit (core dumped)\n", 19);
+					one_hundred_thirtyone(input);
 				input->last_exit_code = 128 + sig;
 			}
 		}

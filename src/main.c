@@ -18,6 +18,9 @@ static int	handle_input(t_input *input)
 	input->input = readline("\001\033[1;32m\002miniyo$\001\033[0m\002 ");
 	if (g_signal_received == SIGQUIT)
 		clean_all(input, 131);
+	else if (g_signal_received == 3141592)
+		input->last_exit_code = 130;
+	g_signal_received = 0;
 	if (!input->input)
 		return (0);
 	if (!input->input[0])

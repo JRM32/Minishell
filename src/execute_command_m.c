@@ -85,9 +85,9 @@ void	signal_interrupt(t_input *in, int status)
 
 	sig = WTERMSIG(status);
 	if (sig == SIGINT)
-		write(1, "\n", 1);
+		one_hundred_thirty(in);
 	if (sig == SIGQUIT)
-		write(2, "Quit (core dumped)\n", 19);
+		one_hundred_thirtyone(in);
 	in->last_exit_code = 128 + sig;
 }
 
