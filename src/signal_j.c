@@ -43,7 +43,6 @@ void	ctrlc_handler(int sig)
 	(void)sig;
 	g_signal_received = SIGINT;
 	write(STDOUT_FILENO, "\n", 1);
-	g_signal_received = 3141592;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

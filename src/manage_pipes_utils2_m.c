@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:32:40 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/06/04 08:55:07 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:53:29 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,7 @@ void	wait_for_children(pid_t last_pid, t_input *input)
 			}
 		}
 		wpid = wait(&status);
+		if (g_signal_received == SIGINT || g_signal_received == SIGQUIT)
+			write(1, "\r", 1);
 	}
 }

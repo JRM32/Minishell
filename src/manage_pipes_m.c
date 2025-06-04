@@ -85,10 +85,9 @@ void	ft_manage_pipes(t_input *input)
 		ft_manage_input(input);
 	else
 	{
-		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
-		execute_pipeline(input);
 		init_sigaction(&sa);
+		execute_pipeline(input);
 	}
 	if (input)
 		ft_input_free(input);
