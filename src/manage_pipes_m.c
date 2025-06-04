@@ -19,7 +19,10 @@ static char	**get_args_for_cmd(t_input *input)
 
 	input->cmd_end = input->cmd_start;
 	if (input->cmd_end > 99)
+	{
+		perror("get_args_for_cmd: Force Exit. Too many arguments");
 		clean_all(input, 1);
+	}
 	while (input->split_exp && input->split_exp[input->cmd_end]
 		&& !(ft_strcmp(input->split_exp[input->cmd_end], "|") == 0
 			&& input->status_exp[input->cmd_end] == 0))

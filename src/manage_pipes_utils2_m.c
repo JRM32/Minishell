@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:32:40 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/06/03 21:20:35 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/06/04 08:55:07 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ void	child_p_2(t_input *input, t_input *child, int cmd_start, int cmd_end)
 	while (child->split_exp[k])
 	{
 		if (cmd_start + k > 99)
+		{
+			perror("child_p_2: Force Exit. Too many arguments");
 			clean_all(input, 1);
+		}
 		child->status_exp[k] = input->status_exp[cmd_start + k];
 		k++;
 	}

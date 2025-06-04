@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:32:40 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/06/03 17:57:10 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/06/04 08:55:20 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ int	count_pipes(t_input *input)
 	while (input->split_exp && input->split_exp[i])
 	{
 		if (i > 99)
+		{
+			perror("count_pipes: Force Exit. Too many arguments");
 			clean_all(input, 1);
+		}
 		if (ft_strcmp(input->split_exp[i], "|") == 0
 			&& input->status_exp[i] == 0)
 			count++;
